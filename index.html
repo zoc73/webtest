@@ -542,8 +542,8 @@ header .g{border-top:1px solid rgba(255,215,0,0.1)}
           </div>
         </div>
       </div>
-      <button class="tc-nav tc-prev" onclick="scrollTarot(-1)">‹</button>
-      <button class="tc-nav tc-next" onclick="scrollTarot(1)">›</button>
+      <button class="tc-nav tc-prev" onclick="(function(){var t=document.getElementById('tarotTrack'),c=t&&t.querySelector('.tcard');if(c){t.scrollLeft-=(c.offsetWidth+20)}})()">‹</button>
+      <button class="tc-nav tc-next" onclick="(function(){var t=document.getElementById('tarotTrack'),c=t&&t.querySelector('.tcard');if(c){t.scrollLeft+=(c.offsetWidth+20)}})()">›</button>
     </div>
   </div>
 </div>
