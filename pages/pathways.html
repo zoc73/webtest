@@ -238,7 +238,7 @@ nav .brand{font-weight:900;font-size:1rem;letter-spacing:-0.02em;mix-blend-mode:
 
 <div class="fallback">
   <h2>22 条非凡途径</h2>
-  <p>您的浏览器不支持滚动驱动动画<br>请使用 Chrome 115+ 或 Edge 115+</p>
+  <p>请滚动页面浏览</p>
 </div>
 
 <script>
@@ -293,6 +293,35 @@ var nc=C('nc');setInterval(function(){if(!nc)return;var w=nc.width,h=nc.height,d
 var gc2=C('gc');setInterval(function(){if(!gc2)return;var w=gc2.width,h=gc2.height,d=gc2.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}gc2.getContext('2d').putImageData(d,0,0)},200);
 var pc2=C('pc');var pts=[];!function(){if(!pc2)return;var w=pc2.width=window.innerWidth,h=pc2.height=window.innerHeight;for(var i=0;i<60;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.5)*0.2,s:Math.random()*1.5+0.3,a:Math.random()*0.3+0.05})}();
 !function dp(){if(!pc2)return;var w=pc2.width,h=pc2.height,ctx=pc2.getContext('2d');ctx.clearRect(0,0,w,h);for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fillStyle='rgba(255,215,0,'+p.a+')';ctx.fill()}requestAnimationFrame(dp)}();
+
+// Scroll-driven rotation (JS fallback for browsers without animation-timeline)
+(function(){
+  try {
+    var isSupported = CSS.supports && CSS.supports('animation-timeline', 'scroll()');
+    if (isSupported) return;
+  } catch(e) {}
+  
+  var body = document.querySelector('.carousel-body');
+  if (!body) return;
+  
+  var ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        var maxScroll = document.body.scrollHeight - window.innerHeight;
+        var progress = window.scrollY / maxScroll;
+        if (progress > 1) progress = 1;
+        if (progress < 0) progress = 0;
+        body.style.setProperty('--rotate', progress);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  
+  document.querySelector('.fallback').style.display = 'block';
+  document.querySelector('.fallback p').textContent = '滚动鼠标浏览 22 条非凡途径';
 })();
 </script>
 </body>
