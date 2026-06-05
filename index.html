@@ -596,8 +596,8 @@ const tl=[{d:'$',c:'hl',t:' ./lotm --scan --mode=full'},{d:'',c:'dm',t:'[SYSTEM]
 function sw(el,id){document.querySelectorAll('.tb').forEach(b=>b.classList.remove('act'));el.classList.add('act');document.querySelectorAll('.sp').forEach(p=>p.style.display='none');document.getElementById('p'+id).style.display='block'}
 function scrollTarot(dir){try{const t=document.getElementById('tarotTrack');if(!t)return;const c=t.querySelector('.tcard');if(!c)return;const w=c.offsetWidth+20;t.scrollLeft+=dir*w}catch(e){}}
 // Touch drag for tarot
-!function(){const ob=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting&&e.target.style.animationPlayState!=='running')e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('.fade').forEach(e=>{e.style.animationPlayState='paused';ob.observe(e)})}();
-!function(){const el=document.querySelector('[data-n]');if(el)setTimeout(function(){el.textContent='447'},500)}();
+!function(){try{document.querySelectorAll('.fade').forEach(function(e){e.style.animationPlayState='paused'});var ob=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('.fade').forEach(function(e){ob.observe(e)})}catch(e){}}();
+setTimeout(function(){var el=document.querySelector('[data-n]');if(el)el.textContent='447'},100);
 </script>
 </body>
 </html>
