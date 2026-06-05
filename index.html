@@ -116,7 +116,31 @@ header .g{border-top:1px solid rgba(255,215,0,0.1)}
 .tag{display:inline-block;background:rgba(255,215,0,0.03);padding:0.15rem 0.6rem;font-size:0.6rem;letter-spacing:0.08em;border:1px solid rgba(255,215,0,0.06);margin:0.15rem;color:rgba(232,228,220,0.4);transition:all 0.3s;cursor:default}
 .tag:hover{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.15)}
 .qb{border-left:2px solid rgba(255,215,0,0.12);padding-left:1.2rem;font-style:italic;opacity:0.5;font-size:0.9rem;line-height:1.8}
-@media(max-width:768px){
+/* ── Tarot Card Gallery ── */
+.tarot-track{display:flex;gap:1.25rem;padding:0.5rem 2rem;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;cursor:grab;padding-bottom:1rem}
+.tarot-track::-webkit-scrollbar{height:2px}
+.tarot-track::-webkit-scrollbar-track{background:rgba(255,215,0,0.04)}
+.tarot-track::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.15);border-radius:2px}
+.tcard{flex:0 0 190px;scroll-snap-align:start;transition:all 0.4s;position:relative}
+.tcard:hover{transform:translateY(-8px)}
+.tc-inner{width:190px;height:340px;background:linear-gradient(180deg,#0c0c18,#07070d);border:1px solid rgba(255,215,0,0.12);border-radius:8px;padding:0.75rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3),inset 0 0 40px rgba(255,215,0,0.02)}
+.tc-inner::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:7px;border:1px solid rgba(255,215,0,0.06);pointer-events:none}
+.tc-inner::after{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid rgba(255,215,0,0.04);border-radius:4px;pointer-events:none}
+.tc-top{display:flex;justify-content:space-between;width:100%;padding:0 0.2rem;position:relative;z-index:1}
+.tc-num{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:rgba(255,215,0,0.35);font-weight:300}
+.tc-sym{font-size:1rem;opacity:0.2}
+.tc-name{font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.12em;color:#e8e4dc;mix-blend-mode:plus-lighter;text-align:center;position:relative;z-index:1}
+.tc-div{width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.15),transparent);position:relative;z-index:1}
+.tc-path{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,215,0,0.4);position:relative;z-index:1}
+.tc-seq{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:rgba(232,228,220,0.2);text-align:center;position:relative;z-index:1;line-height:1.3}
+.tc-desc{font-size:0.6rem;color:rgba(232,228,220,0.3);text-align:center;line-height:1.4;position:relative;z-index:1;padding:0 0.3rem}
+.tc-bottom{align-self:flex-end;padding:0 0.2rem;position:relative;z-index:1}
+.tc-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:2.2rem;height:2.2rem;border-radius:50%;border:1px solid rgba(255,215,0,0.12);background:rgba(7,7,13,0.85);color:#e8e4dc;font-size:1.4rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.tc-nav:hover{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.25)}
+.tc-prev{left:0.5rem}
+.tc-next{right:0.5rem}
+@media(max-width:768px){.tcard{flex:0 0 155px}.tc-inner{width:155px;height:290px}}
+/* ── End Tarot ── */
   main{padding:1rem}
   .fg,.og{grid-template-columns:1fr}
   .fg>.fc:nth-child(3n),.og>.oc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
@@ -270,167 +294,258 @@ header .g{border-top:1px solid rgba(255,215,0,0.1)}
 </div>
 
 <div class="g" id="pw">
-  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0"><div class="sl">▍Pathways</div></div>
-  <div class="gc" style="grid-column:1/-1;padding:0"><div class="fade" style="padding:1rem 0">
-    <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap">
-      <div class="tw" id="pwt">
-        <span class="tb act" onclick="sw(this,'s')">Seer</span>
-        <span class="tb" onclick="sw(this,'t')">Thief</span>
-        <span class="tb" onclick="sw(this,'a')">Apprentice</span>
-        <span class="tb" onclick="sw(this,'sp')">Spectator</span>
-        <span class="tb" onclick="sw(this,'w')">Warrior</span>
-        <span class="tb" onclick="sw(this,'n')">Sleepless</span>
-        <span class="tb" onclick="sw(this,'pr')">Prayer</span>
-        <span class="tb" onclick="sw(this,'sa')">Sailor</span>
-        <span class="tb" onclick="sw(this,'r')">Reader</span>
-        <span class="tb" onclick="sw(this,'m')">Monster</span>
-        <span class="tb" onclick="sw(this,'ap')">Apothecary</span>
-        <span class="tb" onclick="sw(this,'f')">Farmer</span>
-        <span class="tb" onclick="sw(this,'c')">Corpse</span>
-        <span class="tb" onclick="sw(this,'ar')">Arbiter</span>
-        <span class="tb" onclick="sw(this,'l')">Lawyer</span>
-        <span class="tb" onclick="sw(this,'p')">Prisoner</span>
-        <span class="tb" onclick="sw(this,'h')">Hunter</span>
-        <span class="tb" onclick="sw(this,'as')">Assassin</span>
-        <span class="tb" onclick="sw(this,'sv')">Savant</span>
-        <span class="tb" onclick="sw(this,'mp')">Mystery</span>
-        <span class="tb" onclick="sw(this,'cr')">Criminal</span>
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0"><div class="sl">▍Pathways — Tarot Gallery</div></div>
+  <div class="gc" style="grid-column:1/-1;padding:0;border-bottom:none;overflow:hidden">
+    <div class="fade" style="padding:1.5rem 0;position:relative">
+      <div class="tarot-track" id="tarotTrack">
+        <!-- Each card is a Tarot card -->
+        <div class="tcard" data-idx="0">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">0</span><span class="tc-sym">∞</span></div>
+            <div class="tc-name">THE FOOL</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Seer</div>
+            <div class="tc-seq">Seq9: Seer → Seq0: Fool</div>
+            <div class="tc-desc">Divination · Marionettes · Time Worms<br>主角克莱恩的途径</div>
+            <div class="tc-bottom"><span class="tc-num">0</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="1">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">I</span><span class="tc-sym">☿</span></div>
+            <div class="tc-name">THE MAGICIAN</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Thief</div>
+            <div class="tc-seq">Seq9: Thief → Seq0: Error</div>
+            <div class="tc-desc">Steal · Parasitize · Time Worm<br>阿蒙的途径</div>
+            <div class="tc-bottom"><span class="tc-num">I</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="2">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XXI</span><span class="tc-sym">⊕</span></div>
+            <div class="tc-name">THE WORLD</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Apprentice</div>
+            <div class="tc-seq">Seq9: Trick Master → Seq0: Door</div>
+            <div class="tc-desc">Teleport · Dimensions · Space<br>诡秘三途径之一</div>
+            <div class="tc-bottom"><span class="tc-num">XXI</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="3">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">VIII</span><span class="tc-sym">⚖</span></div>
+            <div class="tc-name">JUSTICE</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Spectator</div>
+            <div class="tc-seq">Seq9: Spectator → Seq0: Visionary</div>
+            <div class="tc-desc">Read Minds · Hypnosis · Dreams<br>奥黛丽的途径</div>
+            <div class="tc-bottom"><span class="tc-num">VIII</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="4">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XI</span><span class="tc-sym">🛡</span></div>
+            <div class="tc-name">STRENGTH</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Warrior</div>
+            <div class="tc-seq">Seq9: Warrior → Seq0: Visionary</div>
+            <div class="tc-desc">Combat · Dawn · Silver Knight<br>守护与战斗的途径</div>
+            <div class="tc-bottom"><span class="tc-num">XI</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="5">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XVIII</span><span class="tc-sym">☽</span></div>
+            <div class="tc-name">THE MOON</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Sleepless</div>
+            <div class="tc-seq">Seq9: Sleepless → Seq0: Evernight</div>
+            <div class="tc-desc">Night · Dreams · Darkness<br>伦纳德的途径</div>
+            <div class="tc-bottom"><span class="tc-num">XVIII</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="6">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XV</span><span class="tc-sym">◈</span></div>
+            <div class="tc-name">THE DEVIL</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Mystery Pryer</div>
+            <div class="tc-seq">Seq9: Prayer → Seq0: Hidden Sage</div>
+            <div class="tc-desc">Whispers · Sacrifice · Secrets<br>秘祈人的禁忌之路</div>
+            <div class="tc-bottom"><span class="tc-num">XV</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="7">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">VII</span><span class="tc-sym">⚡</span></div>
+            <div class="tc-name">THE CHARIOT</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Sailor</div>
+            <div class="tc-seq">Seq9: Sailor → Seq0: Tyrant</div>
+            <div class="tc-desc">Storms · Sea · Thunder<br>阿尔杰的途径</div>
+            <div class="tc-bottom"><span class="tc-num">VII</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="8">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">V</span><span class="tc-sym">📖</span></div>
+            <div class="tc-name">THE HIEROPHANT</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Savant</div>
+            <div class="tc-seq">Seq9: Savant → Seq0: Steam</div>
+            <div class="tc-desc">Knowledge · Machinery · Steam<br>蒸汽教会的神赐途径</div>
+            <div class="tc-bottom"><span class="tc-num">V</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="9">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">X</span><span class="tc-sym">☸</span></div>
+            <div class="tc-name">WHEEL OF FORTUNE</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Monster</div>
+            <div class="tc-seq">Seq9: Monster → Seq0: Tyrant</div>
+            <div class="tc-desc">Luck · Probability · Chaos<br>命运的宠儿之路</div>
+            <div class="tc-bottom"><span class="tc-num">X</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="10">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">III</span><span class="tc-sym">🌿</span></div>
+            <div class="tc-name">THE EMPRESS</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Apothecary</div>
+            <div class="tc-seq">Seq9: Apothecary → Seq0: Earth Mother</div>
+            <div class="tc-desc">Potion · Vampire · Life<br>血族的途径</div>
+            <div class="tc-bottom"><span class="tc-num">III</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="11">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">IV</span><span class="tc-sym">🌾</span></div>
+            <div class="tc-name">THE EMPEROR</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Farmer</div>
+            <div class="tc-seq">Seq9: Farmer → Seq0: Earth Mother</div>
+            <div class="tc-desc">Nature · Harvest · Earth<br>与大地共鸣的途径</div>
+            <div class="tc-bottom"><span class="tc-num">IV</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="12">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XIII</span><span class="tc-sym">💀</span></div>
+            <div class="tc-name">DEATH</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Corpse Collector</div>
+            <div class="tc-seq">Seq9: Corpse → Seq0: Death</div>
+            <div class="tc-desc">Souls · Undead · Afterlife<br>收尸人的神秘之路</div>
+            <div class="tc-bottom"><span class="tc-num">XIII</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="13">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XX</span><span class="tc-sym">⚜</span></div>
+            <div class="tc-name">JUDGEMENT</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Arbiter</div>
+            <div class="tc-seq">Seq9: Arbiter → Seq0: Visionary</div>
+            <div class="tc-desc">Law · Order · Decree<br>律法与秩序的捍卫者</div>
+            <div class="tc-bottom"><span class="tc-num">XX</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="14">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">IV</span><span class="tc-sym">👑</span></div>
+            <div class="tc-name">THE EMPEROR</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Lawyer</div>
+            <div class="tc-seq">Seq9: Lawyer → Seq0: Black Emperor</div>
+            <div class="tc-desc">Rules · Conspiracy · Tyranny<br>罗塞尔的途径</div>
+            <div class="tc-bottom"><span class="tc-num">IV</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="15">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XVI</span><span class="tc-sym">⛓</span></div>
+            <div class="tc-name">THE TOWER</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Prisoner</div>
+            <div class="tc-seq">Seq9: Prisoner → Seq0: Hidden Sage</div>
+            <div class="tc-desc">Madness · Curse · Plague<br>被囚禁者的挣脱之路</div>
+            <div class="tc-bottom"><span class="tc-num">XVI</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="16">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XII</span><span class="tc-sym">🩸</span></div>
+            <div class="tc-name">THE HANGED MAN</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Hunter</div>
+            <div class="tc-seq">Seq9: Hunter → Seq0: Red Priest</div>
+            <div class="tc-desc">Fire · War · Conquest<br>战争与火焰的途径</div>
+            <div class="tc-bottom"><span class="tc-num">XII</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="17">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">II</span><span class="tc-sym">🗡</span></div>
+            <div class="tc-name">THE HIGH PRIESTESS</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Assassin</div>
+            <div class="tc-seq">Seq9: Assassin → Seq0: Red Priest</div>
+            <div class="tc-desc">Poison · Witch · Seduction<br>暗影中的致命者</div>
+            <div class="tc-bottom"><span class="tc-num">II</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="18">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">IX</span><span class="tc-sym">🔍</span></div>
+            <div class="tc-name">THE HERMIT</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Mystery Pryer</div>
+            <div class="tc-seq">Seq9: Pryer → Seq0: Knowledge</div>
+            <div class="tc-desc">Occult · Summon · Prophecy<br>窥秘者的求知之路</div>
+            <div class="tc-bottom"><span class="tc-num">IX</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="19">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XIX</span><span class="tc-sym">☀</span></div>
+            <div class="tc-name">THE SUN</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Sun</div>
+            <div class="tc-seq">Seq9: Sun → Seq0: Eternal Sun</div>
+            <div class="tc-desc">Light · Purity · Dawn<br>戴里克的途径</div>
+            <div class="tc-bottom"><span class="tc-num">XIX</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="20">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">XVII</span><span class="tc-sym">✦</span></div>
+            <div class="tc-name">THE STAR</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Savant</div>
+            <div class="tc-seq">Seq9: Savant → Seq0: Steam</div>
+            <div class="tc-desc">Knowledge · Invention · Progress<br>科学与技术的道路</div>
+            <div class="tc-bottom"><span class="tc-num">XVII</span></div>
+          </div>
+        </div>
+        <div class="tcard" data-idx="21">
+          <div class="tc-inner">
+            <div class="tc-top"><span class="tc-num">VI</span><span class="tc-sym">⚔</span></div>
+            <div class="tc-name">THE LOVERS</div>
+            <div class="tc-div"></div>
+            <div class="tc-path">Criminal</div>
+            <div class="tc-seq">Seq9: Criminal → Seq0: Chaos</div>
+            <div class="tc-desc">Violence · Demon · Abyss<br>混沌与罪恶的渊薮</div>
+            <div class="tc-bottom"><span class="tc-num">VI</span></div>
+          </div>
+        </div>
       </div>
+      <button class="tc-nav tc-prev" onclick="scrollTarot(-1)">‹</button>
+      <button class="tc-nav tc-next" onclick="scrollTarot(1)">›</button>
     </div>
-    <div id="ps" class="sp">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Seer</b> — Divination, pendulum, spirit vision. Potion: Rava octopus blood + Star crystal.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Clown</b> — Combat master, perfect balance, paper throwing blades, facial control.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Magician</b> — Paper substitute, flame jump, teleport. Illusions to deceive enemies.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Faceless</b> — Change appearance, height, build. Perfect mimicry of others.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Marionettist</b> — Control marionettes. Klein's signature ability.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Bizarro Sorcerer</b> — Warp reality, twist local laws.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Scholar of Ancient</b> — Summon historical projections.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Miracle Invoker</b> — Achieve the impossible, alter causality.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Mystery Pryer</b> — Manipulate space-time. One step from godhood.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>The Fool</b> — Master of time worms, marionettes, history. Tarot: 0-The Fool.</div></div>
-    </div>
-    <div id="pt" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Thief</b> — Pickpocket, nimble fingers.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Swindler</b> — Master of lies and scams.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Secret Stealer</b> — Steal hidden information.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Fire Thief</b> — Steal Beyonder abilities.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Dream Thief</b> — Steal memories from dreams.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Parasite</b> — Parasitize others. Pallez's sequence.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Tamperer</b> — Tamper with fate.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Time Worm</b> — Travel through time cracks. Amon's rank.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Error</b> — The bug in the system.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Error</b> — God of deception. One of three Lord of Mysteries pathways.</div></div>
-    </div>
-    <div id="pa" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Trick Master</b> — Sleight of hand and illusions.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Astrologer</b> — Star chart divination.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Recorder</b> — Seal power in records.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Traveler</b> — Teleport across space.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Arcane Tutor</b> — Master of secret arts.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Wanderer</b> — Travel between dimensions.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Planewalker</b> — Create independent spaces.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Star Apostle</b> — Cosmic traveler.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Dimension Dominator</b> — Control dimensional space.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Door</b> — God of space. One of three Lord of Mysteries pathways.</div></div>
-    </div>
-    <div id="psp" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Spectator</b> — Observe hidden emotions.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Reader</b> — Read surface thoughts.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Psychiatrist</b> — Heal and implant thoughts.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Hypnotist</b> — Deep hypnosis.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Dream Walker</b> — Walk the collective subconscious. Audrey's sequence.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Manipulator</b> — Pull strings of fate.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Dream Weaver</b> — Weave dream into reality.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Insight</b> — See the essence of all things.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Fate Weaver</b> — Weave threads of fate.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Visionary</b> — Turn imagination into reality.</div></div>
-    </div>
-    <div id="pw" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Warrior</b> — Enhanced physique and combat.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Fighter</b> — Master martial artist.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Weapon Master</b> — All weapons expert.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Dawn Knight</b> — Purify evil with dawn light.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Guardian</b> — Iron defense with willpower.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Demon Hunter</b> — Hunt supernatural beings.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Silver Knight</b> — Power of moonlight and stars.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Glorious</b> — Reshape reality with glory.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Hand of God</b> — God's executioner.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Visionary</b> — Converges with Spectator pathway.</div></div>
-    </div>
-    <div id="pn" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Sleepless</b> — Never sleep, affinity with darkness.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Midnight Poet</b> — Poetry as spells. Leonard's sequence.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Nightmare</b> — Enter and control dreams.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Night Watcher</b> — Guard the night. Core Nighthawk sequence.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Reaper</b> — Harvest souls.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Silent</b> — One word decides life and death.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Fear Bishop</b> — Feed on fear.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Dark Angel</b> — Angel of shadows and silence.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Calamity Knight</b> — Bring disaster.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Evernight Goddess</b> — Eternal night. One of the seven orthodox gods.</div></div>
-    </div>
-    <div id="ppr" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Mystery Prayer</b> — Connect with hidden entities.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Listener</b> — Hear the unhearable whispers.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Hermit</b> — Concealment and hiding.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Rose Bishop</b> — Blood rituals, sacrifice for power.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Soul Shepherd</b> — Shepherd and guide souls.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Black Knight</b> — Armored in death and fear.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Three-Headed Saint</b> — See past, present, future.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>God Speaker</b> — Summon ancient projections.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Abomination</b> — Half-god, half-demon. Price of forbidden knowledge.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Hidden Sage</b> — Embodiment of hidden knowledge.</div></div>
-    </div>
-    <div id="psa" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Sailor</b> — Sea affinity, enhanced physique.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Wrathful Folk</b> — Explosive rage power.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Navigator</b> — Master of the seven seas. Alger's sequence.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Wind-Blessed</b> — Control weather and waves.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Ocean Singer</b> — Command sea creatures with song.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Disaster Priest</b> — Summon tsunamis and storms.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Trident</b> — Wield oceanic authority.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Calamity</b> — Walking disaster.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Thunder Lord</b> — Judge with lightning.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Tyrant</b> — God of storm and judgment.</div></div>
-    </div>
-    <!-- Remaining pathways have similar data - abbreviated -->
-    <div id="pr" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Reader</b> — Broad knowledge.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Archaeologist</b> — History excavation.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Appraiser</b> — Identify artifacts.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Mechanic</b> — Steam tech pioneer.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Astronomer</b> — Study stars and prophecy.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Alchemist</b> — Matter transmutation.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Arcane Mage</b> — Understand world rules.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Knowledge Emperor</b> — Emperor of knowledge.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Son of Steam</b> — Industrial spirit.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Steam & Machinery</b> — God of science and tech.</div></div>
-    </div>
-    <div id="pm" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Monster</b> — Keen intuition, fate-blessed.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Machine</b> — Calculate probability.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Lucky One</b> — Luck and misfortune.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Disaster Prophet</b> — Prophesy disasters.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Winner</b> — Always come out on top.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Misfortune Mage</b> — Spread misfortune.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Chaos Walker</b> — Walk in chaos.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Goddess of Fate</b> — Weave fate.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Order Incarnate</b> — Order from chaos.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Tyrant</b> — Converges with Sailor.</div></div>
-    </div>
-    <div id="pap" class="sp" style="display:none">
-<div class="sr"><div class="sl2">Seq 9</div><div class="si"><b>Apothecary</b> — Brew potions.</div></div>
-<div class="sr"><div class="sl2">Seq 8</div><div class="si"><b>Tamer</b> — Tame supernatural beasts.</div></div>
-<div class="sr"><div class="sl2">Seq 7</div><div class="si"><b>Vampire</b> — Bloodline, immortality.</div></div>
-<div class="sr"><div class="sl2">Seq 6</div><div class="si"><b>Physician</b> — Heal curses.</div></div>
-<div class="sr"><div class="sl2">Seq 5</div><div class="si"><b>Druid</b> — Communicate with nature.</div></div>
-<div class="sr"><div class="sl2">Seq 4</div><div class="si"><b>Ancient Chronometer</b> — Witness of ages.</div></div>
-<div class="sr"><div class="sl2">Seq 3</div><div class="si"><b>Life Scholar</b> — Study life essence.</div></div>
-<div class="sr"><div class="sl2">Seq 2</div><div class="si"><b>Vampire Progenitor</b> — Source of all blood.</div></div>
-<div class="sr"><div class="sl2">Seq 1</div><div class="si"><b>Undying</b> — Immortal.</div></div>
-<div class="sr"><div class="sl2" style="color:#FFD700;">Seq 0</div><div class="si" style="color:#FFD700;"><b>Earth Mother</b> — Goddess of abundance and life.</div></div>
-    </div>
-  </div></div>
+  </div>
 </div>
 
 <div class="g">
@@ -479,6 +594,8 @@ pr();window.addEventListener('resize',pr);
 !function dp(){px.clearRect(0,0,pw,ph);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=pw;if(p.x>pw)p.x=0;if(p.y<0)p.y=ph;if(p.y>ph)p.y=0;px.beginPath();px.arc(p.x,p.y,p.s,0,Math.PI*2);px.fillStyle=`rgba(255,215,0,${p.a})`;px.fill()}requestAnimationFrame(dp)}();
 const tl=[{d:'$',c:'hl',t:' ./lotm --scan --mode=full'},{d:'',c:'dm',t:'[SYSTEM] Loading the Gray Fog...'},{d:'',c:'dm',t:'[SYSTEM] Detecting resonance —'},{d:'',c:'hl',t:'「Lord of Mysteries」'},{d:'',c:'dm',t:'[01:23] Char. Convergence ████████████░░ 83%'},{d:'',c:'dm',t:'[01:25] Analyzing '},{d:'',c:'cy',t:'「The Fool」'},{d:'',c:'dm',t:' Seq 0 Authority...'},{d:'',c:'dm',t:'[01:27] Time Worms: '},{d:'',c:'hl',t:'3,648,911'},{d:'',c:'dm',t:'[01:30] Jump to '},{d:'',c:'gr',t:'Backlund'},{d:'',c:'dm',t:' · Queen\\'s Quarter · No.155'},{d:'',c:'dm',t:'[01:32] '},{d:'',c:'rd',t:'⚠ High Alert: '},{d:'',c:'dm',t:'Coordinates Exposed'},{d:'',c:'dm',t:'[01:33] '},{d:'',c:'pu',t:'◇ Anomaly: '},{d:'',c:'dm',t:'Amon (Time Worm · Error)'},{d:'',c:'dm',t:'[01:34] Activating '},{d:'',c:'hl',t:'「Chaos Timeline」'},{d:'',c:'dm',t:' Defense...'},{d:'',c:'dm',t:'[01:36] From '},{d:'',c:'cy',t:'Zhou Mingrui'},{d:'',c:'gr',t:'\\'s imprint: "Someone must guard these beautiful things."'},{d:'',c:'dm',t:'[01:38] Path: '},{d:'',c:'hl',t:'Seer→Clown→Magician→Faceless→Marionettist→Bizarro→Scholar→Miracle→Servant→Fool'},{d:'',c:'dm',t:'[01:40] Tarot roster loaded'},{d:'',c:'dm',t:'[01:42] Wheel of Fortune turns...'},{d:'',c:'dm',t:'[01:45] '},{d:'',c:'pu',t:'◇ Outer God: '},{d:'',c:'dm',t:'Chaotic Sea · Mother · Tree of Desire...'},{d:'',c:'dm',t:'[01:48] '},{d:'',c:'hl',t:'「Fusheng Xuanhuang Tianzun」'},{d:'',c:'dm',t:' Incantation Activated'},{d:'',c:'rd',t:'▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100%'},{d:'$',c:'hl',t:' '},{d:'',c:'dm',t:'Pathway verified. System ready.'}];const el=document.getElementById('tt');if(el){let ci=0;const tc=tl.reduce((a,l)=>a+(l.d||'').length+(l.t||'').length+1,0);!function tp(){if(ci>=tc){setTimeout(()=>{ci=0;tp()},3000);return}let h='',cl=ci;ci++;for(const l of tl){let ln=(l.d||'')+(l.t||'')+'\\n';if(cl<=0)break;if(cl>=ln.length){if(l.d)h+='<span class="dm">'+l.d+'</span>';h+='<span class="'+l.c+'">'+(l.t||'')+'</span>\\n';cl-=ln.length}else{let r=cl;if(l.d&&r>0){h+='<span class="dm">'+l.d.slice(0,Math.min(r,l.d.length))+'</span>';r-=Math.min(r,l.d.length)}if(r>0)h+='<span class="'+l.c+'">'+(l.t||'').slice(0,Math.min(r,(l.t||'').length))+'</span>';cl=0}}h+='<span class="tc"></span>';el.innerHTML=h;!function(){let c=0;for(const l of tl){const ln=(l.d||'')+(l.t||'')+'\\n';if(c+ln.length>=ci)return ln[ci-c-1];c+=ln.length}return''}();setTimeout(tp,ci>0&&(function(){let c=0;for(const l of tl){const ln=(l.d||'')+(l.t||'')+'\\n';if(c+ln.length>=ci)return ln[ci-c-1];c+=ln.length}return''})()==='\\n'?35:12)}()}
 function sw(el,id){document.querySelectorAll('.tb').forEach(b=>b.classList.remove('act'));el.classList.add('act');document.querySelectorAll('.sp').forEach(p=>p.style.display='none');document.getElementById('p'+id).style.display='block'}
+function scrollTarot(dir){const t=document.getElementById('tarotTrack');if(!t)return;const c=t.querySelector('.tcard');if(!c)return;t.scrollBy({left:dir*(c.offsetWidth+20),behavior:'smooth'})}
+// Touch drag for tarot
 !function(){const ob=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting&&e.target.style.animationPlayState!=='running')e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('.fade').forEach(e=>{e.style.animationPlayState='paused';ob.observe(e)})}();
 !function(){const el=document.querySelector('[data-n]');if(!el)return;const ob=new IntersectionObserver(([e])=>{if(e.isIntersecting){let c=0;setInterval(()=>{c+=4;if(c>=447){c=447;clearInterval(this)}el.textContent=c},30);ob.unobserve(el)}},{threshold:0.5});ob.observe(el)}();
 </script>
