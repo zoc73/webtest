@@ -3,600 +3,278 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lord of the Mysteries — Complete Encyclopedia</title>
+<title>Lord of the Mysteries</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;-webkit-font-smoothing:antialiased}
 body{font-family:'Inter',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
-#noise{position:fixed;inset:0;pointer-events:none;mix-blend-mode:difference;opacity:0.065;z-index:101}
+/* ── Overlays ── */
 #inv{position:fixed;inset:0;pointer-events:none;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
 #gl1{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
 #gl2{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
-#vn{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
+#vn{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.6) 100%);z-index:96}
 #dots{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
-#grn{position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.04;z-index:98}
-#tex{position:fixed;inset:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:0.025;z-index:97}
-#pt{position:fixed;inset:0;pointer-events:none;z-index:95;opacity:0.45}
-main{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:2rem}
-.g{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-left:1px solid rgba(255,215,0,0.06);border-right:1px solid rgba(255,215,0,0.06)}
-.gc{border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);padding:1rem;transition:border-color 0.3s}
-.gc:last-child{border-right:none}
-header .g{border-top:1px solid rgba(255,215,0,0.1)}
-.logo{font-weight:900;font-size:2.2rem;line-height:1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:#e8e4dc;text-decoration:none;transition:text-shadow 0.3s}
-.logo:hover{text-shadow:0 0 30px rgba(255,215,0,0.2)}
-.nav{font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:0.15rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;position:relative;transition:all 0.3s;opacity:0.5;display:inline-block;font-weight:400}
-.nav::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:#FFD700;transition:all 0.3s}
-.nav:hover{opacity:1}
-.nav:hover::after{left:0;width:100%}
-.sc{opacity:0.35;transition:all 0.3s;color:#e8e4dc;display:inline-flex}
-.sc:hover{opacity:1;transform:translateY(-1px)}
-@keyframes bk{0%,100%{opacity:1}50%{opacity:0}}
-.hr{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 1rem 4rem;gap:1.5rem;position:relative}
-.hr::before{content:'';position:absolute;top:-20%;left:-10%;right:-10%;bottom:-20%;background:radial-gradient(ellipse at 50% 30%,rgba(255,215,0,0.03) 0%,transparent 60%);animation:hp 4s ease-in-out infinite;pointer-events:none;z-index:-1}
+canvas{position:fixed;inset:0;pointer-events:none;width:100%;height:100%}
+#nc{mix-blend-mode:difference;opacity:0.065;z-index:101}
+#gc{mix-blend-mode:overlay;opacity:0.04;z-index:98}
+#pc{z-index:95;opacity:0.45}
+main{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:2rem}
+/* ── Navigation ── */
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:1px solid rgba(255,215,0,0.08);margin-bottom:2rem}
+.nav-l{font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:#e8e4dc;text-decoration:none}
+.nav-r{display:flex;gap:1.5rem}
+.nav-r a{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-r a:hover{color:#FFD700}
+.nav-r a.act{color:#e8e4dc}
+/* ── Hero ── */
+.hero{text-align:center;padding:4rem 1rem 3rem;position:relative}
+.hero::before{content:'';position:absolute;top:-20%;left:-10%;right:-10%;bottom:-20%;background:radial-gradient(ellipse at 50% 30%,rgba(255,215,0,0.03) 0%,transparent 60%);animation:hp 4s ease-in-out infinite;pointer-events:none}
 @keyframes hp{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
-.hs{font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:0.35rem;opacity:0.45;text-transform:uppercase;font-weight:300;animation:fi 1s ease-out}
-.ht{font-weight:900;font-size:clamp(2.8rem,7vw,5rem);line-height:1.06;letter-spacing:-0.03em;mix-blend-mode:plus-lighter;animation:fi 1s ease-out 0.2s both}
-.ht .sb{display:block;margin-top:0.08em;font-size:0.4em;font-weight:300;opacity:0.18;letter-spacing:0.08em}
-.hd{max-width:600px;font-size:1rem;line-height:1.8;opacity:0.45;font-weight:300;animation:fi 1s ease-out 0.4s both}
-@keyframes fi{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.tb{border:4px double rgba(232,228,220,0.2);position:relative;overflow:hidden}
-.tb::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.3),transparent);animation:sl 3s ease-in-out infinite}
+.hero .tagline{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.3rem;opacity:0.4;margin-bottom:1rem}
+.hero h1{font-weight:900;font-size:clamp(2.5rem,5vw,4rem);line-height:1.08;letter-spacing:-0.03em;mix-blend-mode:plus-lighter;margin-bottom:1rem}
+.hero h1 .sub{display:block;font-size:0.4em;font-weight:300;opacity:0.18;margin-top:0.3rem;letter-spacing:0.08em}
+.hero p{max-width:560px;margin:0 auto;font-size:0.95rem;line-height:1.8;opacity:0.4;font-weight:300}
+/* ── Content ── */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-left:1px solid rgba(255,215,0,0.06);border-right:1px solid rgba(255,215,0,0.06)}
+.gc{border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);padding:1.25rem;transition:border-color 0.3s}
+.gc:last-child{border-right:none}
+.sl{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12rem;text-transform:uppercase;margin-bottom:1rem}
+p{font-size:0.9rem;line-height:1.8;opacity:0.45;font-weight:300}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.stat-box{background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.06);padding:1rem;text-align:center;transition:all 0.3s}
+.stat-box:hover{border-color:rgba(255,215,0,0.15);transform:translateY(-2px)}
+.stat-box .num{font-size:1.5rem;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter}
+.stat-box .lb{font-size:0.65rem;opacity:0.3;margin-top:0.2rem}
+.tag{display:inline-block;background:rgba(255,215,0,0.03);padding:0.15rem 0.6rem;font-size:0.55rem;letter-spacing:0.08em;border:1px solid rgba(255,215,0,0.06);margin:0.15rem;color:rgba(232,228,220,0.35)}
+/* ── Terminal ── */
+.tbox{border:4px double rgba(232,228,220,0.15);position:relative;overflow:hidden}
+.tbox::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.2),transparent);animation:sl 3s ease-in-out infinite}
 @keyframes sl{0%{left:-100%}100%{left:200%}}
 .th{display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0.75rem;border-bottom:1px solid rgba(255,215,0,0.06);background:rgba(0,0,0,0.25)}
-.td{width:0.5rem;height:0.5rem;border-radius:50%;background:rgba(232,228,220,0.3)}
-.tl{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:rgba(232,228,220,0.2)}
-.tt{font-family:'JetBrains Mono',monospace;font-size:0.72rem;line-height:1.65;padding:1rem;overflow:hidden;white-space:pre-wrap;height:380px;color:#c8c4bc;background:rgba(0,0,0,0.15)}
-.hl{color:#FFD700}.dm{color:rgba(232,228,220,0.3)}.gr{color:#6aaa6a}.cy{color:#5ab0c4}.rd{color:#c45a5a}.pu{color:#b48bb4}
+.td{width:0.5rem;height:0.5rem;border-radius:50%;background:rgba(232,228,220,0.2)}
+.tl{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.12em;color:rgba(232,228,220,0.15)}
+.tt{font-family:'JetBrains Mono',monospace;font-size:0.68rem;line-height:1.6;padding:1rem;overflow:hidden;white-space:pre-wrap;height:340px;color:#c8c4bc;background:rgba(0,0,0,0.12)}
+.hl{color:#FFD700}.dm{color:rgba(232,228,220,0.25)}.gr{color:#6aaa6a}.cy{color:#5ab0c4}.rd{color:#c45a5a}.pu{color:#b48bb4}
 .tc{display:inline-block;width:1ch;height:1em;background:#FFD700;animation:bk 0.6s step-end infinite;vertical-align:text-bottom}
-.fg{display:grid;grid-template-columns:repeat(3,1fr)}
-.fc{position:relative;padding:1.25rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
-.fg>.fc:nth-child(3n){border-right:none}
-.fc:hover{background:rgba(255,215,0,0.015)}
-.fch{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,0.06),transparent);opacity:0;transition:opacity 0.4s}
-.fc:hover .fch{opacity:1}
-.fl{font-weight:500;color:#FFD700;mix-blend-mode:plus-lighter;font-size:0.85rem;letter-spacing:0.01em}
-.ft{font-size:0.9rem;line-height:1.7;opacity:0.45;font-weight:300}
-.sl{font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:0.15rem;text-transform:uppercase}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:0}}
+/* ── Cards ── */
 .cg{display:grid;grid-template-columns:repeat(4,1fr)}
-.cc{position:relative;padding:1.25rem 0.75rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);text-align:center;transition:all 0.3s;cursor:default}
+.cc{padding:1.25rem 0.75rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);text-align:center;transition:all 0.3s;cursor:default}
 .cg>.cc:nth-child(4n){border-right:none}
 .cc:hover{background:rgba(255,215,0,0.015);transform:translateY(-2px)}
-.ci{font-size:0.8rem;color:rgba(255,215,0,0.25);letter-spacing:0.15em;font-weight:300;margin-bottom:0.15rem}
-.cc:hover .ci{color:rgba(255,215,0,0.55)}
-.cn{font-weight:600;font-size:0.95rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.cc .ic{font-size:0.75rem;color:rgba(255,215,0,0.2);letter-spacing:0.15em;margin-bottom:0.1rem}
+.cc .cn{font-weight:600;font-size:0.9rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
 .cc:hover .cn{color:#FFD700}
-.ct{font-size:0.65rem;opacity:0.35;margin-top:0.1rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.1em}
-.cd{font-size:0.73rem;opacity:0.4;line-height:1.5;margin-top:0.35rem;font-weight:300}
-.tw{display:flex;gap:0;border-bottom:1px solid rgba(232,228,220,0.06);flex-wrap:wrap;overflow-x:auto}
-.tb{position:relative;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:0.35rem 0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;color:rgba(232,228,220,0.3);cursor:pointer;transition:all 0.3s;flex-shrink:0}
-.tb:hover{color:#e8e4dc;background:rgba(255,215,0,0.03)}
-.tb.act{color:#e8e4dc}
-.tb.act::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:#FFD700}
-.sr{display:grid;grid-template-columns:3.5rem 1fr;gap:0;border-top:1px solid rgba(255,215,0,0.05);border-left:1px solid rgba(255,215,0,0.05);transition:all 0.2s}
-.sr:last-of-type{border-bottom:1px solid rgba(255,215,0,0.05)}
-.sr:hover{background:rgba(255,215,0,0.02)}
-.sl2{border-right:1px solid rgba(255,215,0,0.05);padding:0.45rem 0.3rem;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:rgba(255,215,0,0.3)}
-.si{padding:0.45rem 0.75rem;text-align:left;font-size:0.72rem;opacity:0.6;line-height:1.5}
-.og{display:grid;grid-template-columns:repeat(3,1fr)}
-.oc{position:relative;padding:1rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
-.og>.oc:nth-child(3n){border-right:none}
-.oc:hover{background:rgba(255,215,0,0.015)}
-.oc h4{font-weight:600;font-size:0.85rem;mix-blend-mode:plus-lighter;margin-bottom:0.1rem;transition:color 0.3s}
-.oc:hover h4{color:#FFD700}
-.oc p{font-size:0.75rem;opacity:0.4;line-height:1.6;font-weight:300}
+.cc .ct{font-size:0.6rem;opacity:0.3;margin-top:0.1rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.1em}
+.cc .cd{font-size:0.7rem;opacity:0.35;line-height:1.5;margin-top:0.3rem;font-weight:300}
+/* ── Tarot gallery ── */
+.trk{display:flex;gap:1rem;padding:0.5rem 0.5rem;overflow-x:auto;scroll-behavior:smooth}
+.trk::-webkit-scrollbar{height:2px}
+.trk::-webkit-scrollbar-track{background:rgba(255,215,0,0.03)}
+.trk::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.1);border-radius:2px}
+.tc2{flex:0 0 175px;scroll-snap-align:start;transition:all 0.3s;cursor:pointer}
+.tc2:hover{transform:translateY(-6px)}
+.tci{width:175px;height:320px;background:linear-gradient(180deg,#0c0c18,#07070d);border:1px solid rgba(255,215,0,0.1);border-radius:8px;padding:0.7rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.tci .tcn{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(255,215,0,0.3)}
+.tci .tname{font-size:0.8rem;font-weight:700;letter-spacing:0.12em;mix-blend-mode:plus-lighter;text-align:center}
+.tci .tdiv{width:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.12),transparent)}
+.tci .tpath{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,215,0,0.35)}
+.tci .tdesc{font-size:0.55rem;color:rgba(232,228,220,0.25);text-align:center;line-height:1.4}
+/* ── Item grid ── */
 .ig{display:grid;grid-template-columns:repeat(2,1fr)}
-.ic{position:relative;padding:0.85rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
-.ig>.ic:nth-child(2n){border-right:none}
-.ic:hover{background:rgba(255,215,0,0.015)}
-.ic h4{font-weight:600;font-size:0.8rem;mix-blend-mode:plus-lighter}
-.ic .lv{font-size:0.55rem;color:#FFD700;font-family:'JetBrains Mono',monospace;mix-blend-mode:plus-lighter}
-.ic p{font-size:0.72rem;opacity:0.4;line-height:1.5;font-weight:300;margin-top:0.15rem}
-.vt{position:relative;padding-left:1.5rem}
-.vt::before{content:'';position:absolute;left:0.5rem;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(255,215,0,0.15),rgba(255,215,0,0.03))}
-.vn{position:relative;padding:0.6rem 0 0.6rem 0.75rem;transition:all 0.3s;cursor:default}
-.vn:hover{transform:translateX(4px)}
-.vn::before{content:'';position:absolute;left:-0.75rem;top:1rem;width:0.45rem;height:0.45rem;border-radius:50%;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);transition:all 0.3s}
-.vn:hover::before{background:rgba(255,215,0,0.4);border-color:#FFD700;box-shadow:0 0 12px rgba(255,215,0,0.2)}
-.vn.gd::before{background:#FFD700;box-shadow:0 0 12px rgba(255,215,0,0.25)}
-.fade{opacity:0;transform:translateY(14px);animation:fu 0.7s ease-out forwards}
-.f1{animation-delay:0.15s}.f2{animation-delay:0.3s}.f3{animation-delay:0.45s}.f4{animation-delay:0.6s}.f5{animation-delay:0.75s}
+.ic2{padding:0.85rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
+.ig>.ic2:nth-child(2n){border-right:none}
+.ic2:hover{background:rgba(255,215,0,0.015)}
+.ic2 h4{font-weight:600;font-size:0.8rem;mix-blend-mode:plus-lighter}
+.ic2 .lv{font-size:0.5rem;color:#FFD700;font-family:'JetBrains Mono',monospace}
+.ic2 p{font-size:0.7rem;opacity:0.35;line-height:1.5;font-weight:300;margin-top:0.15rem}
+/* ── Footer ── */
+footer{border-top:1px solid rgba(255,215,0,0.06);padding:1.5rem 0;margin-top:3rem;display:flex;justify-content:space-between;align-items:center}
+footer span{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.25}
+footer a{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;color:rgba(232,228,220,0.3);text-decoration:none;transition:color 0.2s}
+footer a:hover{color:#FFD700}
+/* ── Quote ── */
+.qb{border-left:2px solid rgba(255,215,0,0.1);padding-left:1rem;font-style:italic;opacity:0.45;font-size:0.85rem;line-height:1.7;margin-bottom:0.75rem}
+.fade{opacity:0;transform:translateY(14px);animation:fu 0.6s ease-out forwards}
+.f1{animation-delay:0.15s}.f2{animation-delay:0.3s}.f3{animation-delay:0.45s}
 @keyframes fu{to{opacity:1;transform:translateY(0)}}
-.al{display:inline-flex;align-items:center;gap:0.5rem;color:rgba(232,228,220,0.4);font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.15rem;text-transform:uppercase;text-decoration:none;transition:all 0.3s;position:relative}
-.al::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:#FFD700;transition:width 0.3s}
-.al:hover{color:#FFD700;opacity:1}
-.al:hover::after{width:100%}
-.al svg{width:0.6rem;height:0.6rem;transition:transform 0.3s}
-.al:hover svg{transform:translateX(4px)}
-.cp{background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.06);padding:1rem;text-align:center;transition:all 0.3s;position:relative;overflow:hidden}
-.cp:hover{border-color:rgba(255,215,0,0.2);transform:translateY(-2px)}
-.cp .nm{font-size:1.5rem;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter}
-.cp .lb{font-size:0.65rem;opacity:0.3;margin-top:0.15rem}
-.st{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
-.tag{display:inline-block;background:rgba(255,215,0,0.03);padding:0.15rem 0.6rem;font-size:0.6rem;letter-spacing:0.08em;border:1px solid rgba(255,215,0,0.06);margin:0.15rem;color:rgba(232,228,220,0.4);transition:all 0.3s;cursor:default}
-.tag:hover{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.15)}
-.qb{border-left:2px solid rgba(255,215,0,0.12);padding-left:1.2rem;font-style:italic;opacity:0.5;font-size:0.9rem;line-height:1.8}
-/* ── Tarot Card Gallery ── */
-.tarot-track{display:flex;gap:1.25rem;padding:0.5rem 2rem;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;cursor:grab;padding-bottom:1rem}
-.tarot-track::-webkit-scrollbar{height:2px}
-.tarot-track::-webkit-scrollbar-track{background:rgba(255,215,0,0.04)}
-.tarot-track::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.15);border-radius:2px}
-.tcard{flex:0 0 190px;scroll-snap-align:start;transition:all 0.4s;position:relative}
-.tcard:hover{transform:translateY(-8px)}
-.tc-inner{width:190px;height:340px;background:linear-gradient(180deg,#0c0c18,#07070d);border:1px solid rgba(255,215,0,0.12);border-radius:8px;padding:0.75rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3),inset 0 0 40px rgba(255,215,0,0.02)}
-.tc-inner::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:7px;border:1px solid rgba(255,215,0,0.06);pointer-events:none}
-.tc-inner::after{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid rgba(255,215,0,0.04);border-radius:4px;pointer-events:none}
-.tc-top{display:flex;justify-content:space-between;width:100%;padding:0 0.2rem;position:relative;z-index:1}
-.tc-num{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:rgba(255,215,0,0.35);font-weight:300}
-.tc-sym{font-size:1rem;opacity:0.2}
-.tc-name{font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.12em;color:#e8e4dc;mix-blend-mode:plus-lighter;text-align:center;position:relative;z-index:1}
-.tc-div{width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.15),transparent);position:relative;z-index:1}
-.tc-path{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,215,0,0.4);position:relative;z-index:1}
-.tc-seq{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:rgba(232,228,220,0.2);text-align:center;position:relative;z-index:1;line-height:1.3}
-.tc-desc{font-size:0.6rem;color:rgba(232,228,220,0.3);text-align:center;line-height:1.4;position:relative;z-index:1;padding:0 0.3rem}
-.tc-bottom{align-self:flex-end;padding:0 0.2rem;position:relative;z-index:1}
-.tc-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:2.4rem;height:2.4rem;border-radius:50%;border:1px solid rgba(255,215,0,0.15);background:rgba(7,7,13,0.9);color:#FFD700;font-size:1.5rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 2px 12px rgba(0,0,0,0.4)}
-.tc-nav:hover{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.25)}
-.tc-prev{left:0.5rem}
-.tc-next{right:0.5rem}
-@media(max-width:768px){.tcard{flex:0 0 155px}.tc-inner{width:155px;height:290px}}
-/* ── End Tarot ── */
+@media(max-width:768px){
   main{padding:1rem}
-  .fg,.og{grid-template-columns:1fr}
-  .fg>.fc:nth-child(3n),.og>.oc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
   .cg{grid-template-columns:repeat(2,1fr)}
   .cg>.cc:nth-child(4n){border-right:1px solid rgba(255,215,0,0.06)}
   .cg>.cc:nth-child(2n){border-right:none}
   .ig{grid-template-columns:1fr}
-  .hm{display:none!important}
-  .logo{font-size:1.4rem}
-  .hr{padding:3rem 0.5rem 2rem}
-  .ht{font-size:clamp(2rem,8vw,3rem)}
-  .st{grid-template-columns:1fr}
+  .nav-r{gap:0.8rem}
+  .nav-r a{font-size:0.6rem}
 }
 </style>
 </head>
 <body>
 <div id="inv"></div><div id="gl1"></div><div id="gl2"></div><div id="vn"></div><div id="dots"></div>
-<canvas id="noise"></canvas><canvas id="grn"></canvas><canvas id="tex"></canvas><canvas id="pt"></canvas>
+<canvas id="nc"></canvas><canvas id="gc"></canvas><canvas id="pc"></canvas>
 
 <main>
-<header><div class="g">
-  <div class="gc" style="grid-column:span 2"><a href="#" class="logo">Lord of<br>Mysteries</a></div>
-  <div class="gc" style="grid-column:span 2"><a href="#about" class="nav">About</a></div>
-  <div class="gc" style="grid-column:span 2"><a href="#chars" class="nav">Characters</a></div>
-  <div class="gc" style="grid-column:span 2"><a href="#pw" class="nav">Pathways</a></div>
-  <div class="gc" style="grid-column:span 2;display:flex;align-items:flex-start;justify-content:space-between">
-    <span style="font-family:JetBrains Mono,monospace;font-size:0.6rem;opacity:0.25;letter-spacing:0.1em;text-transform:uppercase">Links</span>
-    <div style="display:flex;gap:0.5rem">
-      <a href="https://baike.baidu.com/item/诡秘之主" class="sc" title="Baidu"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></a>
-      <a href="https://www.qidian.com/book/1010731093/" class="sc" title="Qidian"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg></a>
-    </div>
-  </div>
-  <div class="gc" style="grid-column:span 2;display:flex;align-items:center;justify-content:flex-end">
-    <small style="font-family:JetBrains Mono,monospace;font-size:0.6rem;opacity:0.25;letter-spacing:0.1em">by Cuttlefish That Loves Diving</small>
-  </div>
-</div></header>
 
-<div class="g"><div class="gc" style="grid-column:1/-1;border-bottom:none">
-  <div class="hr">
-    <div class="hs">▸  Fantasy · Mystery · Cosmic Horror  ◂</div>
-    <h1 class="ht">「The Fool That Does Not<br>Belong to This Era」<span class="sb">Mysterious Ruler Above the Gray Fog · The Yellow-Black King of Fortune</span></h1>
-    <div class="hd">Amid the tide of steam and machinery, the forces of mystery quietly revive.<br>Transmigrator Klein Moretti rises from a low-level Beyonder to the Lord of the Mysteries.</div>
-    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;animation:fi 1s ease-out 0.6s both">
-      <span class="tag">4.47M words</span><span class="tag">2018–2020</span><span class="tag">9 Vol · 1355 Ch</span><span class="tag">22 Pathways</span><span class="tag">#1 Best Novel</span>
-    </div>
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="index.html" class="nav-l">Lord of<br>Mysteries</a>
+  <div class="nav-r">
+    <a href="index.html" class="act">Home</a>
+    <a href="pages/characters.html">Characters</a>
+    <a href="pages/pathways.html">Pathways</a>
+    <a href="pages/artifacts.html">Artifacts</a>
   </div>
-</div></div>
+</nav>
 
-<div class="g" id="about">
-  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0"><div class="sl">▍About the Novel</div></div>
-  <div class="gc" style="grid-column:span 6;display:flex;flex-direction:column;justify-content:center;padding:2rem 1.5rem">
-    <div class="fade">
-      <p style="font-size:0.9rem;line-height:1.9;opacity:0.5;font-weight:300;margin-bottom:1rem">"Lord of the Mysteries" is a Western fantasy masterpiece by Chinese author "Cuttlefish That Loves Diving." Serialized on Qidian from April 1, 2018 to May 1, 2020, totaling roughly 4.47 million words, it is widely regarded as a landmark work in online literature.</p>
-      <p style="font-size:0.9rem;line-height:1.9;opacity:0.5;font-weight:300;margin-bottom:1rem">Set in an alternate world resembling 19th-century Victorian era — where the Industrial Revolution of steam and machinery reshapes civilization, while ancient mystical forces stir in the shadows. Protagonist Zhou Mingrui transmigrates into the body of Klein Moretti, a history student who committed suicide. Guided by occult notes and the mysterious "Sefirah Castle," he steps into the world of Beyonders.</p>
-      <p style="font-size:0.9rem;line-height:1.9;opacity:0.5;font-weight:300">The novel blends Lovecraftian horror, SCP Foundation containment concepts, Tarot symbolism, and steampunk aesthetics into a vast, self-consistent world. Its rigorous sequence system, intellectual confrontations, and deep character arcs make it an indispensable classic.</p>
-    </div>
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="tagline">▸  Fantasy · Mystery · Lovecraftian  ◂</div>
+  <h1>「The Fool That Does Not<br>Belong to This Era」<span class="sub">Mysterious Ruler Above the Gray Fog</span></h1>
+  <p>Amid the tide of steam and machinery, the forces of mystery quietly revive.<br>Transmigrator Klein Moretti rises from a low-level Beyonder to the Lord of the Mysteries.</p>
+  <div style="margin-top:1.5rem">
+    <span class="tag">4.47M words</span>
+    <span class="tag">2018–2020</span>
+    <span class="tag">9 Volumes</span>
+    <span class="tag">22 Pathways</span>
   </div>
-  <div class="gc" style="grid-column:span 6;padding:2rem 1.5rem">
-    <div class="fade f1">
-      <div class="sl" style="opacity:0.25;margin-bottom:0.75rem;font-size:0.7rem">▍Core Stats</div>
-      <div class="st">
-        <div class="cp"><div class="nm">447</div><div class="lb">Thousand Words</div></div>
-        <div class="cp"><div class="nm">9</div><div class="lb">Volumes</div></div>
-        <div class="cp"><div class="nm">1,355</div><div class="lb">Chapters</div></div>
-        <div class="cp"><div class="nm">22</div><div class="lb">Pathways</div></div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<div class="grid">
+  <div class="gc" style="grid-column:span 7">
+    <div class="sl">About the Novel</div>
+    <p style="margin-bottom:1rem">"Lord of the Mysteries" is a Western fantasy masterpiece by Chinese author "Cuttlefish That Loves Diving." Serialized on Qidian from 2018 to 2020, totaling roughly 4.47 million words, it is widely regarded as a landmark work in online literature.</p>
+    <p style="margin-bottom:1rem">Set in a 19th-century Victorian-esque world where the Industrial Revolution reshapes civilization while ancient mystical forces stir in the shadows. Protagonist Zhou Mingrui transmigrates into Klein Moretti, stepping into the world of Beyonders guided by occult notes and the mysterious "Sefirah Castle."</p>
+    <p>The novel blends Lovecraftian horror, SCP containment concepts, Tarot symbolism, and steampunk aesthetics into a vast, self-consistent world.</p>
+  </div>
+  <div class="gc" style="grid-column:span 5">
+    <div class="sl">Core Stats</div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="num">447</div><div class="lb">Thousand Words</div></div>
+      <div class="stat-box"><div class="num">9</div><div class="lb">Volumes</div></div>
+      <div class="stat-box"><div class="num">1,355</div><div class="lb">Chapters</div></div>
+      <div class="stat-box"><div class="num">22</div><div class="lb">Pathways</div></div>
+    </div>
+    <div class="sl" style="margin-top:1.5rem;opacity:0.25">Awards</div>
+    <p style="font-size:0.8rem">Best Novel 2019 · Platinum Author 2020 · Pegasus Literature Award · Translated into English, Japanese, Korean · Animation "The Clown Arc" 2025</p>
+  </div>
+</div>
+
+<!-- ═══ QUOTE + TERMINAL ═══ -->
+<div class="grid">
+  <div class="gc" style="grid-column:span 6">
+    <div class="sl">Voices from the Fog</div>
+    <div class="qb">"We are each the masters of our own fate, and the only myth in our own destiny."</div>
+    <div class="qb">"I came to this era not to change it, but to protect what is worth protecting."</div>
+    <div class="qb">"One day I will return. As The Fool, sitting here again, gazing at the stars."</div>
+    <div style="font-size:0.65rem;opacity:0.15;font-family:JetBrains Mono,monospace;margin-top:1rem">— Klein Moretti / The Fool</div>
+  </div>
+  <div class="gc" style="grid-column:span 6">
+    <div class="tbox">
+      <div class="th">
+        <span class="td"></span><span class="td"></span><span class="td"></span>
+        <span class="tl">LOTM.exe — Scan v3.0</span>
       </div>
-      <div style="margin-top:1rem"><span class="tag">#Lovecraftian</span><span class="tag">#Steampunk</span><span class="tag">#Beyonder</span><span class="tag">#Tarot</span><span class="tag">#Transmigration</span><span class="tag">#SCP</span><span class="tag">#Fantasy</span><span class="tag">#Ensemble</span></div>
-    </div>
-    <div class="fade f2" style="margin-top:1.5rem">
-      <div class="sl" style="opacity:0.25;margin-bottom:0.5rem;font-size:0.7rem">▍Series Info</div>
-      <p style="font-size:0.75rem;line-height:1.7;opacity:0.4;font-weight:300">Book 1: Lord of the Mysteries (complete)<br>Book 2: Circle of Inevitability (2023–2025, 687 ch.)<br>Animation: "The Clown Arc" (Tencent Video, 2025)<br>Side stories: Daily Life · In Modern Times · A Day in 1346</p>
+      <div class="tt" id="tt"></div>
     </div>
   </div>
 </div>
 
-<div class="g">
-  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0"><div class="sl">▍Volume Guide</div></div>
-  <div class="gc" style="grid-column:span 6"><div class="fade vt">
-    <div class="vn gd"><div class="vn1">Vol.1 — The Clown <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">ch.1-207</span></div><div class="vn2">Klein transmigrates as a history student and enters the Beyonder world. Holds the first Tarot Gathering above the Gray Fog.</div></div>
-    <div class="vn"><div class="vn1">Vol.2 — Faceless <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">ch.208-381</span></div><div class="vn2">Promotes to Faceless, infiltrates major powers, uncovers Roselle's diary secrets and confronts the Aurora Order.</div></div>
-    <div class="vn"><div class="vn1">Vol.3 — Traveler <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">ch.382-534</span></div><div class="vn2">Becomes a Marionettist, travels the world, makes sea-faring allies, and expands the Tarot Gathering.</div></div>
-    <div class="vn"><div class="vn1">Vol.4 — Undying <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">ch.535-702</span></div><div class="vn2">Promotes to Bizarro Sorcerer, faces Amon for the first time, caught in the Intis Republic crisis.</div></div>
-    <div class="vn"><div class="vn1">Vol.5 — Red Priest <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">ch.703-837</span></div><div class="vn2">Seizes Backlund, builds political power, plays the great game between churches as The Fool.</div></div>
-  </div></div>
-  <div class="gc" style="grid-column:span 6"><div class="fade f1 vt">
-    <div class="vn"><div class="vn1">Vol.6 — Light Seeker <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">ch.838-970</span></div><div class="vn2">Travels through history for power. The Church of The Fool is founded; god-level forces begin to clash.</div></div>
-    <div class="vn"><div class="vn1">Vol.7 — The Hanged Man <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">ch.971-1088</span></div><div class="vn2">Klein and Amon engage in a fateful battle for control of Sefirah Castle at its climax.</div></div>
-    <div class="vn"><div class="vn1">Vol.8 — The Fool <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">ch.1089-1245</span></div><div class="vn2">Promotes to Sequence 0 "The Fool," repels all contenders. Battle spans time and dimensions above the Gray Fog.</div></div>
-    <div class="vn gd"><div class="vn1">Vol.9 — Mysteries <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">ch.1246-1355</span></div><div class="vn2">Faces Outer Gods and destiny. Klein sacrifices himself in eternal slumber to shield the world.</div></div>
-    <div class="vn gd"><div class="vn1">Sequel — Circle of Inevitability <span style="font-size:0.55rem;opacity:0.2;font-family:JetBrains Mono,monospace">2023-2025</span></div><div class="vn2">Book 2. End of July 1368 — crimson descends from the sky. A new adventure unfolds.</div></div>
-  </div></div>
-</div>
-
-<div class="g">
-  <div class="gc" style="grid-column:span 7"><div class="fade">
-    <div class="sl" style="margin-bottom:0.75rem">▍Terminal</div>
-    <div class="tb"><div class="th"><span class="td"></span><span class="td"></span><span class="td"></span><span class="tl">LOTM.exe — Scan v3.0</span></div><div class="tt" id="tt"></div></div>
-  </div></div>
-  <div class="gc" style="grid-column:span 5;display:flex;flex-direction:column;justify-content:center;padding:2rem 1.5rem">
-    <div class="fade f1">
-      <div class="sl" style="opacity:0.2;margin-bottom:0.75rem;font-size:0.7rem">LOST IN THE GRAY FOG</div>
-      <h2 style="font-weight:600;font-size:1.3rem;line-height:1.4;mix-blend-mode:plus-lighter;margin-bottom:0.75rem">When madness approaches,<br>only secrecy offers salvation.</h2>
-      <div class="qb" style="margin-bottom:0.75rem">"We are each the masters of our own fate, and the only myth in our own destiny."</div>
-      <div class="qb" style="margin-bottom:0.75rem">"I came to this era not to change it, but to protect what is worth protecting."</div>
-      <div class="qb">"One day I will return. As The Fool, sitting here again, gazing at the stars."</div>
-      <div style="margin-top:1rem;font-size:0.65rem;opacity:0.2;font-family:JetBrains Mono,monospace">— Klein Moretti / The Fool</div>
-    </div>
+<!-- ═══ VOLUMES ═══ -->
+<div class="grid">
+  <div class="gc" style="grid-column:span 6">
+    <div class="sl">Volumes 1–5</div>
+    <p><strong>Vol.1 The Clown</strong> (ch.1-207) — Klein transmigrates, enters the Beyonder world. Holds the first Tarot Gathering.</p>
+    <p style="margin-top:0.5rem"><strong>Vol.2 Faceless</strong> (ch.208-381) — Promotes to Faceless, infiltrates major powers, confronts the Aurora Order.</p>
+    <p style="margin-top:0.5rem"><strong>Vol.3 Traveler</strong> (ch.382-534) — Becomes a Marionettist, travels the world, expands the Tarot Gathering.</p>
+    <p style="margin-top:0.5rem"><strong>Vol.4 Undying</strong> (ch.535-702) — Promotes to Bizarro Sorcerer, faces Amon for the first time.</p>
+    <p style="margin-top:0.5rem"><strong>Vol.5 Red Priest</strong> (ch.703-837) — Seizes Backlund, builds power as The Fool.</p>
+  </div>
+  <div class="gc" style="grid-column:span 6">
+    <div class="sl">Volumes 6–9</div>
+    <p><strong>Vol.6 Light Seeker</strong> (ch.838-970) — The Church of The Fool is founded; god-level forces clash.</p>
+    <p style="margin-top:0.5rem"><strong>Vol.7 The Hanged Man</strong> (ch.971-1088) — Klein and Amon's fateful battle for Sefirah Castle.</p>
+    <p style="margin-top:0.5rem"><strong>Vol.8 The Fool</strong> (ch.1089-1245) — Promotes to Seq 0. Battle spans time and dimensions.</p>
+    <p style="margin-top:0.5rem"><strong>Vol.9 Mysteries</strong> (ch.1246-1355) — Faces Outer Gods. Klein sacrifices himself in eternal slumber.</p>
+    <p style="margin-top:0.5rem"><strong>Sequel: Circle of Inevitability</strong> — Book 2, 2023-2025, 687 chapters.</p>
   </div>
 </div>
 
-<div class="g">
-  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0"><div class="sl">▍Core Concepts</div></div>
-  <div class="gc" style="grid-column:1/-1;padding:0;border-bottom:none"><div class="fg">
-    <div class="fc fade"><span class="fch"></span><div class="fci"><small class="fl">22 Beyonder Pathways</small><p class="ft">Each pathway governs a domain of authority, from Seq 9 to Seq 0 (10 stages). The three Mystery pathways (Seer, Thief, Apprentice) converge into the Lord of the Mysteries.</p></div></div>
-    <div class="fc fade f1"><span class="fch"></span><div class="fci"><small class="fl">Sefirah Castle</small><p class="ft">One of the three Great Aspects, the dwelling of the Lord of Mysteries. The owner can host Gatherings above the Gray Fog, blocking all scrying and divination.</p></div></div>
-    <div class="fc fade f2"><span class="fch"></span><div class="fci"><small class="fl">Beyonder Char. Convergence</small><p class="ft">Characteristics of the same pathway inevitably converge. High-level beings unconsciously attract related characteristics — a gravitational law at the level of fate.</p></div></div>
-    <div class="fc fade f1"><span class="fch"></span><div class="fci"><small class="fl">Four Sacred Incantations</small><p class="ft">"Fusheng Xuanhuang Tianzun, Shangdi, Xianjun, Daojun" — corresponding to the four Great Aspects. Charms seal Beyonder powers into paper for low-sequence combat.</p></div></div>
-    <div class="fc fade f2"><span class="fch"></span><div class="fci"><small class="fl">Sealed Artifacts</small><p class="ft">Beyonder characteristics in objects form Sealed Artifacts (Level 0-3). Each has unique contamination mechanics. Level 0 artifacts rival Angel-level beings.</p></div></div>
-    <div class="fc fade f3"><span class="fch"></span><div class="fci"><small class="fl">Steampunk Setting</small><p class="ft">Victorian-esque world where Loen, Intis, Feysac vie for power. Steam locomotives and newspapers coexist with Beyonder arts. Seven orthodox gods rule.</p></div></div>
-  </div></div>
-</div>
-
-<div class="g">
-  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0"><div class="sl">▍Secret Organizations</div></div>
-  <div class="gc" style="grid-column:1/-1;padding:0;border-bottom:none"><div class="og">
-    <div class="oc fade"><span class="fch"></span><h4>⛤ Tarot Gathering</h4><p>Klein's secret society above the Gray Fog. Members: Justice (Audrey), Hanged Man (Alger), Star (Leonard), Sun (Derrick), Moon (Emlyn), Hermit (Cattleya), Judgment (Xio).</p></div>
-    <div class="oc fade f1"><span class="fch"></span><h4>⛤ Aurora Order</h4><p>Fanatics worshipping the "True Creator." Global intelligence network, hostile to all churches. Uses sacrifice and violence to pursue divine revelation.</p></div>
-    <div class="oc fade f2"><span class="fch"></span><h4>⛤ Psychology Alchemists</h4><p>Spectator-pathway secret society. Masters of psychological manipulation and dream control, pulling strings behind politics and major events.</p></div>
-    <div class="oc fade f1"><span class="fch"></span><h4>⛤ Church of Evernight</h4><p>Secret order serving the Evernight Goddess. Operates through Nighthawks and Red Gloves, protecting Backlund's hidden order.</p></div>
-    <div class="oc fade f2"><span class="fch"></span><h4>⛤ Life School of Thought</h4><p>Radical offshoot of the Steam Church devoted to knowledge. Deeply researches Beyonder characteristics, their library holds vast forbidden knowledge.</p></div>
-    <div class="oc fade f3"><span class="fch"></span><h4>⛤ City of Silver · Moon City</h4><p>Settlements in the God-Forsaken Land. Silver City struggles in eternal darkness. Moon City's residents are The Fool's most loyal congregation.</p></div>
-  </div></div>
-</div>
-
-<div class="g" id="chars">
-  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0"><div class="sl">▍Characters</div></div>
-  <div class="gc" style="grid-column:1/-1;padding:0"><div class="cg">
-    <div class="cc fade"><div class="ci">◈</div><div class="cn">Klein Moretti</div><div class="ct">The World/Fool</div><div class="cd">Seq 0 Seer. Born Zhou Mingrui. Attends gatherings as "The World," is The Fool himself. Guards the world through eternal slumber.</div></div>
-    <div class="cc fade f1"><div class="ci">◈</div><div class="cn">Amon</div><div class="ct">Time Worm · Error</div><div class="cd">Son of the Ancient Sun God. Angel King of Error. Steals for pleasure, master of schemes. Klein's destined rival for Sefirah Castle.</div></div>
-    <div class="cc fade f2"><div class="ci">◈</div><div class="cn">Roselle Gustav</div><div class="ct">Black Emperor</div><div class="cd">Fellow transmigrator, built a continent-spanning empire. Left clues in Chinese in his diary. Twisted by失控 into a monster.</div></div>
-    <div class="cc fade f3"><div class="ci">◈</div><div class="cn">Leonard Mitchell</div><div class="ct">The Star</div><div class="cd">Klein's Nighthawk friend. Hosts the ancient Pallez within him. Evernight pathway. Poetic, witty. Red Gloves captain.</div></div>
-    <div class="cc fade f1"><div class="ci">◈</div><div class="cn">Audrey Hall</div><div class="ct">Justice</div><div class="cd">First Tarot member, Earl's daughter. Spectator pathway. Kind, brilliant. Rapidly grows to demigod. The Fool's most trusted.</div></div>
-    <div class="cc fade f2"><div class="ci">◈</div><div class="cn">Alger Wilson</div><div class="ct">Hanged Man</div><div class="cd">Sea adventurer, second Tarot member. Tyrant pathway. Traveled the seven seas. Grows to demigod as The Fool's intelligence arm.</div></div>
-    <div class="cc fade f3"><div class="ci">◈</div><div class="cn">Gehrman Sparrow</div><div class="ct">Mad Adventurer</div><div class="cd">Klein's most famous alias. The "Mad Adventurer" hunts pirates and solves paranormal cases. Black coat, top hat, revolvers and charms.</div></div>
-    <div class="cc fade f4"><div class="ci">◈</div><div class="cn">Pallez Zoroast</div><div class="ct">Ancient Parasite</div><div class="cd">Ancient being from the Fourth Epoch. Angel King of Error, a Time Worm. Lives within Leonard. Vastly knowledgeable, tsundere.</div></div>
-    <div class="cc fade f2"><div class="ci">◈</div><div class="cn">Derrick Berg</div><div class="ct">The Sun</div><div class="cd">Youth from the City of Silver. Sun pathway. Pious and upright. The Fool's most devoted believer in the Forsaken Land.</div></div>
-    <div class="cc fade f3"><div class="ci">◈</div><div class="cn">Emlyn White</div><div class="ct">The Moon</div><div class="cd">Vampire clansman. Spectator pathway. Arrogant but loyal. Bridge between vampires and The Fool's Church.</div></div>
-    <div class="cc fade f4"><div class="ci">◈</div><div class="cn">Cattleya</div><div class="ct">The Hermit</div><div class="cd">Fate pathway. Powerful prophet, famous adventurer of the Misty Sea. Holds Roselle's descendant线索. Aids The Fool with prophecies.</div></div>
-    <div class="cc fade f5"><div class="ci">◈</div><div class="cn">Seven Gods</div><div class="ct">Seq 0 · True Gods</div><div class="cd">God of Steam & Machinery, Evernight Goddess, God of Knowledge & Wisdom, Eternal Sun, Storm Lord, God of War, Earth Mother.</div></div>
-  </div></div>
-</div>
-
-<div class="g" id="pw">
-  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0"><div class="sl">▍Pathways — Tarot Gallery</div></div>
-  <div class="gc" style="grid-column:1/-1;padding:0;border-bottom:none">
-    <div class="fade" style="padding:1.5rem 0;position:relative">
-      <div class="tarot-track" id="tarotTrack">
-        <!-- Each card is a Tarot card -->
-        <div class="tcard" data-idx="0">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">0</span><span class="tc-sym">∞</span></div>
-            <div class="tc-name">THE FOOL</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Seer</div>
-            <div class="tc-seq">Seq9: Seer → Seq0: Fool</div>
-            <div class="tc-desc">Divination · Marionettes · Time Worms<br>主角克莱恩的途径</div>
-            <div class="tc-bottom"><span class="tc-num">0</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="1">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">I</span><span class="tc-sym">☿</span></div>
-            <div class="tc-name">THE MAGICIAN</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Thief</div>
-            <div class="tc-seq">Seq9: Thief → Seq0: Error</div>
-            <div class="tc-desc">Steal · Parasitize · Time Worm<br>阿蒙的途径</div>
-            <div class="tc-bottom"><span class="tc-num">I</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="2">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XXI</span><span class="tc-sym">⊕</span></div>
-            <div class="tc-name">THE WORLD</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Apprentice</div>
-            <div class="tc-seq">Seq9: Trick Master → Seq0: Door</div>
-            <div class="tc-desc">Teleport · Dimensions · Space<br>诡秘三途径之一</div>
-            <div class="tc-bottom"><span class="tc-num">XXI</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="3">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">VIII</span><span class="tc-sym">⚖</span></div>
-            <div class="tc-name">JUSTICE</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Spectator</div>
-            <div class="tc-seq">Seq9: Spectator → Seq0: Visionary</div>
-            <div class="tc-desc">Read Minds · Hypnosis · Dreams<br>奥黛丽的途径</div>
-            <div class="tc-bottom"><span class="tc-num">VIII</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="4">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XI</span><span class="tc-sym">🛡</span></div>
-            <div class="tc-name">STRENGTH</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Warrior</div>
-            <div class="tc-seq">Seq9: Warrior → Seq0: Visionary</div>
-            <div class="tc-desc">Combat · Dawn · Silver Knight<br>守护与战斗的途径</div>
-            <div class="tc-bottom"><span class="tc-num">XI</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="5">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XVIII</span><span class="tc-sym">☽</span></div>
-            <div class="tc-name">THE MOON</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Sleepless</div>
-            <div class="tc-seq">Seq9: Sleepless → Seq0: Evernight</div>
-            <div class="tc-desc">Night · Dreams · Darkness<br>伦纳德的途径</div>
-            <div class="tc-bottom"><span class="tc-num">XVIII</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="6">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XV</span><span class="tc-sym">◈</span></div>
-            <div class="tc-name">THE DEVIL</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Mystery Pryer</div>
-            <div class="tc-seq">Seq9: Prayer → Seq0: Hidden Sage</div>
-            <div class="tc-desc">Whispers · Sacrifice · Secrets<br>秘祈人的禁忌之路</div>
-            <div class="tc-bottom"><span class="tc-num">XV</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="7">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">VII</span><span class="tc-sym">⚡</span></div>
-            <div class="tc-name">THE CHARIOT</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Sailor</div>
-            <div class="tc-seq">Seq9: Sailor → Seq0: Tyrant</div>
-            <div class="tc-desc">Storms · Sea · Thunder<br>阿尔杰的途径</div>
-            <div class="tc-bottom"><span class="tc-num">VII</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="8">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">V</span><span class="tc-sym">📖</span></div>
-            <div class="tc-name">THE HIEROPHANT</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Savant</div>
-            <div class="tc-seq">Seq9: Savant → Seq0: Steam</div>
-            <div class="tc-desc">Knowledge · Machinery · Steam<br>蒸汽教会的神赐途径</div>
-            <div class="tc-bottom"><span class="tc-num">V</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="9">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">X</span><span class="tc-sym">☸</span></div>
-            <div class="tc-name">WHEEL OF FORTUNE</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Monster</div>
-            <div class="tc-seq">Seq9: Monster → Seq0: Tyrant</div>
-            <div class="tc-desc">Luck · Probability · Chaos<br>命运的宠儿之路</div>
-            <div class="tc-bottom"><span class="tc-num">X</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="10">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">III</span><span class="tc-sym">🌿</span></div>
-            <div class="tc-name">THE EMPRESS</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Apothecary</div>
-            <div class="tc-seq">Seq9: Apothecary → Seq0: Earth Mother</div>
-            <div class="tc-desc">Potion · Vampire · Life<br>血族的途径</div>
-            <div class="tc-bottom"><span class="tc-num">III</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="11">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">IV</span><span class="tc-sym">🌾</span></div>
-            <div class="tc-name">THE EMPEROR</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Farmer</div>
-            <div class="tc-seq">Seq9: Farmer → Seq0: Earth Mother</div>
-            <div class="tc-desc">Nature · Harvest · Earth<br>与大地共鸣的途径</div>
-            <div class="tc-bottom"><span class="tc-num">IV</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="12">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XIII</span><span class="tc-sym">💀</span></div>
-            <div class="tc-name">DEATH</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Corpse Collector</div>
-            <div class="tc-seq">Seq9: Corpse → Seq0: Death</div>
-            <div class="tc-desc">Souls · Undead · Afterlife<br>收尸人的神秘之路</div>
-            <div class="tc-bottom"><span class="tc-num">XIII</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="13">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XX</span><span class="tc-sym">⚜</span></div>
-            <div class="tc-name">JUDGEMENT</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Arbiter</div>
-            <div class="tc-seq">Seq9: Arbiter → Seq0: Visionary</div>
-            <div class="tc-desc">Law · Order · Decree<br>律法与秩序的捍卫者</div>
-            <div class="tc-bottom"><span class="tc-num">XX</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="14">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">IV</span><span class="tc-sym">👑</span></div>
-            <div class="tc-name">THE EMPEROR</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Lawyer</div>
-            <div class="tc-seq">Seq9: Lawyer → Seq0: Black Emperor</div>
-            <div class="tc-desc">Rules · Conspiracy · Tyranny<br>罗塞尔的途径</div>
-            <div class="tc-bottom"><span class="tc-num">IV</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="15">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XVI</span><span class="tc-sym">⛓</span></div>
-            <div class="tc-name">THE TOWER</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Prisoner</div>
-            <div class="tc-seq">Seq9: Prisoner → Seq0: Hidden Sage</div>
-            <div class="tc-desc">Madness · Curse · Plague<br>被囚禁者的挣脱之路</div>
-            <div class="tc-bottom"><span class="tc-num">XVI</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="16">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XII</span><span class="tc-sym">🩸</span></div>
-            <div class="tc-name">THE HANGED MAN</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Hunter</div>
-            <div class="tc-seq">Seq9: Hunter → Seq0: Red Priest</div>
-            <div class="tc-desc">Fire · War · Conquest<br>战争与火焰的途径</div>
-            <div class="tc-bottom"><span class="tc-num">XII</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="17">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">II</span><span class="tc-sym">🗡</span></div>
-            <div class="tc-name">THE HIGH PRIESTESS</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Assassin</div>
-            <div class="tc-seq">Seq9: Assassin → Seq0: Red Priest</div>
-            <div class="tc-desc">Poison · Witch · Seduction<br>暗影中的致命者</div>
-            <div class="tc-bottom"><span class="tc-num">II</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="18">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">IX</span><span class="tc-sym">🔍</span></div>
-            <div class="tc-name">THE HERMIT</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Mystery Pryer</div>
-            <div class="tc-seq">Seq9: Pryer → Seq0: Knowledge</div>
-            <div class="tc-desc">Occult · Summon · Prophecy<br>窥秘者的求知之路</div>
-            <div class="tc-bottom"><span class="tc-num">IX</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="19">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XIX</span><span class="tc-sym">☀</span></div>
-            <div class="tc-name">THE SUN</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Sun</div>
-            <div class="tc-seq">Seq9: Sun → Seq0: Eternal Sun</div>
-            <div class="tc-desc">Light · Purity · Dawn<br>戴里克的途径</div>
-            <div class="tc-bottom"><span class="tc-num">XIX</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="20">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">XVII</span><span class="tc-sym">✦</span></div>
-            <div class="tc-name">THE STAR</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Savant</div>
-            <div class="tc-seq">Seq9: Savant → Seq0: Steam</div>
-            <div class="tc-desc">Knowledge · Invention · Progress<br>科学与技术的道路</div>
-            <div class="tc-bottom"><span class="tc-num">XVII</span></div>
-          </div>
-        </div>
-        <div class="tcard" data-idx="21">
-          <div class="tc-inner">
-            <div class="tc-top"><span class="tc-num">VI</span><span class="tc-sym">⚔</span></div>
-            <div class="tc-name">THE LOVERS</div>
-            <div class="tc-div"></div>
-            <div class="tc-path">Criminal</div>
-            <div class="tc-seq">Seq9: Criminal → Seq0: Chaos</div>
-            <div class="tc-desc">Violence · Demon · Abyss<br>混沌与罪恶的渊薮</div>
-            <div class="tc-bottom"><span class="tc-num">VI</span></div>
-          </div>
-        </div>
-      </div>
-      <button class="tc-nav tc-prev" onclick="(function(){var t=document.getElementById('tarotTrack'),c=t&&t.querySelector('.tcard');if(c){t.scrollLeft-=(c.offsetWidth+20)}})()">‹</button>
-      <button class="tc-nav tc-next" onclick="(function(){var t=document.getElementById('tarotTrack'),c=t&&t.querySelector('.tcard');if(c){t.scrollLeft+=(c.offsetWidth+20)}})()">›</button>
-    </div>
-  </div>
-</div>
-
-<div class="g">
-  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0"><div class="sl">▍Sealed Artifacts</div></div>
-  <div class="gc" style="grid-column:1/-1;padding:0;border-bottom:none"><div class="ig">
-    <div class="ic fade"><h4>◈ Lv.0 · Phantom Thief Gloves</h4><span class="lv">Sealed Artifact · 0</span><p>Steals objects and even concepts. Self-aware, requires constant feeding of Beyonder characteristics.</p></div>
-    <div class="ic fade f1"><h4>◈ Lv.0 · Magic Mirror</h4><span class="lv">Sealed Artifact · 0</span><p>A mirror holding a Seq 1 soul. Answers questions in metaphor, exacting a price each time.</p></div>
-    <div class="ic fade f2"><h4>◈ Lv.1 · Auto-Wishing Machine</h4><span class="lv">Sealed Artifact · 1</span><p>Coin-operated. More wishes = worse luck. Klein cleverly exploited it multiple times.</p></div>
-    <div class="ic fade f3"><h4>◈ Lv.1 · Door of No Source</h4><span class="lv">Sealed Artifact · 1</span><p>A door connecting anywhere. Requires spiritual judgment. Famous Apprentice pathway artifact.</p></div>
-    <div class="ic fade"><h4>◈ Antigonus Notebook</h4><span class="lv">Mystical Item</span><p>Contains Seq 1 Mystery Pryer's characteristic. Klein's most important early acquisition.</p></div>
-    <div class="ic fade f1"><h4>◈ Wishing Lamp</h4><span class="lv">Mystical Item</span><p>Sealed with an ancient being. Grants 3 wishes, each with terrible side effects.</p></div>
-  </div></div>
-</div>
-
-<div class="g" style="border-bottom:1px solid rgba(255,215,0,0.06)">
-  <div class="gc" style="grid-column:span 12;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4rem 1rem">
-    <div class="fade" style="max-width:600px">
-      <div class="sl" style="opacity:0.15;margin-bottom:1rem;letter-spacing:0.3rem">THE FOOL THAT DOES NOT BELONG TO THIS ERA</div>
-      <h2 style="font-weight:400;font-size:1.2rem;line-height:1.8;opacity:0.45;letter-spacing:0.02em">"In the world of mysteries, truth is the greatest madness, yet there are always those who guard the flame of civilization in the darkness."</h2>
-      <p style="margin-top:1.5rem;font-size:0.85rem;opacity:0.25;line-height:1.7;font-weight:300">A story of sacrifice and guardianship. He could have become an Old One, but chose eternal slumber to protect this world.</p>
-      <p style="margin-top:0.8rem;font-size:0.65rem;opacity:0.12;font-family:JetBrains Mono,monospace">"All gifts of fate come with a hidden price." — Cuttlefish That Loves Diving</p>
-      <div style="margin-top:2rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center">
-        <a href="https://www.qidian.com/book/1010731093/" class="al">Read on Qidian<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
-        <a href="https://baike.baidu.com/item/诡秘之主" class="al">Baidu Baike<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<footer class="g">
-  <div class="gc" style="display:flex;align-items:center;gap:0.5rem"><span style="font-family:JetBrains Mono,monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase">Lord of Mysteries</span><span style="color:#FFD700;mix-blend-mode:plus-lighter;font-family:JetBrains Mono,monospace;font-size:0.55rem">Cuttlefish That Loves Diving</span></div>
-  <div class="gc hm"></div><div class="gc hm"></div>
-  <div class="gc" style="display:flex;align-items:center"><a href="https://www.qidian.com/book/1010731093/" style="font-family:JetBrains Mono,monospace;font-size:0.55rem;letter-spacing:0.1em;opacity:0.3;text-decoration:none;color:#e8e4dc">Qidian ↗</a></div>
-  <div class="gc" style="display:flex;align-items:center;justify-content:flex-end"><span style="color:#FFD700;mix-blend-mode:plus-lighter;font-family:JetBrains Mono,monospace;font-size:0.55rem">Fan Site · 2026</span></div>
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <span>Lord of Mysteries — Fan Site</span>
+  <a href="https://www.qidian.com/book/1010731093/">Read on Qidian →</a>
 </footer>
+
 </main>
 
 <script>
-function ic(id){const c=document.getElementById(id);if(!c)return;const x=c.getContext('2d');function r(){c.width=window.innerWidth;c.height=window.innerHeight}r();window.addEventListener('resize',r);return{c,x,r}}
-ic('noise');setInterval(()=>{const c=document.getElementById('noise');if(!c)return;const w=c.width,h=c.height,d=c.getContext('2d').createImageData(w,h),b=d.data;for(let i=0;i<b.length;i+=4){b[i]=Math.random()*255;b[i+1]=b[i];b[i+2]=b[i];b[i+3]=255}c.getContext('2d').putImageData(d,0,0)},100);
-ic('tex');!function(){const c=document.getElementById('tex');if(!c)return;const x=c.getContext('2d'),w=c.width,h=c.height,d=x.createImageData(w,h),b=d.data;for(let y=0;y<h;y++)for(let x2=0;x2<w;x2++){const i=(y*w+x2)*4,p=(Math.sin(x2*0.05)+Math.sin(y*0.05))*15+128,n=Math.random()*8-4;b[i]=p+n;b[i+1]=p*.8+n;b[i+2]=p*.5+n;b[i+3]=15}x.putImageData(d,0,0)}();
-ic('grn');setInterval(()=>{const c=document.getElementById('grn');if(!c)return;const w=c.width,h=c.height,d=c.getContext('2d').createImageData(w,h),b=d.data;for(let i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*.9;b[i+2]=b[i]*.7;b[i+3]=25}c.getContext('2d').putImageData(d,0,0)},200);
-const pt=document.getElementById('pt'),px=pt.getContext('2d');let pw=0,ph=0,pts=[];
-function pr(){pw=pt.width=window.innerWidth;ph=pt.height=window.innerHeight;pts=[];for(let i=0;i<80;i++)pts.push({x:Math.random()*pw,y:Math.random()*ph,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,s:Math.random()*1.8+.3,a:Math.random()*.35+.08})}
-pr();window.addEventListener('resize',pr);
-!function dp(){px.clearRect(0,0,pw,ph);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=pw;if(p.x>pw)p.x=0;if(p.y<0)p.y=ph;if(p.y>ph)p.y=0;px.beginPath();px.arc(p.x,p.y,p.s,0,Math.PI*2);px.fillStyle=`rgba(255,215,0,${p.a})`;px.fill()}requestAnimationFrame(dp)}();
-const tl=[{d:'$',c:'hl',t:' ./lotm --scan --mode=full'},{d:'',c:'dm',t:'[SYSTEM] Loading the Gray Fog...'},{d:'',c:'dm',t:'[SYSTEM] Detecting resonance —'},{d:'',c:'hl',t:'「Lord of Mysteries」'},{d:'',c:'dm',t:'[01:23] Char. Convergence ████████████░░ 83%'},{d:'',c:'dm',t:'[01:25] Analyzing '},{d:'',c:'cy',t:'「The Fool」'},{d:'',c:'dm',t:' Seq 0 Authority...'},{d:'',c:'dm',t:'[01:27] Time Worms: '},{d:'',c:'hl',t:'3,648,911'},{d:'',c:'dm',t:'[01:30] Jump to '},{d:'',c:'gr',t:'Backlund'},{d:'',c:'dm',t:' · Queen\\'s Quarter · No.155'},{d:'',c:'dm',t:'[01:32] '},{d:'',c:'rd',t:'⚠ High Alert: '},{d:'',c:'dm',t:'Coordinates Exposed'},{d:'',c:'dm',t:'[01:33] '},{d:'',c:'pu',t:'◇ Anomaly: '},{d:'',c:'dm',t:'Amon (Time Worm · Error)'},{d:'',c:'dm',t:'[01:34] Activating '},{d:'',c:'hl',t:'「Chaos Timeline」'},{d:'',c:'dm',t:' Defense...'},{d:'',c:'dm',t:'[01:36] From '},{d:'',c:'cy',t:'Zhou Mingrui'},{d:'',c:'gr',t:'\\'s imprint: "Someone must guard these beautiful things."'},{d:'',c:'dm',t:'[01:38] Path: '},{d:'',c:'hl',t:'Seer→Clown→Magician→Faceless→Marionettist→Bizarro→Scholar→Miracle→Servant→Fool'},{d:'',c:'dm',t:'[01:40] Tarot roster loaded'},{d:'',c:'dm',t:'[01:42] Wheel of Fortune turns...'},{d:'',c:'dm',t:'[01:45] '},{d:'',c:'pu',t:'◇ Outer God: '},{d:'',c:'dm',t:'Chaotic Sea · Mother · Tree of Desire...'},{d:'',c:'dm',t:'[01:48] '},{d:'',c:'hl',t:'「Fusheng Xuanhuang Tianzun」'},{d:'',c:'dm',t:' Incantation Activated'},{d:'',c:'rd',t:'▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100%'},{d:'$',c:'hl',t:' '},{d:'',c:'dm',t:'Pathway verified. System ready.'}];const el=document.getElementById('tt');if(el){let ci=0;const tc=tl.reduce((a,l)=>a+(l.d||'').length+(l.t||'').length+1,0);!function tp(){if(ci>=tc){setTimeout(()=>{ci=0;tp()},3000);return}let h='',cl=ci;ci++;for(const l of tl){let ln=(l.d||'')+(l.t||'')+'\\n';if(cl<=0)break;if(cl>=ln.length){if(l.d)h+='<span class="dm">'+l.d+'</span>';h+='<span class="'+l.c+'">'+(l.t||'')+'</span>\\n';cl-=ln.length}else{let r=cl;if(l.d&&r>0){h+='<span class="dm">'+l.d.slice(0,Math.min(r,l.d.length))+'</span>';r-=Math.min(r,l.d.length)}if(r>0)h+='<span class="'+l.c+'">'+(l.t||'').slice(0,Math.min(r,(l.t||'').length))+'</span>';cl=0}}h+='<span class="tc"></span>';el.innerHTML=h;!function(){let c=0;for(const l of tl){const ln=(l.d||'')+(l.t||'')+'\\n';if(c+ln.length>=ci)return ln[ci-c-1];c+=ln.length}return''}();setTimeout(tp,ci>0&&(function(){let c=0;for(const l of tl){const ln=(l.d||'')+(l.t||'')+'\\n';if(c+ln.length>=ci)return ln[ci-c-1];c+=ln.length}return''})()==='\\n'?35:12)}()}
-function sw(el,id){document.querySelectorAll('.tb').forEach(b=>b.classList.remove('act'));el.classList.add('act');document.querySelectorAll('.sp').forEach(p=>p.style.display='none');document.getElementById('p'+id).style.display='block'}
-function scrollTarot(dir){try{const t=document.getElementById('tarotTrack');if(!t)return;const c=t.querySelector('.tcard');if(!c)return;const w=c.offsetWidth+20;t.scrollLeft+=dir*w}catch(e){}}
-// Touch drag for tarot
-!function(){try{document.querySelectorAll('.fade').forEach(function(e){e.style.animationPlayState='paused'});var ob=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('.fade').forEach(function(e){ob.observe(e)})}catch(e){}}();
+// ── Canvas layers ──
+(function(){function C(id){var c=document.getElementById(id);if(!c)return;var x=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;return c}
+var nc=C('nc');setInterval(function(){if(!nc)return;var w=nc.width,h=nc.height,d=nc.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*255;b[i+1]=b[i];b[i+2]=b[i];b[i+3]=255}nc.getContext('2d').putImageData(d,0,0)},100);
+var gc2=C('gc');setInterval(function(){if(!gc2)return;var w=gc2.width,h=gc2.height,d=gc2.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}gc2.getContext('2d').putImageData(d,0,0)},200);
+var pc2=C('pc');var pts=[];!function(){if(!pc2)return;var w=pc2.width=window.innerWidth,h=pc2.height=window.innerHeight;for(var i=0;i<60;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.5)*0.2,s:Math.random()*1.5+0.3,a:Math.random()*0.3+0.05})}();
+!function dp(){if(!pc2)return;var w=pc2.width,h=pc2.height,ctx=pc2.getContext('2d');ctx.clearRect(0,0,w,h);for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fillStyle='rgba(255,215,0,'+p.a+')';ctx.fill()}requestAnimationFrame(dp)}();
+
+// ── Terminal typewriter ──
+(function(){
+  var el=document.getElementById('tt');if(!el)return;
+  var lines=[
+    {d:'$',c:'hl',t:' ./lotm --scan --mode=full'},
+    {d:'',c:'dm',t:'[SYSTEM] Loading the Gray Fog...'},
+    {d:'',c:'dm',t:'[SYSTEM] Detecting resonance —'},
+    {d:'',c:'hl',t:'  \"Lord of Mysteries\"'},
+    {d:'',c:'dm',t:'[01:23] Char. Convergence  ████████████░░ 83%'},
+    {d:'',c:'dm',t:'[01:25] Analyzing '},{d:'',c:'cy',t:'\"The Fool\" '},{d:'',c:'dm',t:'Seq 0 Authority...'},
+    {d:'',c:'dm',t:'[01:27] Time Worms: '},{d:'',c:'hl',t:'3,648,911'},
+    {d:'',c:'dm',t:'[01:30] Jump to '},{d:'',c:'gr',t:'Backlund'},{d:'',c:'dm',t:' - Queens Quarter'},
+    {d:'',c:'dm',t:'[01:32] '},{d:'',c:'rd',t:'HIGH ALERT: '},{d:'',c:'dm',t:'Coordinates Exposed'},
+    {d:'',c:'dm',t:'[01:33] '},{d:'',c:'pu',t:'Anomaly: '},{d:'',c:'dm',t:'Amon (Time Worm - Error)'},
+    {d:'',c:'dm',t:'[01:34] Activating '},{d:'',c:'hl',t:'\"Chaos Timeline\" '},{d:'',c:'dm',t:'Defense...'},
+    {d:'',c:'dm',t:'[01:36] From Zhou Mingrui:'},{d:'',c:'gr',t:' \"Someone must guard these beautiful things.\"'},
+    {d:'',c:'dm',t:'[01:38] Path: '},{d:'',c:'hl',t:'Seer,Clown,Magician,Faceless,Marionettist,Bizarro,Scholar,Miracle,Servant,Fool'},
+    {d:'',c:'dm',t:'[01:40] Tarot roster loaded'},
+    {d:'',c:'dm',t:'[01:42] Wheel of Fortune turns...'},
+    {d:'',c:'dm',t:'[01:45] '},{d:'',c:'pu',t:'Outer God: '},{d:'',c:'dm',t:'Chaotic Sea - Mother Goddess - Tree of Desire'},
+    {d:'',c:'dm',t:'[01:48] '},{d:'',c:'hl',t:'Incantation Activated'},
+    {d:'',c:'rd',t:'Scan Complete 100%'},
+    {d:'$',c:'hl',t:' '},{d:'',c:'dm',t:'Pathway verified. System ready.'}
+  ];
+  var totalChars=0;for(var i=0;i<lines.length;i++){var l=lines[i];totalChars+=(l.d||'').length+(l.t||'').length+1}
+  var charIndex=0;var timer=null;
+  function renderTo(idx){
+    var html='';var charsLeft=idx;
+    for(var i=0;i<lines.length;i++){
+      var l=lines[i];var lineStr=(l.d||'')+(l.t||'')+'\n';
+      if(charsLeft<=0)break;
+      if(charsLeft>=lineStr.length){
+        if(l.d)html+='<span class="dm">'+l.d+'</span>';
+        html+='<span class="'+l.c+'">'+l.t+'</span>\n';
+        charsLeft-=lineStr.length;
+      }else{
+        var remaining=charsLeft;
+        if(l.d&&remaining>0){var pd=l.d.slice(0,Math.min(remaining,l.d.length));html+='<span class="dm">'+pd+'</span>';remaining-=pd.length}
+        if(remaining>0){var td=(l.t||'').slice(0,Math.min(remaining,(l.t||'').length));html+='<span class="'+l.c+'">'+td+'</span>'}
+        charsLeft=0;
+      }
+    }
+    html+='<span class="tc"></span>';el.innerHTML=html;
+  }
+  function typeChar(){
+    if(charIndex>=totalChars){setTimeout(function(){charIndex=0;typeChar()},3000);return}
+    renderTo(charIndex);charIndex++;
+    var ch='';var c=0;
+    for(var i=0;i<lines.length;i++){
+      var l=lines[i];var s=(l.d||'')+(l.t||'')+'\n';
+      if(c+s.length>charIndex-1){ch=s[charIndex-1-c];break}
+      c+=s.length
+    }
+    var delay=ch=='\n'?35:(ch==' '?10:8);
+    setTimeout(typeChar,delay);
+  }
+  setTimeout(typeChar,500);
+})();
 </script>
 </body>
 </html>

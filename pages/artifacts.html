@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Artifacts — Lord of the Mysteries</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
+#inv{position:fixed;inset:0;pointer-events:none;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
+#gl1{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
+#gl2{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
+#vn{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.6) 100%);z-index:96}
+#dots{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
+canvas{position:fixed;inset:0;pointer-events:none;width:100%;height:100%}
+#nc{mix-blend-mode:difference;opacity:0.065;z-index:101}
+#gc{mix-blend-mode:overlay;opacity:0.04;z-index:98}
+#pc{z-index:95;opacity:0.45}
+main{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:2rem}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:1px solid rgba(255,215,0,0.08);margin-bottom:2rem}
+.nav-l{font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:#e8e4dc;text-decoration:none}
+.nav-r{display:flex;gap:1.5rem}
+.nav-r a{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-r a:hover{color:#FFD700}
+.nav-r a.act{color:#e8e4dc}
+.sl{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12rem;text-transform:uppercase;margin-bottom:1rem}
+.ig{display:grid;grid-template-columns:repeat(2,1fr)}
+.ic2{padding:0.85rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
+.ig>.ic2:nth-child(2n){border-right:none}
+.ic2:hover{background:rgba(255,215,0,0.015)}
+.ic2 h4{font-weight:600;font-size:0.8rem;mix-blend-mode:plus-lighter}
+.ic2 .lv{font-size:0.5rem;color:#FFD700;font-family:'JetBrains Mono',monospace}
+.ic2 p{font-size:0.7rem;opacity:0.35;line-height:1.5;font-weight:300;margin-top:0.15rem}
+footer{border-top:1px solid rgba(255,215,0,0.06);padding:1.5rem 0;margin-top:3rem;display:flex;justify-content:space-between;align-items:center}
+footer span{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.25}
+footer a{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;color:rgba(232,228,220,0.3);text-decoration:none}
+footer a:hover{color:#FFD700}
+@media(max-width:768px){main{padding:1rem}.ig{grid-template-columns:1fr}.nav-r{gap:0.8rem}.nav-r a{font-size:0.6rem}}
+</style>
+</head>
+<body>
+<div id="inv"></div><div id="gl1"></div><div id="gl2"></div><div id="vn"></div><div id="dots"></div>
+<canvas id="nc"></canvas><canvas id="gc"></canvas><canvas id="pc"></canvas>
+<main>
+<nav>
+  <a href="../index.html" class="nav-l">Lord of<br>Mysteries</a>
+  <div class="nav-r">
+    <a href="../index.html">Home</a>
+    <a href="characters.html">Characters</a>
+    <a href="pathways.html">Pathways</a>
+    <a href="artifacts.html" class="act">Artifacts</a>
+  </div>
+</nav>
+<div class="sl">Sealed Artifacts & Mystical Items</div>
+<div class="ig">
+  <div class="ic2"><h4>◈ Lv.0 · Phantom Thief Gloves</h4><span class="lv">Sealed Artifact · Level 0</span><p>Steals objects and even concepts. Self-aware, requires feeding of Beyonder characteristics.</p></div>
+  <div class="ic2"><h4>◈ Lv.0 · Magic Mirror</h4><span class="lv">Sealed Artifact · Level 0</span><p>A mirror holding a Seq 1 soul. Answers questions in metaphor, exacting a price.</p></div>
+  <div class="ic2"><h4>◈ Lv.1 · Auto-Wishing Machine</h4><span class="lv">Sealed Artifact · Level 1</span><p>Coin-operated. More wishes = worse luck. Klein cleverly exploited it.</p></div>
+  <div class="ic2"><h4>◈ Lv.1 · Door of No Source</h4><span class="lv">Sealed Artifact · Level 1</span><p>A door connecting anywhere. Requires spiritual judgment.</p></div>
+  <div class="ic2"><h4>◈ Antigonus Notebook</h4><span class="lv">Mystical Item</span><p>Contains Seq 1 Mystery Pryer's characteristic. Klein's most important early acquisition.</p></div>
+  <div class="ic2"><h4>◈ Wishing Lamp</h4><span class="lv">Mystical Item</span><p>Sealed with an ancient being. Grants 3 wishes, each with terrible side effects.</p></div>
+  <div class="ic2"><h4>◈ Creeping Hunger</h4><span class="lv">Sealed Artifact · Level 1</span><p>A glove that can devour and use Beyonder abilities. Klein's signature equipment during his early adventures.</p></div>
+  <div class="ic2"><h4>◈ Staff of the Sea</h4><span class="lv">Sealed Artifact · Level 2</span><p>Controls weather and sea. Key artifact of the Sailor pathway.</p></div>
+</div>
+<div class="sl" style="margin-top:2rem">Key Locations</div>
+<div class="ig">
+  <div class="ic2"><h4>◈ Backlund</h4><span class="lv">Capital of Loen Kingdom</span><p>The main setting of the story. A sprawling metropolis divided into districts: Cherwood Borough, Hillston Borough, Queen's Quarter, etc.</p></div>
+  <div class="ic2"><h4>◈ Sefirah Castle</h4><span class="lv">Above the Gray Fog</span><p>The dwelling of the Lord of Mysteries. A castle above the gray fog where Klein holds Tarot Gatherings.</p></div>
+  <div class="ic2"><h4>◈ City of Silver</h4><span class="lv">Forsaken Land of God</span><p>A settlement of survivors in eternal darkness. Led by Sun pathway Beyonders.</p></div>
+  <div class="ic2"><h4>◈ Tingen</h4><span class="lv">Where It All Began</span><p>The small city where Klein first awakened as a Beyonder. Home to the Nighthawks headquarters.</p></div>
+</div>
+<footer>
+  <span>Lord of Mysteries — Fan Site</span>
+  <a href="https://www.qidian.com/book/1010731093/">Read on Qidian →</a>
+</footer>
+</main>
+<script>
+(function(){function C(id){var c=document.getElementById(id);if(!c)return;c.width=window.innerWidth;c.height=window.innerHeight;return c}
+var nc=C('nc');setInterval(function(){if(!nc)return;var w=nc.width,h=nc.height,d=nc.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*255;b[i+1]=b[i];b[i+2]=b[i];b[i+3]=255}nc.getContext('2d').putImageData(d,0,0)},100);
+var gc2=C('gc');setInterval(function(){if(!gc2)return;var w=gc2.width,h=gc2.height,d=gc2.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}gc2.getContext('2d').putImageData(d,0,0)},200);
+var pc2=C('pc');var pts=[];!function(){if(!pc2)return;var w=pc2.width=window.innerWidth,h=pc2.height=window.innerHeight;for(var i=0;i<60;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.5)*0.2,s:Math.random()*1.5+0.3,a:Math.random()*0.3+0.05})}();
+!function dp(){if(!pc2)return;var w=pc2.width,h=pc2.height,ctx=pc2.getContext('2d');ctx.clearRect(0,0,w,h);for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fillStyle='rgba(255,215,0,'+p.a+')';ctx.fill()}requestAnimationFrame(dp)}();
+})();
+</script>
+</body>
+</html>

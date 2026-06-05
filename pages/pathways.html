@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pathways — Lord of the Mysteries</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
+#inv{position:fixed;inset:0;pointer-events:none;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
+#gl1{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
+#gl2{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
+#vn{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.6) 100%);z-index:96}
+#dots{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
+canvas{position:fixed;inset:0;pointer-events:none;width:100%;height:100%}
+#nc{mix-blend-mode:difference;opacity:0.065;z-index:101}
+#gc{mix-blend-mode:overlay;opacity:0.04;z-index:98}
+#pc{z-index:95;opacity:0.45}
+main{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:2rem}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:1px solid rgba(255,215,0,0.08);margin-bottom:2rem}
+.nav-l{font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:#e8e4dc;text-decoration:none}
+.nav-r{display:flex;gap:1.5rem}
+.nav-r a{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
+.nav-r a:hover{color:#FFD700}
+.nav-r a.act{color:#e8e4dc}
+.sl{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12rem;text-transform:uppercase;margin-bottom:1rem}
+.trk{display:flex;gap:1rem;padding:1rem 0.5rem;overflow-x:auto;scroll-behavior:smooth}
+.trk::-webkit-scrollbar{height:2px}
+.trk::-webkit-scrollbar-track{background:rgba(255,215,0,0.03)}
+.trk::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.1);border-radius:2px}
+.tc2{flex:0 0 175px;scroll-snap-align:start;transition:all 0.3s;cursor:pointer}
+.tc2:hover{transform:translateY(-6px)}
+.tci{width:175px;height:320px;background:linear-gradient(180deg,#0c0c18,#07070d);border:1px solid rgba(255,215,0,0.1);border-radius:8px;padding:0.7rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.tci .tcn{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(255,215,0,0.3)}
+.tci .tname{font-size:0.8rem;font-weight:700;letter-spacing:0.12em;mix-blend-mode:plus-lighter;text-align:center}
+.tci .tdiv{width:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.12),transparent)}
+.tci .tpath{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,215,0,0.35)}
+.tci .tdesc{font-size:0.55rem;color:rgba(232,228,220,0.25);text-align:center;line-height:1.4}
+footer{border-top:1px solid rgba(255,215,0,0.06);padding:1.5rem 0;margin-top:3rem;display:flex;justify-content:space-between;align-items:center}
+footer span{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.25}
+footer a{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;color:rgba(232,228,220,0.3);text-decoration:none}
+footer a:hover{color:#FFD700}
+@media(max-width:768px){main{padding:1rem}.nav-r{gap:0.8rem}.nav-r a{font-size:0.6rem}}
+</style>
+</head>
+<body>
+<div id="inv"></div><div id="gl1"></div><div id="gl2"></div><div id="vn"></div><div id="dots"></div>
+<canvas id="nc"></canvas><canvas id="gc"></canvas><canvas id="pc"></canvas>
+<main>
+<nav>
+  <a href="../index.html" class="nav-l">Lord of<br>Mysteries</a>
+  <div class="nav-r">
+    <a href="../index.html">Home</a>
+    <a href="characters.html">Characters</a>
+    <a href="pathways.html" class="act">Pathways</a>
+    <a href="artifacts.html">Artifacts</a>
+  </div>
+</nav>
+<div class="sl">22 Beyonder Pathways — Tarot Gallery</div>
+<div style="font-size:0.75rem;opacity:0.3;margin-bottom:1rem;font-family:JetBrains Mono,monospace">Scroll horizontally →</div>
+<div class="trk">
+<div class="tc2"><div class="tci"><span class="tcn">0</span><span class="tname">THE FOOL</span><div class="tdiv"></div><span class="tpath">Seer</span><span class="tdesc">Divination, Marionettes, Time Worms<br>Klein's pathway</span><span class="tcn">0</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">I</span><span class="tname">MAGICIAN</span><div class="tdiv"></div><span class="tpath">Thief</span><span class="tdesc">Steal, Parasitize, Time Worm<br>Amon's pathway</span><span class="tcn">I</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XXI</span><span class="tname">THE WORLD</span><div class="tdiv"></div><span class="tpath">Apprentice</span><span class="tdesc">Teleport, Dimensions, Door<br>Mystery pathway</span><span class="tcn">XXI</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">VIII</span><span class="tname">JUSTICE</span><div class="tdiv"></div><span class="tpath">Spectator</span><span class="tdesc">Mind Reading, Hypnosis, Dreams<br>Audrey's pathway</span><span class="tcn">VIII</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XI</span><span class="tname">STRENGTH</span><div class="tdiv"></div><span class="tpath">Warrior</span><span class="tdesc">Combat, Dawn, Guardian<br>Knight's pathway</span><span class="tcn">XI</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XVIII</span><span class="tname">MOON</span><div class="tdiv"></div><span class="tpath">Sleepless</span><span class="tdesc">Night, Dreams, Darkness<br>Leonard's pathway</span><span class="tcn">XVIII</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XV</span><span class="tname">DEVIL</span><div class="tdiv"></div><span class="tpath">Mystery Prayer</span><span class="tdesc">Whispers, Sacrifice, Secrets<br>Forbidden knowledge</span><span class="tcn">XV</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">VII</span><span class="tname">CHARIOT</span><div class="tdiv"></div><span class="tpath">Sailor</span><span class="tdesc">Storms, Sea, Thunder<br>Alger's pathway</span><span class="tcn">VII</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">V</span><span class="tname">HIEROPHANT</span><div class="tdiv"></div><span class="tpath">Savant</span><span class="tdesc">Knowledge, Steam, Machinery<br>Steam Church</span><span class="tcn">V</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">X</span><span class="tname">WHEEL</span><div class="tdiv"></div><span class="tpath">Monster</span><span class="tdesc">Luck, Fate, Chaos<br>Fate's favorite</span><span class="tcn">X</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">III</span><span class="tname">EMPRESS</span><div class="tdiv"></div><span class="tpath">Apothecary</span><span class="tdesc">Potion, Vampire, Life<br>Vampire lineage</span><span class="tcn">III</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">IV</span><span class="tname">EMPEROR</span><div class="tdiv"></div><span class="tpath">Farmer</span><span class="tdesc">Nature, Harvest, Earth<br>Life's pathway</span><span class="tcn">IV</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XIII</span><span class="tname">DEATH</span><div class="tdiv"></div><span class="tpath">Corpse Collector</span><span class="tdesc">Souls, Undead, Afterlife<br>Death's domain</span><span class="tcn">XIII</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XX</span><span class="tname">JUDGEMENT</span><div class="tdiv"></div><span class="tpath">Arbiter</span><span class="tdesc">Law, Order, Decree<br>Justice's path</span><span class="tcn">XX</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">IV</span><span class="tname">EMPEROR</span><div class="tdiv"></div><span class="tpath">Lawyer</span><span class="tdesc">Rules, Conspiracy, Power<br>Roselle's pathway</span><span class="tcn">IV</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XVI</span><span class="tname">TOWER</span><div class="tdiv"></div><span class="tpath">Prisoner</span><span class="tdesc">Madness, Curse, Chains<br>Break free</span><span class="tcn">XVI</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XII</span><span class="tname">HANGED MAN</span><div class="tdiv"></div><span class="tpath">Hunter</span><span class="tdesc">Fire, War, Conquest<br>Red Priest's path</span><span class="tcn">XII</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">II</span><span class="tname">HIGH PRIESTESS</span><div class="tdiv"></div><span class="tpath">Assassin</span><span class="tdesc">Poison, Witch, Seduction<br>Shadow killer</span><span class="tcn">II</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">IX</span><span class="tname">HERMIT</span><div class="tdiv"></div><span class="tpath">Mystery Pryer</span><span class="tdesc">Occult, Prophecy, Summon<br>Knowledge seeker</span><span class="tcn">IX</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XIX</span><span class="tname">SUN</span><div class="tdiv"></div><span class="tpath">Sun</span><span class="tdesc">Light, Dawn, Purity<br>Derrick's pathway</span><span class="tcn">XIX</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">XVII</span><span class="tname">STAR</span><div class="tdiv"></div><span class="tpath">Savant</span><span class="tdesc">Knowledge, Invention<br>Progress path</span><span class="tcn">XVII</span></div></div>
+<div class="tc2"><div class="tci"><span class="tcn">VI</span><span class="tname">LOVERS</span><div class="tdiv"></div><span class="tpath">Criminal</span><span class="tdesc">Violence, Demon, Abyss<br>Chaos origin</span><span class="tcn">VI</span></div></div>
+</div>
+<footer>
+  <span>Lord of Mysteries — Fan Site</span>
+  <a href="https://www.qidian.com/book/1010731093/">Read on Qidian →</a>
+</footer>
+</main>
+<script>
+(function(){function C(id){var c=document.getElementById(id);if(!c)return;c.width=window.innerWidth;c.height=window.innerHeight;return c}
+var nc=C('nc');setInterval(function(){if(!nc)return;var w=nc.width,h=nc.height,d=nc.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*255;b[i+1]=b[i];b[i+2]=b[i];b[i+3]=255}nc.getContext('2d').putImageData(d,0,0)},100);
+var gc2=C('gc');setInterval(function(){if(!gc2)return;var w=gc2.width,h=gc2.height,d=gc2.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}gc2.getContext('2d').putImageData(d,0,0)},200);
+var pc2=C('pc');var pts=[];!function(){if(!pc2)return;var w=pc2.width=window.innerWidth,h=pc2.height=window.innerHeight;for(var i=0;i<60;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.5)*0.2,s:Math.random()*1.5+0.3,a:Math.random()*0.3+0.05})}();
+!function dp(){if(!pc2)return;var w=pc2.width,h=pc2.height,ctx=pc2.getContext('2d');ctx.clearRect(0,0,w,h);for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fillStyle='rgba(255,215,0,'+p.a+')';ctx.fill()}requestAnimationFrame(dp)}();
+})();
+</script>
+</body>
+</html>
