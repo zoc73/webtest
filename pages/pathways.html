@@ -6,7 +6,9 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;height:2000vh;overflow-x:hidden}
+body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;height:3000vh;overflow-x:hidden}
+
+/* ── Overlays ── */
 #inv{position:fixed;inset:0;pointer-events:none;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
 #gl1{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
 #gl2{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
@@ -23,74 +25,81 @@ nav a{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.
 nav a:hover{color:#FFD700}
 nav .brand{font-weight:900;font-size:1rem;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:#e8e4dc;text-decoration:none;font-family:'Noto Sans SC',sans-serif}
 
-/* ── Scroll indicator ── */
-.scroll-hint{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:90;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.15rem;color:rgba(232,228,220,0.2);text-transform:uppercase;animation:scFade 2s ease-in-out infinite}
-@keyframes scFade{0%,100%{opacity:0.3}50%{opacity:0.8}}
-.scroll-hint svg{display:block;margin:0.3rem auto 0;animation:scBounce 1.5s ease-in-out infinite}
-@keyframes scBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+/* ── Title ── */
+.title{position:fixed;bottom:12vh;left:50%;transform:translateX(-50%);z-index:89;text-align:center;pointer-events:none}
+.title h2{font-size:1.1rem;font-weight:700;letter-spacing:0.1em;mix-blend-mode:plus-lighter;color:#FFD700;opacity:0.5}
+.title p{font-size:0.65rem;opacity:0.2;font-family:JetBrains Mono,monospace;margin-top:0.3rem;letter-spacing:0.1em}
 
-/* ── Circular carousel ── */
+/* ── Scroll hint ── */
+.shint{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:89;text-align:center;pointer-events:none;opacity:0.15;font-family:JetBrains Mono,monospace;font-size:0.6rem;letter-spacing:0.15rem;color:rgba(232,228,220,0.3);animation:shFade 2s ease-in-out infinite}
+@keyframes shFade{0%,100%{opacity:0.15}50%{opacity:0.5}}
+
+/* ── Circular carousel (exact CodePen replica) ── */
 @property --rotate { syntax: "<number>"; inherits: true; initial-value: 0; }
 
-.carousel-body {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%) rotate(calc(var(--rotate) * 360deg));
-  width: 1px; height: 1px;
-  animation: --page-rotate 1s linear;
-  animation-timeline: scroll(nearest block);
+body {
   --cards: 22;
+  animation: pageRotate 1s linear;
+  animation-timeline: scroll(nearest block);
   animation-timing-function: steps(var(--cards));
 }
 
-@keyframes --page-rotate {
-  to { --rotate: 1; }
-}
+@keyframes pageRotate { to { --rotate: 1; } }
 
-.cwrap {
-  --card-w: min(160px, 18vw);
-  --card-h: calc(var(--card-w) * 7 / 5);
+.wrapper {
+  --card-w: min(150px, 20vw);
+  --card-h: calc(var(--card-w) * 6 / 4);
   --radius: calc(var(--card-w) * var(--cards) / (2 * 3.1416));
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 1px; height: 1px;
+
+  position: fixed;
+  width: calc(var(--radius) * 2);
+  height: calc(var(--radius) * 2);
+  top: calc(50% + var(--radius) + var(--card-h) * 2);
+  left: 50%;
+  transform-origin: center center;
+  transform: translateX(-50%) rotate(calc(var(--rotate) * 360deg));
+  transition: transform 300ms linear;
 }
 
-.ccard {
+.wrapper > .card {
   --i: 0;
   --phase: calc((var(--i) - 1) / var(--cards) - 0.75);
   --pos: mod(calc(var(--phase) + var(--rotate) + 1), 1);
   --dist: min(var(--pos), calc(1 - var(--pos)));
-  --blur: calc(clamp(0, var(--dist) / 0.12, 1) * 8px);
-  --op: calc(1 - (var(--dist) / 0.15));
-  --gray: clamp(0, calc(var(--dist) * var(--cards)), 1);
-  
+  --card-grayscale: clamp(0, calc(var(--dist) * var(--cards)), 1);
+  --card-opacity: calc(1 - (var(--dist) / 0.15));
+  --card-focus-range: 0.1;
+  --card-max-blur: 7px;
+  --card-blur: calc(clamp(0, var(--dist) / var(--card-focus-range), 1) * var(--card-max-blur));
+  --caption-active: clamp(0, 1 - (var(--dist) / 0.001), 1);
+  --label-opacity: var(--caption-active);
+  --label-y: calc(-20px * (1 - var(--caption-active)));
+
   position: absolute;
-  top: 50%; left: 50%;
   width: var(--card-w);
   height: var(--card-h);
-  offset-path: circle(var(--radius) at 0 0);
+  offset-path: circle(var(--radius) at 50% 50%);
   offset-distance: calc((var(--i) - 1) / var(--cards) * 100%);
-  offset-rotate: 0deg;
+  offset-rotate: auto;
+  offset-anchor: 50% 100%;
   border-radius: 10px;
-  filter: blur(var(--blur)) grayscale(var(--gray));
-  opacity: var(--op);
-  transition: all 0.3s ease;
-  transform-origin: center center;
+  filter: blur(var(--card-blur)) grayscale(var(--card-grayscale));
+  opacity: var(--card-opacity);
+  transition: all 300ms ease;
   cursor: pointer;
 }
 
-.ccard:hover {
+.card:hover {
   filter: blur(0) grayscale(0) brightness(1.2);
   opacity: 1;
 }
 
-.ccard-inner {
+.card-inner {
   width: 100%; height: 100%;
   background: linear-gradient(180deg, #0c0c18, #07070d);
   border: 1px solid rgba(255,215,0,0.12);
   border-radius: 10px;
-  padding: 0.7rem;
+  padding: 0.6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,108 +108,30 @@ nav .brand{font-weight:900;font-size:1rem;letter-spacing:-0.02em;mix-blend-mode:
   position: relative;
   overflow: hidden;
 }
+.card-inner::before{content:'';position:absolute;inset:0;border-radius:9px;border:1px solid rgba(255,215,0,0.05);pointer-events:none}
+.card-inner .cn{font-family:JetBrains Mono,monospace;font-size:0.6rem;color:rgba(255,215,0,0.3)}
+.card-inner .nm{font-size:0.75rem;font-weight:700;letter-spacing:0.12em;mix-blend-mode:plus-lighter;text-align:center;color:#e8e4dc}
+.card-inner .dv{width:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.1),transparent)}
+.card-inner .pt{font-family:JetBrains Mono,monospace;font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,215,0,0.3);text-align:center}
+.card-inner .ds{font-size:0.5rem;color:rgba(232,228,220,0.22);text-align:center;line-height:1.4;padding:0 0.2rem}
 
-.ccard-inner::before {
-  content: '';
-  position: absolute; inset: 0;
-  border-radius: 9px;
-  border: 1px solid rgba(255,215,0,0.05);
-  pointer-events: none;
-}
-
-.ccard-inner .num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  color: rgba(255,215,0,0.3);
-}
-
-.ccard-inner .name {
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  mix-blend-mode: plus-lighter;
-  text-align: center;
-  color: #e8e4dc;
-}
-
-.ccard-inner .divider {
-  width: 50%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.12), transparent);
-}
-
-.ccard-inner .path {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.5rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(255,215,0,0.35);
-  text-align: center;
-}
-
-.ccard-inner .desc {
-  font-size: 0.5rem;
-  color: rgba(232,228,220,0.25);
-  text-align: center;
-  line-height: 1.4;
-  padding: 0 0.2rem;
-}
-
-/* Active card label */
-.ccard .label {
+.card .label {
   position: absolute;
-  top: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
-  font-family: 'Noto Sans SC', sans-serif;
-  font-size: 0.7rem;
+  bottom: calc(100% + 8px);
+  font-size: 0.65rem;
   color: #FFD700;
   mix-blend-mode: plus-lighter;
   white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s;
+  opacity: var(--label-opacity);
+  transition: opacity 300ms, translate 300ms;
+  translate: 0 var(--label-y);
 }
 
-.ccard:hover .label,
-.ccard[data-active="true"] .label {
-  opacity: 1;
-}
-
-.title-overlay {
-  position: fixed;
-  bottom: 15vh;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 89;
-  text-align: center;
-  pointer-events: none;
-}
-
-.title-overlay h2 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  mix-blend-mode: plus-lighter;
-  color: #FFD700;
-  opacity: 0.6;
-}
-
-.title-overlay p {
-  font-size: 0.75rem;
-  opacity: 0.25;
-  font-family: 'JetBrains Mono', monospace;
-  margin-top: 0.3rem;
-  letter-spacing: 0.1em;
-}
-
-@supports not (animation-timeline: scroll()) {
-  .carousel-body { display: none; }
-  .fallback { display: block !important; }
-}
-
-.fallback { display: none; text-align: center; padding: 40vh 2rem; }
-.fallback h2 { color: #FFD700; mix-blend-mode: plus-lighter; margin-bottom: 1rem; }
-.fallback p { opacity: 0.4; font-size: 0.9rem; line-height: 1.8; }
+.fallback{display:none;text-align:center;padding:40vh 2rem}
+.fallback h2{color:#FFD700;mix-blend-mode:plus-lighter;margin-bottom:1rem}
+.fallback p{opacity:0.4;font-size:0.9rem;line-height:1.8}
 </style>
 </head>
 <body>
@@ -217,111 +148,98 @@ nav .brand{font-weight:900;font-size:1rem;letter-spacing:-0.02em;mix-blend-mode:
   </div>
 </nav>
 
-<div class="carousel-body">
-  <div class="cwrap">
-    <!-- 22 tarot cards generated by JS -->
-  </div>
-</div>
+<div class="shint">🔄 滚动浏览 · 22 条非凡途径</div>
+<div class="title"><h2>22 条非凡途径</h2><p>Scroll to explore</p></div>
 
-<div class="title-overlay">
-  <h2>22 条非凡途径</h2>
-  <p>scroll to explore · 滚动浏览</p>
-</div>
-
-<div class="scroll-hint">
-  滚动探索
-  <svg width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="1.5">
-    <rect x="1" y="1" width="14" height="22" rx="7"/>
-    <circle cx="8" cy="7" r="2" fill="currentColor"/>
-  </svg>
+<div class="wrapper" id="wrapper">
+  <!-- Cards injected by JS -->
 </div>
 
 <div class="fallback">
   <h2>22 条非凡途径</h2>
-  <p>请滚动页面浏览</p>
+  <p>请使用 Chrome 115+ 或 Edge 115+ 浏览</p>
 </div>
 
 <script>
-// Generate 22 pathway cards
+// ── Pathway data ──
 var pathways = [
-  {num:'0', name:'愚者', path:'占卜家', desc:'占卜·秘偶·时之虫', detail:'克莱恩·莫雷蒂'},
-  {num:'I', name:'魔法师', path:'偷盗者', desc:'窃取·寄生·时之虫', detail:'阿蒙'},
-  {num:'XXI', name:'世界', path:'学徒', desc:'传送·空间·门', detail:'诡秘三途径'},
-  {num:'VIII', name:'正义', path:'观众', desc:'读心·催眠·梦境', detail:'奥黛丽·霍尔'},
-  {num:'XI', name:'力量', path:'战士', desc:'战斗·黎明·守护', detail:'守护之路'},
-  {num:'XVIII', name:'月亮', path:'不眠者', desc:'黑夜·梦境·寂静', detail:'伦纳德·米切尔'},
-  {num:'XV', name:'恶魔', path:'秘祈人', desc:'低语·献祭·隐秘', detail:'禁忌之路'},
-  {num:'VII', name:'战车', path:'水手', desc:'风暴·海洋·雷霆', detail:'阿尔杰·威尔逊'},
-  {num:'V', name:'教皇', path:'通识者', desc:'知识·机械·蒸汽', detail:'蒸汽教会'},
-  {num:'X', name:'命运之轮', path:'怪物', desc:'幸运·概率·混乱', detail:'命运的宠儿'},
-  {num:'III', name:'女皇', path:'药师', desc:'魔药·吸血鬼·生命', detail:'血族'},
-  {num:'IV', name:'皇帝', path:'耕种者', desc:'自然·丰收·大地', detail:'生命途径'},
-  {num:'XIII', name:'死神', path:'收尸人', desc:'灵魂·亡灵·冥界', detail:'死亡领域'},
-  {num:'XX', name:'审判', path:'仲裁人', desc:'律法·秩序·裁决', detail:'正义之路'},
-  {num:'IV', name:'皇帝', path:'律师', desc:'规则·阴谋·独裁', detail:'罗塞尔'},
-  {num:'XVI', name:'高塔', path:'囚犯', desc:'疯狂·诅咒·枷锁', detail:'挣脱之路'},
-  {num:'XII', name:'倒吊人', path:'猎人', desc:'火焰·战争·征服', detail:'红祭司'},
-  {num:'II', name:'女祭司', path:'刺客', desc:'毒药·女巫·魅惑', detail:'暗影杀手'},
-  {num:'IX', name:'隐者', path:'窥秘人', desc:'神秘·召唤·预言', detail:'求知之路'},
-  {num:'XIX', name:'太阳', path:'太阳', desc:'光明·黎明·净化', detail:'戴里克·伯格'},
-  {num:'XVII', name:'星星', path:'窥秘人', desc:'知识·发明·进步', detail:'科学之路'},
-  {num:'VI', name:'恋人', path:'罪犯', desc:'暴力·恶魔·深渊', detail:'混沌之源'}
+  {num:'0', name:'愚者', path:'占卜家', desc:'占卜·秘偶·时之虫', by:'克莱恩'},
+  {num:'I', name:'魔法师', path:'偷盗者', desc:'窃取·寄生·时之虫', by:'阿蒙'},
+  {num:'XXI', name:'世界', path:'学徒', desc:'传送·空间·门', by:'诡秘三途径'},
+  {num:'VIII', name:'正义', path:'观众', desc:'读心·催眠·梦境', by:'奥黛丽'},
+  {num:'XI', name:'力量', path:'战士', desc:'战斗·黎明·守护', by:'守护之路'},
+  {num:'XVIII', name:'月亮', path:'不眠者', desc:'黑夜·梦境·寂静', by:'伦纳德'},
+  {num:'XV', name:'恶魔', path:'秘祈人', desc:'低语·献祭·隐秘', by:'禁忌之路'},
+  {num:'VII', name:'战车', path:'水手', desc:'风暴·海洋·雷霆', by:'阿尔杰'},
+  {num:'V', name:'教皇', path:'通识者', desc:'知识·机械·蒸汽', by:'蒸汽教会'},
+  {num:'X', name:'命运之轮', path:'怪物', desc:'幸运·概率·混乱', by:'命运宠儿'},
+  {num:'III', name:'女皇', path:'药师', desc:'魔药·吸血鬼·生命', by:'血族'},
+  {num:'IV', name:'皇帝', path:'耕种者', desc:'自然·丰收·大地', by:'生命途径'},
+  {num:'XIII', name:'死神', path:'收尸人', desc:'灵魂·亡灵·冥界', by:'死亡领域'},
+  {num:'XX', name:'审判', path:'仲裁人', desc:'律法·秩序·裁决', by:'正义之路'},
+  {num:'IV', name:'皇帝', path:'律师', desc:'规则·阴谋·独裁', by:'罗塞尔'},
+  {num:'XVI', name:'高塔', path:'囚犯', desc:'疯狂·诅咒·枷锁', by:'挣脱之路'},
+  {num:'XII', name:'倒吊人', path:'猎人', desc:'火焰·战争·征服', by:'红祭司'},
+  {num:'II', name:'女祭司', path:'刺客', desc:'毒药·女巫·魅惑', by:'暗影杀手'},
+  {num:'IX', name:'隐者', path:'窥秘人', desc:'神秘·召唤·预言', by:'求知之路'},
+  {num:'XIX', name:'太阳', path:'太阳', desc:'光明·黎明·净化', by:'戴里克'},
+  {num:'XVII', name:'星星', path:'窥秘人', desc:'知识·发明·进步', by:'科学之路'},
+  {num:'VI', name:'恋人', path:'罪犯', desc:'暴力·恶魔·深渊', by:'混沌之源'}
 ];
 
-var container = document.querySelector('.cwrap');
+// ── Inject cards ──
+var wrapper = document.getElementById('wrapper');
 for (var i = 0; i < pathways.length; i++) {
   var p = pathways[i];
   var card = document.createElement('div');
-  card.className = 'ccard';
+  card.className = 'card';
   card.style.setProperty('--i', i + 1);
-  card.innerHTML = 
-    '<div class="ccard-inner">' +
-      '<span class="num">' + p.num + '</span>' +
-      '<span class="name">' + p.name + '</span>' +
-      '<div class="divider"></div>' +
-      '<span class="path">' + p.path + '</span>' +
-      '<span class="desc">' + p.desc + '<br>' + p.detail + '</span>' +
-      '<span class="num" style="align-self:flex-end">' + p.num + '</span>' +
-    '</div>' +
-    '<span class="label">' + p.name + ' · ' + p.path + '</span>';
-  container.appendChild(card);
+  card.innerHTML =
+    '<span class="label">' + p.name + ' · ' + p.path + '</span>' +
+    '<div class="card-inner">' +
+      '<span class="cn">' + p.num + '</span>' +
+      '<span class="nm">' + p.name + '</span>' +
+      '<div class="dv"></div>' +
+      '<span class="pt">' + p.path + '</span>' +
+      '<span class="ds">' + p.desc + '<br>' + p.by + '</span>' +
+      '<span class="cn" style="align-self:flex-end">' + p.num + '</span>' +
+    '</div>';
+  wrapper.appendChild(card);
 }
 
-// Canvas
+// ── Canvas layers ──
 (function(){function C(id){var c=document.getElementById(id);if(!c)return;c.width=window.innerWidth;c.height=window.innerHeight;return c}
 var nc=C('nc');setInterval(function(){if(!nc)return;var w=nc.width,h=nc.height,d=nc.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*255;b[i+1]=b[i];b[i+2]=b[i];b[i+3]=255}nc.getContext('2d').putImageData(d,0,0)},100);
 var gc2=C('gc');setInterval(function(){if(!gc2)return;var w=gc2.width,h=gc2.height,d=gc2.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}gc2.getContext('2d').putImageData(d,0,0)},200);
 var pc2=C('pc');var pts=[];!function(){if(!pc2)return;var w=pc2.width=window.innerWidth,h=pc2.height=window.innerHeight;for(var i=0;i<60;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.5)*0.2,s:Math.random()*1.5+0.3,a:Math.random()*0.3+0.05})}();
 !function dp(){if(!pc2)return;var w=pc2.width,h=pc2.height,ctx=pc2.getContext('2d');ctx.clearRect(0,0,w,h);for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fillStyle='rgba(255,215,0,'+p.a+')';ctx.fill()}requestAnimationFrame(dp)}();
 
-// Scroll-driven rotation (JS fallback for browsers without animation-timeline)
+// ── JS scroll fallback (for browsers without animation-timeline) ──
 (function(){
-  try {
-    var isSupported = CSS.supports && CSS.supports('animation-timeline', 'scroll()');
-    if (isSupported) return;
-  } catch(e) {}
+  var supported = false;
+  try { supported = CSS.supports && CSS.supports('animation-timeline', 'scroll()'); } catch(e) {}
+  if (supported) return;
   
-  var body = document.querySelector('.carousel-body');
-  if (!body) return;
+  var wrapper = document.getElementById('wrapper');
+  if (!wrapper) return;
+  
+  wrapper.style.display = ''; // override @supports hiding
   
   var ticking = false;
   function onScroll() {
-    if (!ticking) {
-      requestAnimationFrame(function() {
-        var maxScroll = document.body.scrollHeight - window.innerHeight;
-        var progress = window.scrollY / maxScroll;
-        if (progress > 1) progress = 1;
-        if (progress < 0) progress = 0;
-        body.style.setProperty('--rotate', progress);
-        ticking = false;
-      });
-      ticking = true;
-    }
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      var maxScroll = document.body.scrollHeight - window.innerHeight;
+      var p = window.scrollY / maxScroll;
+      if (p > 1) p = 1;
+      if (p < 0) p = 0;
+      wrapper.style.transform = 'translateX(-50%) rotate(' + (p * 360) + 'deg)';
+      ticking = false;
+    });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
-  
-  document.querySelector('.fallback').style.display = 'block';
-  document.querySelector('.fallback p').textContent = '滚动鼠标浏览 22 条非凡途径';
+  onScroll();
 })();
 </script>
 </body>
