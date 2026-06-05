@@ -8,16 +8,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;-webkit-font-smoothing:antialiased}
-body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
-#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.065;z-index:101}
+body{font-family:'Noto Sans SC',sans-serif;background:#030303;color:#d4c8c0;min-height:100vh;overflow-x:hidden}
+#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.09;z-index:101}
 #invert-layer{pointer-events:none;position:fixed;inset:0;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
-#glow{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(200,30,30,0) 40%,rgba(200,30,30,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
-#glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(150,30,30,0) 30%,rgba(150,30,30,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
-#vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
-#dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(200,0,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
-#grain-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:overlay;opacity:0.04;z-index:98}
-#tex-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:color-dodge;opacity:0.025;z-index:97}
-#pt-c{pointer-events:none;position:fixed;inset:0;z-index:95;opacity:0.45}
+#glow{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(200,0,0,0) 50%,rgba(200,0,0,0.55) 100%);mix-blend-mode:screen;opacity:0.18;z-index:99}
+#glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(100,0,0,0) 30%,rgba(100,0,0,0.45) 100%);mix-blend-mode:screen;opacity:0.15;z-index:98}
+#glow3{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(180,0,0,0) 60%,rgba(180,0,0,0.15) 100%);mix-blend-mode:screen;opacity:0.08;z-index:97}
+#vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.8) 100%);z-index:96}
+#dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(180,0,0,0.04) 1px,transparent 1px);background-size:24px 24px;z-index:0}
+#grain-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:overlay;opacity:0.05;z-index:98}
+#tex-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:color-dodge;opacity:0.03;z-index:97}
+#pt-c{pointer-events:none;position:fixed;inset:0;z-index:95;opacity:0.5}
 main{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:2rem}
 header .g{border-top:1px solid rgba(200,0,0,0.1)}
 .logo-text{font-weight:900;font-size:2.625rem;line-height:1;letter-spacing:0.0525rem;mix-blend-mode:plus-lighter;color:#e8e4dc;display:block;transition:text-shadow 0.3s;text-decoration:none}
@@ -160,6 +161,7 @@ header .g{border-top:1px solid rgba(200,0,0,0.1)}
 <div id="invert-layer"></div>
 <div id="glow"></div>
 <div id="glow2"></div>
+<div id="glow3"></div>
 <div id="vn"></div>
 <div id="dots"></div>
 <canvas id="noise-layer"></canvas>

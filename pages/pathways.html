@@ -9,15 +9,14 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;cursor:crosshair}
-
-/* Hermes signature overlay layers */
-#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.065;z-index:101}
+body{font-family:'Noto Sans SC',sans-serif;background:#030303;color:#d4c8c0;min-height:100vh;cursor:crosshair}
+#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.09;z-index:101}
 #invert-layer{pointer-events:none;position:fixed;inset:0;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
-#glow{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(200,30,30,0) 40%,rgba(200,30,30,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
-#glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(150,30,30,0) 30%,rgba(150,30,30,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
-#vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
-#dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(200,0,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:95}
+#glow{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(200,0,0,0) 50%,rgba(200,0,0,0.55) 100%);mix-blend-mode:screen;opacity:0.18;z-index:99}
+#glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(100,0,0,0) 30%,rgba(100,0,0,0.45) 100%);mix-blend-mode:screen;opacity:0.15;z-index:98}
+#glow3{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(180,0,0,0) 60%,rgba(180,0,0,0.15) 100%);mix-blend-mode:screen;opacity:0.08;z-index:97}
+#vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.8) 100%);z-index:96}
+#dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(180,0,0,0.04) 1px,transparent 1px);background-size:24px 24px;z-index:95}
 
 /* HUD */
 .hud{position:fixed;inset:2rem;z-index:90;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(232,228,220,0.35);text-transform:uppercase;letter-spacing:0.12em}
@@ -93,6 +92,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 <div id="invert-layer"></div>
 <div id="glow"></div>
 <div id="glow2"></div>
+<div id="glow3"></div>
 <div id="vn"></div>
 <div id="dots"></div>
 
