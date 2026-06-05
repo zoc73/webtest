@@ -597,7 +597,7 @@ function sw(el,id){document.querySelectorAll('.tb').forEach(b=>b.classList.remov
 function scrollTarot(dir){try{const t=document.getElementById('tarotTrack');if(!t)return;const c=t.querySelector('.tcard');if(!c)return;const w=c.offsetWidth+20;t.scrollLeft+=dir*w}catch(e){}}
 // Touch drag for tarot
 !function(){const ob=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting&&e.target.style.animationPlayState!=='running')e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('.fade').forEach(e=>{e.style.animationPlayState='paused';ob.observe(e)})}();
-!function(){const el=document.querySelector('[data-n]');if(!el)return;const ob=new IntersectionObserver(([e])=>{if(e.isIntersecting){let c=0;setInterval(()=>{c+=4;if(c>=447){c=447;clearInterval(this)}el.textContent=c},30);ob.unobserve(el)}},{threshold:0.5});ob.observe(el)}();
+!function(){const el=document.querySelector('[data-n]');if(!el)return;const ob=new IntersectionObserver(([e])=>{if(e.isIntersecting){let c=0;const iv=setInterval(function(){c+=4;if(c>=447){c=447;clearInterval(iv)}el.textContent=c},30);ob.unobserve(el)}},{threshold:0.5});ob.observe(el)}();
 </script>
 </body>
 </html>
