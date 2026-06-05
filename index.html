@@ -1,280 +1,317 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hans">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lord of the Mysteries</title>
+<title>诡秘之主 — 完整百科</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
-/* ── Overlays ── */
-#inv{position:fixed;inset:0;pointer-events:none;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
-#gl1{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
-#gl2{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
-#vn{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.6) 100%);z-index:96}
-#dots{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
-canvas{position:fixed;inset:0;pointer-events:none;width:100%;height:100%}
-#nc{mix-blend-mode:difference;opacity:0.065;z-index:101}
-#gc{mix-blend-mode:overlay;opacity:0.04;z-index:98}
-#pc{z-index:95;opacity:0.45}
-main{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:2rem}
-/* ── Navigation ── */
-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:1px solid rgba(255,215,0,0.08);margin-bottom:2rem}
-.nav-l{font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:#e8e4dc;text-decoration:none}
-.nav-r{display:flex;gap:1.5rem}
-.nav-r a{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase;transition:color 0.2s}
-.nav-r a:hover{color:#FFD700}
-.nav-r a.act{color:#e8e4dc}
-/* ── Hero ── */
-.hero{text-align:center;padding:4rem 1rem 3rem;position:relative}
-.hero::before{content:'';position:absolute;top:-20%;left:-10%;right:-10%;bottom:-20%;background:radial-gradient(ellipse at 50% 30%,rgba(255,215,0,0.03) 0%,transparent 60%);animation:hp 4s ease-in-out infinite;pointer-events:none}
-@keyframes hp{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
-.hero .tagline{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.3rem;opacity:0.4;margin-bottom:1rem}
-.hero h1{font-weight:900;font-size:clamp(2.5rem,5vw,4rem);line-height:1.08;letter-spacing:-0.03em;mix-blend-mode:plus-lighter;margin-bottom:1rem}
-.hero h1 .sub{display:block;font-size:0.4em;font-weight:300;opacity:0.18;margin-top:0.3rem;letter-spacing:0.08em}
-.hero p{max-width:560px;margin:0 auto;font-size:0.95rem;line-height:1.8;opacity:0.4;font-weight:300}
-/* ── Content ── */
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-left:1px solid rgba(255,215,0,0.06);border-right:1px solid rgba(255,215,0,0.06)}
-.gc{border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);padding:1.25rem;transition:border-color 0.3s}
+body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
+#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.065;z-index:101}
+#invert-layer{pointer-events:none;position:fixed;inset:0;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
+#glow{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
+#glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
+#vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
+#dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
+#grain-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:overlay;opacity:0.04;z-index:98}
+#tex-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:color-dodge;opacity:0.025;z-index:97}
+#pt-c{pointer-events:none;position:fixed;inset:0;z-index:95;opacity:0.45}
+main{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:2rem}
+header .g{border-top:1px solid rgba(255,215,0,0.1)}
+.logo-text{font-weight:900;font-size:2.625rem;line-height:1;letter-spacing:0.0525rem;mix-blend-mode:plus-lighter;color:#e8e4dc;display:block;transition:text-shadow 0.3s;text-decoration:none}
+.logo-text:hover{text-shadow:0 0 30px rgba(255,215,0,0.2)}
+.nav-link{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.2rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;position:relative;transition:all 0.3s;opacity:0.55;display:inline-block}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:#FFD700;transition:all 0.3s}
+.nav-link:hover{opacity:1}
+.nav-link:hover::after{left:0;width:100%}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.social-link{opacity:0.35;transition:all 0.3s;color:#e8e4dc;display:inline-flex}
+.social-link:hover{opacity:1;transform:translateY(-1px)}
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-left:1px solid rgba(255,215,0,0.06);border-right:1px solid rgba(255,215,0,0.06)}
+.gc{border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);padding:1rem;transition:border-color 0.3s}
 .gc:last-child{border-right:none}
-.sl{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12rem;text-transform:uppercase;margin-bottom:1rem}
-p{font-size:0.9rem;line-height:1.8;opacity:0.45;font-weight:300}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
-.stat-box{background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.06);padding:1rem;text-align:center;transition:all 0.3s}
-.stat-box:hover{border-color:rgba(255,215,0,0.15);transform:translateY(-2px)}
-.stat-box .num{font-size:1.5rem;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter}
-.stat-box .lb{font-size:0.65rem;opacity:0.3;margin-top:0.2rem}
-.tag{display:inline-block;background:rgba(255,215,0,0.03);padding:0.15rem 0.6rem;font-size:0.55rem;letter-spacing:0.08em;border:1px solid rgba(255,215,0,0.06);margin:0.15rem;color:rgba(232,228,220,0.35)}
-/* ── Terminal ── */
-.tbox{border:4px double rgba(232,228,220,0.15);position:relative;overflow:hidden}
-.tbox::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.2),transparent);animation:sl 3s ease-in-out infinite}
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5.5rem 1rem 4.5rem;gap:1.5rem;position:relative}
+.hero::before{content:'';position:absolute;top:-20%;left:-10%;right:-10%;bottom:-20%;background:radial-gradient(ellipse at 50% 30%,rgba(255,215,0,0.03) 0%,transparent 60%);animation:hp 4s ease-in-out infinite;pointer-events:none;z-index:-1}
+@keyframes hp{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+.hero-sub{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.35rem;opacity:0.5;text-transform:uppercase;font-weight:300;animation:fsi 1s ease-out}
+.hero-title{font-weight:900;font-size:clamp(2.8rem,7vw,5.2rem);line-height:1.06;letter-spacing:0.04em;mix-blend-mode:plus-lighter;animation:fsi 1s ease-out 0.2s both}
+.hero-title .sub{display:block;margin-top:0.08em;font-size:0.45em;font-weight:300;opacity:0.2;letter-spacing:0.15em}
+.hero-desc{max-width:640px;font-size:1.05rem;line-height:1.9;opacity:0.5;font-weight:300;animation:fsi 1s ease-out 0.4s both}
+@keyframes fsi{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.tbox{border:4px double rgba(232,228,220,0.2);position:relative;overflow:hidden}
+.tbox::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.3),transparent);animation:sl 3s ease-in-out infinite}
 @keyframes sl{0%{left:-100%}100%{left:200%}}
 .th{display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0.75rem;border-bottom:1px solid rgba(255,215,0,0.06);background:rgba(0,0,0,0.25)}
-.td{width:0.5rem;height:0.5rem;border-radius:50%;background:rgba(232,228,220,0.2)}
-.tl{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.12em;color:rgba(232,228,220,0.15)}
-.tt{font-family:'JetBrains Mono',monospace;font-size:0.68rem;line-height:1.6;padding:1rem;overflow:hidden;white-space:pre-wrap;height:340px;color:#c8c4bc;background:rgba(0,0,0,0.12)}
-.hl{color:#FFD700}.dm{color:rgba(232,228,220,0.25)}.gr{color:#6aaa6a}.cy{color:#5ab0c4}.rd{color:#c45a5a}.pu{color:#b48bb4}
-.tc{display:inline-block;width:1ch;height:1em;background:#FFD700;animation:bk 0.6s step-end infinite;vertical-align:text-bottom}
-@keyframes bk{0%,100%{opacity:1}50%{opacity:0}}
-/* ── Cards ── */
+.td{width:0.5rem;height:0.5rem;border-radius:50%}
+.td:nth-child(1){background:#e8e4dc;mix-blend-mode:plus-lighter;animation:dp1 2s ease-in-out infinite}
+.td:nth-child(2){background:rgba(232,228,220,0.4);animation:dp2 2s ease-in-out infinite 0.3s}
+.td:nth-child(3){background:rgba(232,228,220,0.2);animation:dp3 2s ease-in-out infinite 0.6s}
+@keyframes dp1{0%,100%{opacity:1}50%{opacity:0.4}}@keyframes dp2{0%,100%{opacity:0.8}50%{opacity:0.3}}@keyframes dp3{0%,100%{opacity:0.6}50%{opacity:0.2}}
+.ttl{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:rgba(232,228,220,0.2)}
+.tt{font-family:'JetBrains Mono',monospace;font-size:0.72rem;line-height:1.65;padding:1rem;overflow:hidden;white-space:pre-wrap;height:380px;color:#c8c4bc;background:rgba(0,0,0,0.15)}
+.hl{color:#FFD700}.dim{color:rgba(232,228,220,0.3)}.gr{color:#6aaa6a}.cy{color:#5ab0c4}.rd{color:#c45a5a}.pu{color:#b48bb4}
+.tc{display:inline-block;width:1ch;height:1em;background:#FFD700;animation:blink 0.6s step-end infinite;vertical-align:text-bottom}
+.fg{display:grid;grid-template-columns:repeat(3,1fr)}
+.fc{position:relative;padding:1.25rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
+.fg>.fc:nth-child(3n){border-right:none}
+.fc:hover{background:rgba(255,215,0,0.015)}
+.fch{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,0.06),transparent);opacity:0;transition:opacity 0.4s}
+.fc:hover .fch{opacity:1}
+.fl{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.12rem;mix-blend-mode:plus-lighter}
+.ft{font-size:0.95rem;line-height:1.7;opacity:0.5;font-weight:300}
+.sl{font-family:'Noto Serif SC',serif;font-size:0.875rem;letter-spacing:0.2rem}
 .cg{display:grid;grid-template-columns:repeat(4,1fr)}
-.cc{padding:1.25rem 0.75rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);text-align:center;transition:all 0.3s;cursor:default}
+.cc{position:relative;padding:1.25rem 0.75rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);text-align:center;transition:all 0.3s;cursor:default}
 .cg>.cc:nth-child(4n){border-right:none}
 .cc:hover{background:rgba(255,215,0,0.015);transform:translateY(-2px)}
-.cc .ic{font-size:0.75rem;color:rgba(255,215,0,0.2);letter-spacing:0.15em;margin-bottom:0.1rem}
-.cc .cn{font-weight:600;font-size:0.9rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.ci{font-size:1.4rem;margin-bottom:0.15rem;display:block;color:rgba(255,215,0,0.3);letter-spacing:0.1em;font-weight:100}
+.cc:hover .ci{color:rgba(255,215,0,0.6)}
+.cn{font-weight:700;font-size:0.95rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
 .cc:hover .cn{color:#FFD700}
-.cc .ct{font-size:0.6rem;opacity:0.3;margin-top:0.1rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.1em}
-.cc .cd{font-size:0.7rem;opacity:0.35;line-height:1.5;margin-top:0.3rem;font-weight:300}
-/* ── Tarot gallery ── */
-.trk{display:flex;gap:1rem;padding:0.5rem 0.5rem;overflow-x:auto;scroll-behavior:smooth}
-.trk::-webkit-scrollbar{height:2px}
-.trk::-webkit-scrollbar-track{background:rgba(255,215,0,0.03)}
-.trk::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.1);border-radius:2px}
-.tc2{flex:0 0 175px;scroll-snap-align:start;transition:all 0.3s;cursor:pointer}
-.tc2:hover{transform:translateY(-6px)}
-.tci{width:175px;height:320px;background:linear-gradient(180deg,#0c0c18,#07070d);border:1px solid rgba(255,215,0,0.1);border-radius:8px;padding:0.7rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
-.tci .tcn{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(255,215,0,0.3)}
-.tci .tname{font-size:0.8rem;font-weight:700;letter-spacing:0.12em;mix-blend-mode:plus-lighter;text-align:center}
-.tci .tdiv{width:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.12),transparent)}
-.tci .tpath{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,215,0,0.35)}
-.tci .tdesc{font-size:0.55rem;color:rgba(232,228,220,0.25);text-align:center;line-height:1.4}
-/* ── Item grid ── */
+.ct{font-size:0.7rem;opacity:0.4;margin-top:0.1rem;font-family:'Noto Serif SC',serif;transition:opacity 0.3s}
+.cc:hover .ct{opacity:0.7}
+.cd{font-size:0.75rem;opacity:0.45;line-height:1.5;margin-top:0.35rem;font-weight:300}
+.tb{display:flex;gap:0;border-bottom:1px solid rgba(232,228,220,0.06);flex-wrap:wrap;overflow-x:auto}
+.tbn{position:relative;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:0.35rem 0.8rem;font-family:'Noto Serif SC',serif;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;color:rgba(232,228,220,0.35);cursor:pointer;transition:all 0.3s;flex-shrink:0}
+.tbn:hover{color:#e8e4dc;background:rgba(255,215,0,0.03)}
+.tbn.act{color:#e8e4dc}
+.tbn.act::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:#FFD700;animation:tg 1.5s ease-in-out infinite}
+@keyframes tg{0%,100%{opacity:0.6}50%{opacity:1}}
+.sr{display:grid;grid-template-columns:3.5rem 1fr;gap:0;border-top:1px solid rgba(255,215,0,0.05);border-left:1px solid rgba(255,215,0,0.05);transition:all 0.2s}
+.sr:last-of-type{border-bottom:1px solid rgba(255,215,0,0.05)}
+.sr:hover{background:rgba(255,215,0,0.02)}
+.sl2{border-right:1px solid rgba(255,215,0,0.05);padding:0.45rem 0.3rem;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-size:0.65rem;letter-spacing:0.12em;color:rgba(255,215,0,0.35)}
+.si{padding:0.45rem 0.75rem;text-align:left;font-size:0.78rem;opacity:0.65;line-height:1.5}
+.og{display:grid;grid-template-columns:repeat(3,1fr)}
+.oc{position:relative;padding:1rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
+.og>.oc:nth-child(3n){border-right:none}
+.oc:hover{background:rgba(255,215,0,0.015)}
+.oc h4{font-weight:600;font-size:0.9rem;mix-blend-mode:plus-lighter;margin-bottom:0.15rem;transition:color 0.3s}
+.oc:hover h4{color:#FFD700}
+.oc p{font-size:0.78rem;opacity:0.45;line-height:1.6;font-weight:300}
 .ig{display:grid;grid-template-columns:repeat(2,1fr)}
-.ic2{padding:0.85rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
-.ig>.ic2:nth-child(2n){border-right:none}
-.ic2:hover{background:rgba(255,215,0,0.015)}
-.ic2 h4{font-weight:600;font-size:0.8rem;mix-blend-mode:plus-lighter}
-.ic2 .lv{font-size:0.5rem;color:#FFD700;font-family:'JetBrains Mono',monospace}
-.ic2 p{font-size:0.7rem;opacity:0.35;line-height:1.5;font-weight:300;margin-top:0.15rem}
-/* ── Footer ── */
-footer{border-top:1px solid rgba(255,215,0,0.06);padding:1.5rem 0;margin-top:3rem;display:flex;justify-content:space-between;align-items:center}
-footer span{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.25}
-footer a{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;color:rgba(232,228,220,0.3);text-decoration:none;transition:color 0.2s}
-footer a:hover{color:#FFD700}
-/* ── Quote ── */
-.qb{border-left:2px solid rgba(255,215,0,0.1);padding-left:1rem;font-style:italic;opacity:0.45;font-size:0.85rem;line-height:1.7;margin-bottom:0.75rem}
-.fade{opacity:0;transform:translateY(14px);animation:fu 0.6s ease-out forwards}
-.f1{animation-delay:0.15s}.f2{animation-delay:0.3s}.f3{animation-delay:0.45s}
+.ic{position:relative;padding:0.85rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
+.ig>.ic:nth-child(2n){border-right:none}
+.ic:hover{background:rgba(255,215,0,0.015)}
+.ic h4{font-weight:600;font-size:0.85rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.ic:hover h4{color:#FFD700}
+.ic .lv{font-size:0.6rem;color:#FFD700;font-family:'JetBrains Mono',monospace;mix-blend-mode:plus-lighter}
+.ic p{font-size:0.75rem;opacity:0.45;line-height:1.5;font-weight:300;margin-top:0.15rem}
+.vt{position:relative;padding-left:1.5rem}
+.vt::before{content:'';position:absolute;left:0.5rem;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(255,215,0,0.15),rgba(255,215,0,0.03))}
+.vn{position:relative;padding:0.6rem 0 0.6rem 0.75rem;transition:all 0.3s;cursor:default}
+.vn:hover{transform:translateX(4px)}
+.vn::before{content:'';position:absolute;left:-0.75rem;top:1rem;width:0.45rem;height:0.45rem;border-radius:50%;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);transition:all 0.3s}
+.vn:hover::before{background:rgba(255,215,0,0.4);border-color:#FFD700;box-shadow:0 0 12px rgba(255,215,0,0.2)}
+.vn.gold::before{background:#FFD700;box-shadow:0 0 12px rgba(255,215,0,0.25);animation:dg 2s ease-in-out infinite}
+@keyframes dg{0%,100%{box-shadow:0 0 8px rgba(255,215,0,0.2)}50%{box-shadow:0 0 20px rgba(255,215,0,0.4)}}
+.vn .vn1{font-weight:600;font-size:0.9rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.vn:hover .vn1{color:#FFD700}
+.vn .vn2{font-size:0.78rem;opacity:0.45;line-height:1.5}
+.vn .vn3{font-size:0.6rem;opacity:0.2;font-family:'JetBrains Mono',monospace}
+.qb{border-left:2px solid rgba(255,215,0,0.15);padding-left:1.25rem;font-style:italic;opacity:0.55;font-size:0.95rem;line-height:1.8}
+.fade{opacity:0;transform:translateY(14px);animation:fu 0.7s ease-out forwards}
+.fd1{animation-delay:0.15s}.fd2{animation-delay:0.3s}.fd3{animation-delay:0.45s}.fd4{animation-delay:0.6s}.fd5{animation-delay:0.75s}.fd6{animation-delay:0.9s}
 @keyframes fu{to{opacity:1;transform:translateY(0)}}
+.al{display:inline-flex;align-items:center;gap:0.5rem;background:none;border:none;color:rgba(232,228,220,0.45);font-family:'Noto Serif SC',serif;font-size:0.875rem;letter-spacing:0.2rem;text-transform:uppercase;cursor:pointer;transition:all 0.3s;text-decoration:none;position:relative}
+.al::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:#FFD700;transition:width 0.3s}
+.al:hover{color:#FFD700;opacity:1}
+.al:hover::after{width:100%}
+.al svg{width:0.7rem;height:0.7rem;transition:transform 0.3s}
+.al:hover svg{transform:translateX(4px)}
+.fl2{font-family:'Noto Serif SC',serif;font-size:0.875rem;letter-spacing:0.2rem;text-decoration:none;color:#e8e4dc}
+.cp1{background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.06);padding:1rem;text-align:center;transition:all 0.3s;position:relative;overflow:hidden}
+.cp1::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.03),transparent);transition:left 0.5s}
+.cp1:hover::before{left:100%}
+.cp1:hover{border-color:rgba(255,215,0,0.2);transform:translateY(-2px)}
+.cp1 .num{font-size:1.6rem;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter}
+.cp1 .lb{font-size:0.7rem;opacity:0.35;margin-top:0.2rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.tag{display:inline-block;background:rgba(255,215,0,0.03);padding:0.15rem 0.6rem;font-size:0.65rem;letter-spacing:0.08em;border:1px solid rgba(255,215,0,0.06);margin:0.15rem;border-radius:2px;color:rgba(232,228,220,0.5);transition:all 0.3s;cursor:default}
+.tag:hover{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.15)}
 @media(max-width:768px){
   main{padding:1rem}
+  .fg,.og{grid-template-columns:1fr}
+  .fg>.fc:nth-child(3n),.og>.oc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
   .cg{grid-template-columns:repeat(2,1fr)}
   .cg>.cc:nth-child(4n){border-right:1px solid rgba(255,215,0,0.06)}
   .cg>.cc:nth-child(2n){border-right:none}
   .ig{grid-template-columns:1fr}
-  .nav-r{gap:0.8rem}
-  .nav-r a{font-size:0.6rem}
+  .ig>.ic:nth-child(2n){border-right:1px solid rgba(255,215,0,0.06)}
+  .hm{display:none!important}
+  .logo-text{font-size:1.6rem}
+  .hero{padding:3rem 0.5rem 2rem}
+  .hero-title{font-size:clamp(2rem,8vw,3rem)}
+  .stats{grid-template-columns:1fr}
+}
+@media(min-width:769px)and(max-width:1024px){
+  .fg,.og{grid-template-columns:repeat(2,1fr)}
+  .fg>.fc:nth-child(3n),.og>.oc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
+  .fg>.fc:nth-child(2n),.og>.oc:nth-child(2n){border-right:none}
+  .cg{grid-template-columns:repeat(3,1fr)}
+  .cg>.cc:nth-child(4n){border-right:1px solid rgba(255,215,0,0.06)}
+  .cg>.cc:nth-child(3n){border-right:none}
 }
 </style>
 </head>
 <body>
-<div id="inv"></div><div id="gl1"></div><div id="gl2"></div><div id="vn"></div><div id="dots"></div>
-<canvas id="nc"></canvas><canvas id="gc"></canvas><canvas id="pc"></canvas>
+<div id="invert-layer"></div>
+<div id="glow"></div>
+<div id="glow2"></div>
+<div id="vn"></div>
+<div id="dots"></div>
+<canvas id="noise-layer"></canvas>
+<canvas id="grain-c"></canvas>
+<canvas id="tex-c"></canvas>
+<canvas id="pt-c"></canvas>
 
 <main>
 
-<!-- ═══ NAV ═══ -->
-<nav>
-  <a href="index.html" class="nav-l">Lord of<br>Mysteries</a>
-  <div class="nav-r">
-    <a href="index.html" class="act">Home</a>
-    <a href="pages/characters.html">Characters</a>
-    <a href="pages/pathways.html">Pathways</a>
-    <a href="pages/artifacts.html">Artifacts</a>
-  </div>
-</nav>
 
-<!-- ═══ HERO ═══ -->
-<div class="hero">
-  <div class="tagline">▸  Fantasy · Mystery · Lovecraftian  ◂</div>
-  <h1>「The Fool That Does Not<br>Belong to This Era」<span class="sub">Mysterious Ruler Above the Gray Fog</span></h1>
-  <p>Amid the tide of steam and machinery, the forces of mystery quietly revive.<br>Transmigrator Klein Moretti rises from a low-level Beyonder to the Lord of the Mysteries.</p>
-  <div style="margin-top:1.5rem">
-    <span class="tag">4.47M words</span>
-    <span class="tag">2018–2020</span>
-    <span class="tag">9 Volumes</span>
-    <span class="tag">22 Pathways</span>
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:0 0 1rem;border-bottom:1px solid rgba(255,215,0,0.08);margin-bottom:2rem">
+  <span style="font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:#e8e4dc">诡秘之主</span>
+  <div style="display:flex;gap:1.5rem">
+    <span style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:#e8e4dc;text-transform:uppercase">首页</span>
+    <a href="pages/characters.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">角色</a>
+    <a href="pages/pathways.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">途径</a>
+    <a href="pages/artifacts.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">封印物</a>
   </div>
-</div>
+</nav>>
 
-<!-- ═══ ABOUT ═══ -->
-<div class="grid">
-  <div class="gc" style="grid-column:span 7">
-    <div class="sl">About the Novel</div>
-    <p style="margin-bottom:1rem">"Lord of the Mysteries" is a Western fantasy masterpiece by Chinese author "Cuttlefish That Loves Diving." Serialized on Qidian from 2018 to 2020, totaling roughly 4.47 million words, it is widely regarded as a landmark work in online literature.</p>
-    <p style="margin-bottom:1rem">Set in a 19th-century Victorian-esque world where the Industrial Revolution reshapes civilization while ancient mystical forces stir in the shadows. Protagonist Zhou Mingrui transmigrates into Klein Moretti, stepping into the world of Beyonders guided by occult notes and the mysterious "Sefirah Castle."</p>
-    <p>The novel blends Lovecraftian horror, SCP containment concepts, Tarot symbolism, and steampunk aesthetics into a vast, self-consistent world.</p>
-  </div>
-  <div class="gc" style="grid-column:span 5">
-    <div class="sl">Core Stats</div>
-    <div class="stat-grid">
-      <div class="stat-box"><div class="num">447</div><div class="lb">Thousand Words</div></div>
-      <div class="stat-box"><div class="num">9</div><div class="lb">Volumes</div></div>
-      <div class="stat-box"><div class="num">1,355</div><div class="lb">Chapters</div></div>
-      <div class="stat-box"><div class="num">22</div><div class="lb">Pathways</div></div>
+<div class="g"><div class="gc" style="grid-column:1/-1;border-bottom:none;">
+  <div class="hero">
+    <div class="hero-sub">▸  Fantasy · Mystery · Cosmic Horror  ◂</div>
+    <h1 class="hero-title">「不属于这个时代的愚者」<span class="sub">灰雾之上的神秘主宰 · 执掌好运的黄黑之王</span></h1>
+    <div class="hero-desc">蒸汽与机械的浪潮中，神秘侧的力量悄然复苏。穿越者克莱恩·莫雷蒂，<br>在这诡秘的世界中步步为营，从底层非凡者成长为执掌时空的诡秘之主。</div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;animation:fsi 1s ease-out 0.6s both;">
+      <span class="tag">447 万字</span><span class="tag">2018–2020</span><span class="tag">9 卷 · 1355 章</span><span class="tag">22 条非凡途径</span><span class="tag">起点年度最佳</span>
     </div>
-    <div class="sl" style="margin-top:1.5rem;opacity:0.25">Awards</div>
-    <p style="font-size:0.8rem">Best Novel 2019 · Platinum Author 2020 · Pegasus Literature Award · Translated into English, Japanese, Korean · Animation "The Clown Arc" 2025</p>
   </div>
-</div>
+</div></div>
 
-<!-- ═══ QUOTE + TERMINAL ═══ -->
-<div class="grid">
-  <div class="gc" style="grid-column:span 6">
-    <div class="sl">Voices from the Fog</div>
-    <div class="qb">"We are each the masters of our own fate, and the only myth in our own destiny."</div>
-    <div class="qb">"I came to this era not to change it, but to protect what is worth protecting."</div>
-    <div class="qb">"One day I will return. As The Fool, sitting here again, gazing at the stars."</div>
-    <div style="font-size:0.65rem;opacity:0.15;font-family:JetBrains Mono,monospace;margin-top:1rem">— Klein Moretti / The Fool</div>
+<div class="g" id="intro">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;"><div class="sl"><strong>▍小说简介</strong></div></div>
+  <div class="gc" style="grid-column:span 6;display:flex;flex-direction:column;justify-content:center;padding:2rem 1.5rem;">
+    <div class="fade">
+      <p style="font-size:0.95rem;line-height:2;opacity:0.55;font-weight:300;margin-bottom:1rem;">《诡秘之主》是网络作家「爱潜水的乌贼」创作的西方奇幻巨著，2018年4月1日于起点中文网连载，2020年5月1日完结，总字数约447万字，被广泛誉为网络文学史上最具开创性的里程碑之作。</p>
+      <p style="font-size:0.95rem;line-height:2;opacity:0.55;font-weight:300;margin-bottom:1rem;">故事背景设定在类似19世纪维多利亚时代的异世界——蒸汽与机械的工业革命正在深刻改变世界格局，而古老的神秘力量也在暗处复苏。主角周明瑞意外穿越，附身于自杀的青年历史系大学生克莱恩·莫雷蒂，在神秘学笔记和金手指「源堡」的指引下，一步步踏入非凡者的世界。</p>
+      <p style="font-size:0.95rem;line-height:2;opacity:0.55;font-weight:300;">小说精妙融合克苏鲁神话的恐怖氛围、SCP基金会式的收容概念、塔罗牌的神秘体系与蒸汽朋克美学，构建了一个宏大而自洽的非凡世界观。严谨的序列升级体系、智力密集的对决、深刻的角色塑造，使其成为玄幻网文史上不可绕过的经典。</p>
+    </div>
   </div>
-  <div class="gc" style="grid-column:span 6">
-    <div class="tbox">
-      <div class="th">
-        <span class="td"></span><span class="td"></span><span class="td"></span>
-        <span class="tl">LOTM.exe — Scan v3.0</span>
+  <div class="gc" style="grid-column:span 6;padding:2rem 1.5rem;">
+    <div class="fade fd1">
+      <div class="sl" style="opacity:0.3;margin-bottom:1rem;font-size:0.8rem;"><strong>▍核心数据</strong></div>
+      <div class="stats">
+        <div class="cp1"><div class="num" data-count="447">0</div><div class="lb">万字</div></div>
+        <div class="cp1"><div class="num">9</div><div class="lb">正卷</div></div>
+        <div class="cp1"><div class="num">1,355</div><div class="lb">章节</div></div>
+        <div class="cp1"><div class="num">22</div><div class="lb">非凡途径</div></div>
       </div>
-      <div class="tt" id="tt"></div>
+      <div style="margin-top:1rem;"><span class="tag">#克苏鲁</span><span class="tag">#蒸汽朋克</span><span class="tag">#非凡序列</span><span class="tag">#塔罗牌</span><span class="tag">#穿越</span><span class="tag">#SCP</span><span class="tag">#西幻</span><span class="tag">#群像</span><span class="tag">#智力流</span></div>
+    </div>
+    <div class="fade fd2" style="margin-top:1.5rem;">
+      <div class="sl" style="opacity:0.3;margin-bottom:0.6rem;font-size:0.8rem;"><strong>▍主要奖项</strong></div>
+      <p style="font-size:0.78rem;line-height:1.8;opacity:0.4;font-weight:300;">起点中文网 2019 年度最佳 · 2020 年白金大神 · 首届「天马文学奖」得主 · 中国作协网络文学排行榜 · 翻译为英、日、韩等多国语言出海 · 动画《小丑篇》2025年上线腾讯视频</p>
+    </div>
+
+    <!-- 番外信息 -->
+    <div class="fade fd3" style="margin-top:1.5rem;">
+      <div class="sl" style="opacity:0.3;margin-bottom:0.6rem;font-size:0.8rem;"><strong>▍系列作品</strong></div>
+      <p style="font-size:0.78rem;line-height:1.8;opacity:0.4;font-weight:300;">
+        第一部《诡秘之主》· 番外《一个人的日常》《在现代》《1346年的一天》<br>
+        第二部《宿命之环》2023-2025年连载，共 687 章 · 
+        动画《小丑篇》2025年6月上线腾讯视频
+      </p>
     </div>
   </div>
 </div>
 
-<!-- ═══ VOLUMES ═══ -->
-<div class="grid">
-  <div class="gc" style="grid-column:span 6">
-    <div class="sl">Volumes 1–5</div>
-    <p><strong>Vol.1 The Clown</strong> (ch.1-207) — Klein transmigrates, enters the Beyonder world. Holds the first Tarot Gathering.</p>
-    <p style="margin-top:0.5rem"><strong>Vol.2 Faceless</strong> (ch.208-381) — Promotes to Faceless, infiltrates major powers, confronts the Aurora Order.</p>
-    <p style="margin-top:0.5rem"><strong>Vol.3 Traveler</strong> (ch.382-534) — Becomes a Marionettist, travels the world, expands the Tarot Gathering.</p>
-    <p style="margin-top:0.5rem"><strong>Vol.4 Undying</strong> (ch.535-702) — Promotes to Bizarro Sorcerer, faces Amon for the first time.</p>
-    <p style="margin-top:0.5rem"><strong>Vol.5 Red Priest</strong> (ch.703-837) — Seizes Backlund, builds power as The Fool.</p>
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;"><div class="sl"><strong>▍分卷目录</strong></div></div>
+  <div class="gc" style="grid-column:span 6;">
+    <div class="fade vt">
+      <div class="vn gold"><div class="vn1">第一卷 · 小丑 <span class="vn3">第1-207章</span></div><div class="vn2">克莱恩穿越成为历史系大学生，接触非凡世界。首次在灰雾之上举行塔罗会，结识"正义"与"倒吊人"。</div></div>
+      <div class="vn"><div class="vn1">第二卷 · 无面人 <span class="vn3">第208-381章</span></div><div class="vn2">晋升无面人，以多种身份潜入各大势力，深入挖掘罗塞尔日记的秘密。</div></div>
+      <div class="vn"><div class="vn1">第三卷 · 旅行家 <span class="vn3">第382-534章</span></div><div class="vn2">成为秘偶大师游历各国，海上冒险中结识新同伴，塔罗会规模扩大。</div></div>
+      <div class="vn"><div class="vn1">第四卷 · 不死者 <span class="vn3">第535-702章</span></div><div class="vn2">晋升诡法师，与阿蒙首次正面交锋，参与因蒂斯共和国大事件。</div></div>
+      <div class="vn"><div class="vn1">第五卷 · 红祭司 <span class="vn3">第703-837章</span></div><div class="vn2">占据贝克兰德建立势力，与各大教会博弈，践行"愚者"的身份与权柄。</div></div>
+    </div>
   </div>
-  <div class="gc" style="grid-column:span 6">
-    <div class="sl">Volumes 6–9</div>
-    <p><strong>Vol.6 Light Seeker</strong> (ch.838-970) — The Church of The Fool is founded; god-level forces clash.</p>
-    <p style="margin-top:0.5rem"><strong>Vol.7 The Hanged Man</strong> (ch.971-1088) — Klein and Amon's fateful battle for Sefirah Castle.</p>
-    <p style="margin-top:0.5rem"><strong>Vol.8 The Fool</strong> (ch.1089-1245) — Promotes to Seq 0. Battle spans time and dimensions.</p>
-    <p style="margin-top:0.5rem"><strong>Vol.9 Mysteries</strong> (ch.1246-1355) — Faces Outer Gods. Klein sacrifices himself in eternal slumber.</p>
-    <p style="margin-top:0.5rem"><strong>Sequel: Circle of Inevitability</strong> — Book 2, 2023-2025, 687 chapters.</p>
+  <div class="gc" style="grid-column:span 6;">
+    <div class="fade fd1 vt">
+      <div class="vn"><div class="vn1">第六卷 · 逐光者 <span class="vn3">第838-970章</span></div><div class="vn2">穿梭历史获取力量，"愚者教会"正式建立，真神级力量开始正面冲突。</div></div>
+      <div class="vn"><div class="vn1">第七卷 · 倒吊人 <span class="vn3">第971-1088章</span></div><div class="vn2">克莱恩与阿蒙展开关乎命运的生死博弈，源堡之争进入白热化阶段。</div></div>
+      <div class="vn"><div class="vn1">第八卷 · 愚者 <span class="vn3">第1089-1245章</span></div><div class="vn2">晋升序列0「愚者」，击退各方觊觎。灰雾之上的战斗横跨时空维度。</div></div>
+      <div class="vn gold"><div class="vn1">第九卷 · 诡秘 <span class="vn3">第1246-1355章</span></div><div class="vn2">面对外神威胁与命运回归，克莱恩以永恒的沉睡为代价守护世界。</div></div>
+      <div class="vn gold"><div class="vn1">外传 · 宿命之环 <span class="vn3">2023-2025</span></div><div class="vn2">诡秘之主系列第二部，1368年七月之末，深红从天而降。全新的冒险再度展开。</div></div>
+    </div>
   </div>
 </div>
 
-<!-- ═══ FOOTER ═══ -->
-<footer>
-  <span>Lord of Mysteries — Fan Site</span>
-  <a href="https://www.qidian.com/book/1010731093/">Read on Qidian →</a>
-</footer>
+<div class="g">
+  <div class="gc" style="grid-column:span 7;">
+    <div class="fade">
+      <div class="sl" style="margin-bottom:0.75rem;"><strong>▍终端回响</strong></div>
+      <div class="tbox">
+        <div class="th">
+          <span class="td"></span><span class="td"></span><span class="td"></span>
+          <span class="ttl">LOTM.exe — 序列扫描 v3.0</span>
+        </div>
+        <div class="tt" id="tt"></div>
+      </div>
+    </div>
+  </div>
+  <div class="gc" style="grid-column:span 5;display:flex;flex-direction:column;justify-content:center;padding:2rem 1.5rem;">
+    <div class="fade fd1">
+      <small class="sl" style="opacity:0.3;margin-bottom:0.75rem;font-size:0.8rem;">LOST IN THE FOG</small>
+      <h2 style="font-weight:700;font-size:1.3rem;line-height:1.4;mix-blend-mode:plus-lighter;margin-bottom:0.75rem;">当疯狂逼近，<br>唯有隐秘才是救赎。</h2>
+      <div class="qb" style="margin-bottom:0.8rem;">"我们各自都是自己命运的主宰，也是自己命运中的唯一神话。"</div>
+      <div class="qb" style="margin-bottom:0.8rem;">"我来到这个时代，不是为了改变什么，只是想守护那些值得守护的东西。"</div>
+      <div class="qb">"总有一天，我会回来。以一个愚者的身份，再次坐在这里，和你们一起仰望星空。"</div>
+      <div style="margin-top:1rem;font-size:0.75rem;opacity:0.2;font-family:'JetBrains Mono',monospace;">—— 克莱恩·莫雷蒂 / 愚者</div>
+    </div>
+  </div>
+</div>
 
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;"><div class="sl"><strong><div class="g" style="border-bottom:1px solid rgba(255,215,0,0.06);">
+  <div class="gc" style="grid-column:span 12;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4rem 1rem;">
+    <div class="fade" style="max-width:650px;">
+      <small class="sl" style="opacity:0.2;margin-bottom:1rem;letter-spacing:0.3rem;">THE FOOL THAT NOT BELONGS TO THIS ERA</small>
+      <h2 style="font-family:'Noto Serif SC',serif;font-weight:400;font-size:1.25rem;line-height:2;opacity:0.5;letter-spacing:0.05em;">"诡秘的世界里，真相是最大的疯狂，但总有人在黑暗中守护着文明的火种。"</h2>
+      <p style="margin-top:1.5rem;font-size:0.9rem;opacity:0.3;line-height:1.8;font-weight:300;">一个关于牺牲与守护的故事。他本可以成为旧日支配者，却选择以永恒的沉睡守护这个世界。</p>
+      <p style="margin-top:1rem;font-size:0.7rem;opacity:0.15;font-family:'JetBrains Mono',monospace;">"所有命运的馈赠，都在暗中标好了价格。" —— 爱潜水的乌贼</p>
+      <div style="margin-top:2rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;">
+        <a href="https://www.qidian.com/book/1010731093/" class="al">起点阅读<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+        <a href="https://baike.baidu.com/item/诡秘之主" class="al">百度百科<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="g">
+  <div class="gc" style="display:flex;align-items:center;gap:0.5rem;"><small class="fl2">诡秘之主</small><small style="color:#FFD700;mix-blend-mode:plus-lighter;">爱潜水的乌贼</small></div>
+  <div class="gc hm"></div><div class="gc hm"></div>
+  <div class="gc" style="display:flex;align-items:center;"><a href="https://www.qidian.com/book/1010731093/" class="fl2" style="opacity:0.35;">起点中文网 ↗</a></div>
+  <div class="gc" style="display:flex;align-items:center;justify-content:flex-end;"><small style="color:#FFD700;mix-blend-mode:plus-lighter;font-family:'JetBrains Mono',monospace;font-size:0.6rem;">Fan Site · 2026</small></div>
+</footer>
 </main>
 
 <script>
-// ── Canvas layers ──
-(function(){function C(id){var c=document.getElementById(id);if(!c)return;var x=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;return c}
-var nc=C('nc');setInterval(function(){if(!nc)return;var w=nc.width,h=nc.height,d=nc.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*255;b[i+1]=b[i];b[i+2]=b[i];b[i+3]=255}nc.getContext('2d').putImageData(d,0,0)},100);
-var gc2=C('gc');setInterval(function(){if(!gc2)return;var w=gc2.width,h=gc2.height,d=gc2.getContext('2d').createImageData(w,h),b=d.data;for(var i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}gc2.getContext('2d').putImageData(d,0,0)},200);
-var pc2=C('pc');var pts=[];!function(){if(!pc2)return;var w=pc2.width=window.innerWidth,h=pc2.height=window.innerHeight;for(var i=0;i<60;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.2,vy:(Math.random()-0.5)*0.2,s:Math.random()*1.5+0.3,a:Math.random()*0.3+0.05})}();
-!function dp(){if(!pc2)return;var w=pc2.width,h=pc2.height,ctx=pc2.getContext('2d');ctx.clearRect(0,0,w,h);for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fillStyle='rgba(255,215,0,'+p.a+')';ctx.fill()}requestAnimationFrame(dp)}();
-
-// ── Terminal typewriter ──
-(function(){
-  var el=document.getElementById('tt');if(!el)return;
-  var lines=[
-    {d:'$',c:'hl',t:' ./lotm --scan --mode=full'},
-    {d:'',c:'dm',t:'[SYSTEM] Loading the Gray Fog...'},
-    {d:'',c:'dm',t:'[SYSTEM] Detecting resonance —'},
-    {d:'',c:'hl',t:'  \"Lord of Mysteries\"'},
-    {d:'',c:'dm',t:'[01:23] Char. Convergence  ████████████░░ 83%'},
-    {d:'',c:'dm',t:'[01:25] Analyzing '},{d:'',c:'cy',t:'\"The Fool\" '},{d:'',c:'dm',t:'Seq 0 Authority...'},
-    {d:'',c:'dm',t:'[01:27] Time Worms: '},{d:'',c:'hl',t:'3,648,911'},
-    {d:'',c:'dm',t:'[01:30] Jump to '},{d:'',c:'gr',t:'Backlund'},{d:'',c:'dm',t:' - Queens Quarter'},
-    {d:'',c:'dm',t:'[01:32] '},{d:'',c:'rd',t:'HIGH ALERT: '},{d:'',c:'dm',t:'Coordinates Exposed'},
-    {d:'',c:'dm',t:'[01:33] '},{d:'',c:'pu',t:'Anomaly: '},{d:'',c:'dm',t:'Amon (Time Worm - Error)'},
-    {d:'',c:'dm',t:'[01:34] Activating '},{d:'',c:'hl',t:'\"Chaos Timeline\" '},{d:'',c:'dm',t:'Defense...'},
-    {d:'',c:'dm',t:'[01:36] From Zhou Mingrui:'},{d:'',c:'gr',t:' \"Someone must guard these beautiful things.\"'},
-    {d:'',c:'dm',t:'[01:38] Path: '},{d:'',c:'hl',t:'Seer,Clown,Magician,Faceless,Marionettist,Bizarro,Scholar,Miracle,Servant,Fool'},
-    {d:'',c:'dm',t:'[01:40] Tarot roster loaded'},
-    {d:'',c:'dm',t:'[01:42] Wheel of Fortune turns...'},
-    {d:'',c:'dm',t:'[01:45] '},{d:'',c:'pu',t:'Outer God: '},{d:'',c:'dm',t:'Chaotic Sea - Mother Goddess - Tree of Desire'},
-    {d:'',c:'dm',t:'[01:48] '},{d:'',c:'hl',t:'Incantation Activated'},
-    {d:'',c:'rd',t:'Scan Complete 100%'},
-    {d:'$',c:'hl',t:' '},{d:'',c:'dm',t:'Pathway verified. System ready.'}
-  ];
-  var totalChars=0;for(var i=0;i<lines.length;i++){var l=lines[i];totalChars+=(l.d||'').length+(l.t||'').length+1}
-  var charIndex=0;var timer=null;
-  function renderTo(idx){
-    var html='';var charsLeft=idx;
-    for(var i=0;i<lines.length;i++){
-      var l=lines[i];var lineStr=(l.d||'')+(l.t||'')+'\n';
-      if(charsLeft<=0)break;
-      if(charsLeft>=lineStr.length){
-        if(l.d)html+='<span class="dm">'+l.d+'</span>';
-        html+='<span class="'+l.c+'">'+l.t+'</span>\n';
-        charsLeft-=lineStr.length;
-      }else{
-        var remaining=charsLeft;
-        if(l.d&&remaining>0){var pd=l.d.slice(0,Math.min(remaining,l.d.length));html+='<span class="dm">'+pd+'</span>';remaining-=pd.length}
-        if(remaining>0){var td=(l.t||'').slice(0,Math.min(remaining,(l.t||'').length));html+='<span class="'+l.c+'">'+td+'</span>'}
-        charsLeft=0;
-      }
-    }
-    html+='<span class="tc"></span>';el.innerHTML=html;
-  }
-  function typeChar(){
-    if(charIndex>=totalChars){setTimeout(function(){charIndex=0;typeChar()},3000);return}
-    renderTo(charIndex);charIndex++;
-    var ch='';var c=0;
-    for(var i=0;i<lines.length;i++){
-      var l=lines[i];var s=(l.d||'')+(l.t||'')+'\n';
-      if(c+s.length>charIndex-1){ch=s[charIndex-1-c];break}
-      c+=s.length
-    }
-    var delay=ch=='\n'?35:(ch==' '?10:8);
-    setTimeout(typeChar,delay);
-  }
-  setTimeout(typeChar,500);
-})();
+function initCanvas(id){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d');function r(){c.width=window.innerWidth;c.height=window.innerHeight}r();window.addEventListener('resize',r);return{c,ctx,r}}
+initCanvas('noise-layer');setInterval(()=>{const c=document.getElementById('noise-layer');if(!c)return;const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;for(let i=0;i<b.length;i+=4){const v=Math.random()*255;b[i]=v;b[i+1]=v;b[i+2]=v;b[i+3]=255}c.getContext('2d').putImageData(id,0,0)},100);
+initCanvas('tex-c');(function(){const c=document.getElementById('tex-c');if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;const id=ctx.createImageData(w,h),b=id.data;for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4,p=(Math.sin(x*0.05)+Math.sin(y*0.05))*15+128,n=Math.random()*8-4;b[i]=p+n;b[i+1]=p*0.8+n;b[i+2]=p*0.5+n;b[i+3]=15}ctx.putImageData(id,0,0)})();
+initCanvas('grain-c');setInterval(()=>{const c=document.getElementById('grain-c');if(!c)return;const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;for(let i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}c.getContext('2d').putImageData(id,0,0)},200);
+const ptc=document.getElementById('pt-c'),ptctx=ptc.getContext('2d');let pw=0,ph=0,pts=[];
+function pr(){pw=ptc.width=window.innerWidth;ph=ptc.height=window.innerHeight;pts=[];for(let i=0;i<80;i++)pts.push({x:Math.random()*pw,y:Math.random()*ph,vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,s:Math.random()*1.8+0.3,a:Math.random()*0.35+0.08})}
+pr();window.addEventListener('resize',pr);
+(function dp(){ptctx.clearRect(0,0,pw,ph);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=pw;if(p.x>pw)p.x=0;if(p.y<0)p.y=ph;if(p.y>ph)p.y=0;ptctx.beginPath();ptctx.arc(p.x,p.y,p.s,0,Math.PI*2);ptctx.fillStyle=`rgba(255,215,0,${p.a})`;ptctx.fill()}requestAnimationFrame(dp)})();
+const tl=[{d:'$',c:'hl',t:' ./lotm --scan --mode=full'},{d:'',c:'dim',t:'[SYSTEM] 正在载入灰雾之上...'},{d:'',c:'dim',t:'[SYSTEM] 检测到源质共鸣——'},{d:'',c:'hl',t:'「诡秘之主」'},{d:'',c:'dim',t:'[01:23] 非凡特性聚合定律  ████████████░░ 83%'},{d:'',c:'dim',t:'[01:25] 解析 '},{d:'',c:'cy',t:'「愚者」'},{d:'',c:'dim',t:' 序列0 权柄...'},{d:'',c:'dim',t:'[01:27] 时之虫 总数：'},{d:'',c:'hl',t:'3,648,911'},{d:'',c:'dim',t:'[01:30] 跳转至 '},{d:'',c:'gr',t:'贝克兰德'},{d:'',c:'dim',t:' · 皇后区 · 155号'},{d:'',c:'dim',t:'[01:32] '},{d:'',c:'rd',t:'⚠ 高能预警：'},{d:'',c:'dim',t:'源堡坐标暴露'},{d:'',c:'dim',t:'[01:33] '},{d:'',c:'pu',t:'◇ 异常实体：'},{d:'',c:'dim',t:'阿蒙 (时之虫 · 错误途径)'},{d:'',c:'dim',t:'[01:34] 激活 '},{d:'',c:'hl',t:'「错乱时间线」'},{d:'',c:'dim',t:' 防御协议...'},{d:'',c:'dim',t:'[01:36] 来自 '},{d:'',c:'cy',t:'周明瑞'},{d:'',c:'dim',t:' 的精神印记：'},{d:'',c:'gr',t:'  "总要有人去守护这些美好。"'},{d:'',c:'dim',t:'[01:38] 序列升级路径：'},{d:'',c:'hl',t:'占卜家→小丑→魔术师→无面人→秘偶大师→诡法师→古代学者→奇迹师→诡秘侍者→愚者'},{d:'',c:'dim',t:'[01:40] 塔罗会成员信息加载完毕'},{d:'',c:'dim',t:'[01:42] 命运之轮 开始转动...'},{d:'',c:'dim',t:'[01:45] '},{d:'',c:'pu',t:'◇ 外神低语：'},{d:'',c:'dim',t:'混沌海 · 母神 · 欲望母树...'},{d:'',c:'dim',t:'[01:48] '},{d:'',c:'hl',t:'「福生玄黄天尊」'},{d:'',c:'dim',t:' 咒文共鸣启动'},{d:'',c:'rd',t:'▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 扫描完成 100%'},{d:'$',c:'hl',t:' '},{d:'',c:'dim',t:'诡秘之主途径验证通过。系统就绪。'}];const el=document.getElementById('tt');if(el){let ci=0;const tc=tl.reduce((a,l)=>a+(l.d||'').length+(l.t||'').length+1,0);function tp(){if(ci>=tc){setTimeout(()=>{ci=0;tp()},3000);return}let h='',cl=ci;ci++;for(const l of tl){let ln=(l.d||'')+(l.t||'')+'\n';if(cl<=0)break;if(cl>=ln.length){if(l.d)h+=`<span class="dim">${l.d}</span>`;h+=`<span class="${l.c}">${l.t||''}</span>\n`;cl-=ln.length}else{let r=cl;if(l.d&&r>0){const pd=l.d.slice(0,Math.min(r,l.d.length));h+=`<span class="dim">${pd}</span>`;r-=pd.length}if(r>0)h+=`<span class="${l.c}">${(l.t||'').slice(0,Math.min(r,(l.t||'').length))}</span>`;cl=0}}h+='<span class="tc"></span>';el.innerHTML=h;const ch=ci>0?(function(){let c=0;for(const l of tl){const ln=(l.d||'')+(l.t||'')+'\n';if(c+ln.length>=ci)return ln[ci-c-1];c+=ln.length}return''})():'';setTimeout(tp,ch==='\n'?35:ch===' '?12:10)}tp()}
+function sw(btn,id){document.querySelectorAll('.tbn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');document.querySelectorAll('.sp').forEach(p=>p.style.display='none');document.getElementById('p-'+id).style.display='block'}
+(function(){const ob=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting&&e.target.style.animationPlayState!=='running')e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('.fade').forEach(e=>{e.style.animationPlayState='paused';ob.observe(e)})})();
+(function(){const el=document.querySelector('[data-count]');if(!el)return;const ob=new IntersectionObserver(([e])=>{if(e.isIntersecting){let c=0;const iv=setInterval(()=>{c+=7;if(c>=447){c=447;clearInterval(iv)}el.textContent=c},30);ob.unobserve(el)}},{threshold:0.5});ob.observe(el)})();
 </script>
 </body>
 </html>
