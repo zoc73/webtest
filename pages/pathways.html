@@ -54,10 +54,11 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 .star{position:absolute;width:2px;height:2px;background:rgba(255,215,0,0.3);transform:translate(-50%,-50%)}
 .scroll-proxy{height:600vh;position:absolute;width:100%;z-index:-1;pointer-events:none}
 
-/* ===== TAROT GALLERY SECTION ===== */
-.tarot-section{position:relative;z-index:50;margin-top:100vh;padding:4rem 2rem;max-width:1600px;margin-left:auto;margin-right:auto}
-.tarot-section .sl{font-family:'Noto Serif SC',serif;font-size:0.875rem;letter-spacing:0.2rem;margin-bottom:1.5rem;color:rgba(232,228,220,0.6)}
-.tarot-track{display:flex;gap:1.25rem;padding:0.5rem 2.5rem;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:1rem}
+/* ===== TAROT GALLERY (fixed at bottom) ===== */
+.tarot-section{position:fixed;bottom:0;left:0;right:0;z-index:51;padding:1rem 2rem 1.5rem;background:linear-gradient(0deg,rgba(7,7,13,0.85) 50%,transparent 100%);pointer-events:auto}
+.tarot-section .tarot-inner{max-width:1600px;margin:0 auto}
+.tarot-section .sl{font-family:'Noto Serif SC',serif;font-size:0.8rem;letter-spacing:0.2rem;margin-bottom:0.8rem;color:rgba(232,228,220,0.5)}
+.tarot-track{display:flex;gap:1rem;padding:0.25rem 2.5rem;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:0.5rem}
 .tarot-track::-webkit-scrollbar{height:2px}
 .tarot-track::-webkit-scrollbar-track{background:rgba(255,215,0,0.04)}
 .tarot-track::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.15);border-radius:2px}
@@ -128,11 +129,12 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 </div>
 <div class="scroll-proxy"></div>
 
-<!-- ===== TAROT GALLERY ===== -->
+<!-- ===== TAROT GALLERY (fixed at bottom) ===== -->
 <section class="tarot-section">
-  <div class="sl">▍22条非凡途径 · 塔罗牌画廊</div>
-  <div class="tarot-wrapper">
-    <div class="tarot-track" id="tarotTrack">
+  <div class="tarot-inner">
+    <div class="sl">▍22条非凡途径 · 塔罗牌画廊</div>
+    <div class="tarot-wrapper">
+      <div class="tarot-track" id="tarotTrack">
       <div class="tcard"><div class="tci"><span class="tcn">0</span><span class="tns">愚者</span><div class="tdv"></div><span class="tpt">占卜家</span><span class="tds">占卜·秘偶·时之虫<br>克莱恩·莫雷蒂</span><span class="tcn">0</span></div></div>
       <div class="tcard"><div class="tci"><span class="tcn">I</span><span class="tns">魔法师</span><div class="tdv"></div><span class="tpt">偷盗者</span><span class="tds">窃取·寄生·时之虫<br>阿蒙</span><span class="tcn">I</span></div></div>
       <div class="tcard"><div class="tci"><span class="tcn">II</span><span class="tns">世界</span><div class="tdv"></div><span class="tpt">学徒</span><span class="tds">传送·空间·门<br>罗塞尔·古斯塔夫</span><span class="tcn">II</span></div></div>
@@ -158,6 +160,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
     </div>
     <button class="tnav tprev" onclick="document.getElementById('tarotTrack').scrollLeft-=195">‹</button>
     <button class="tnav tnext" onclick="document.getElementById('tarotTrack').scrollLeft+=195">›</button>
+  </div>
   </div>
   <div class="tarot-footer">ALL CONTENT BELONGS TO CUTTLEFISH THAT LOVES DIVING</div>
 </section>
