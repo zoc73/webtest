@@ -202,7 +202,7 @@ header .g{border-top:1px solid rgba(255,215,0,0.1)}
     <div class="fade f1">
       <div class="sl" style="opacity:0.25;margin-bottom:0.75rem;font-size:0.7rem">▍Core Stats</div>
       <div class="st">
-        <div class="cp"><div class="nm" id="wc">0</div><div class="lb">Thousand Words</div></div>
+        <div class="cp"><div class="nm">447</div><div class="lb">Thousand Words</div></div>
         <div class="cp"><div class="nm">9</div><div class="lb">Volumes</div></div>
         <div class="cp"><div class="nm">1,355</div><div class="lb">Chapters</div></div>
         <div class="cp"><div class="nm">22</div><div class="lb">Pathways</div></div>
@@ -597,7 +597,6 @@ function sw(el,id){document.querySelectorAll('.tb').forEach(b=>b.classList.remov
 function scrollTarot(dir){try{const t=document.getElementById('tarotTrack');if(!t)return;const c=t.querySelector('.tcard');if(!c)return;const w=c.offsetWidth+20;t.scrollLeft+=dir*w}catch(e){}}
 // Touch drag for tarot
 !function(){try{document.querySelectorAll('.fade').forEach(function(e){e.style.animationPlayState='paused'});var ob=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('.fade').forEach(function(e){ob.observe(e)})}catch(e){}}();
-setTimeout(function(){var e=document.getElementById('wc');if(e){var c=0,t=setInterval(function(){c+=7;if(c>447){c=447;clearInterval(t)}e.textContent=c},20)}},500);
 </script>
 </body>
 </html>
