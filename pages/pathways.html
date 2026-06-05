@@ -8,7 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;700;900&family=Noto+Serif+SC:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;overflow:hidden;width:100vw;height:100vh;cursor:crosshair}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;cursor:crosshair}
 
 /* Hermes signature overlay layers */
 #noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.065;z-index:101}
@@ -25,12 +26,12 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;over
 .hud-line{flex:1;height:1px;background:rgba(255,215,0,0.06);margin:0 1rem;position:relative}
 .hud-line::after{content:'';position:absolute;right:0;top:-3px;width:5px;height:5px;background:rgba(255,215,0,0.3);clip-path:polygon(0 0,100% 0,100% 100%)}
 
-/* Viewport */
+/* 3D Tunnel */
 .viewport{position:fixed;inset:0;perspective:1000px;overflow:hidden;z-index:1}
 .world{position:absolute;top:50%;left:50%;transform-style:preserve-3d;will-change:transform}
 .item{position:absolute;left:0;top:0;backface-visibility:hidden;transform-origin:center center}
 
-/* Cards */
+/* Tunnel Cards */
 .card{width:300px;height:400px;background:rgba(7,7,13,0.35);border:1px solid rgba(255,215,0,0.06);position:relative;padding:1.8rem;display:flex;flex-direction:column;justify-content:space-between;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 0 0 1px rgba(0,0,0,0.5),0 15px 40px rgba(0,0,0,0.4);transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);transform:translate(-50%,-50%)}
 .card:hover{border-color:rgba(255,215,0,0.3);box-shadow:0 0 40px rgba(255,215,0,0.08);z-index:100}
 .card::before,.card::after{content:'';position:absolute;width:8px;height:8px;border:1px solid transparent;transition:0.3s}
@@ -51,7 +52,37 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;over
 
 /* Stars */
 .star{position:absolute;width:2px;height:2px;background:rgba(255,215,0,0.3);transform:translate(-50%,-50%)}
-.scroll-proxy{height:10000vh;position:absolute;width:100%;z-index:-1}
+.scroll-proxy{height:600vh;position:absolute;width:100%;z-index:-1;pointer-events:none}
+
+/* ===== TAROT GALLERY SECTION ===== */
+.tarot-section{position:relative;z-index:50;margin-top:100vh;padding:4rem 2rem;max-width:1600px;margin-left:auto;margin-right:auto}
+.tarot-section .sl{font-family:'Noto Serif SC',serif;font-size:0.875rem;letter-spacing:0.2rem;margin-bottom:1.5rem;color:rgba(232,228,220,0.6)}
+.tarot-track{display:flex;gap:1.25rem;padding:0.5rem 2.5rem;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:1rem}
+.tarot-track::-webkit-scrollbar{height:2px}
+.tarot-track::-webkit-scrollbar-track{background:rgba(255,215,0,0.04)}
+.tarot-track::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.15);border-radius:2px}
+.tcard{flex:0 0 175px;scroll-snap-align:start;transition:all 0.4s;cursor:pointer}
+.tcard:hover{transform:translateY(-8px)}
+.tci{width:175px;height:330px;background:linear-gradient(180deg,#0c0c18,#07070d);border:1px solid rgba(255,215,0,0.12);border-radius:8px;padding:0.75rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3),inset 0 0 40px rgba(255,215,0,0.02)}
+.tci::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:7px;border:1px solid rgba(255,215,0,0.06);pointer-events:none}
+.tci::after{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid rgba(255,215,0,0.04);border-radius:4px;pointer-events:none}
+.tci .tcn{font-family:JetBrains Mono,monospace;font-size:0.7rem;color:rgba(255,215,0,0.35);font-weight:300}
+.tci .tns{font-size:0.9rem;font-weight:700;letter-spacing:0.12em;mix-blend-mode:plus-lighter;text-align:center;z-index:1}
+.tci .tdv{width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.12),transparent);z-index:1}
+.tci .tpt{font-family:JetBrains Mono,monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,215,0,0.35);z-index:1}
+.tci .tds{font-size:0.55rem;color:rgba(232,228,220,0.25);text-align:center;line-height:1.4;z-index:1;padding:0 0.3rem}
+.tnav{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:2.2rem;height:2.2rem;border-radius:50%;border:1px solid rgba(255,215,0,0.12);background:rgba(7,7,13,0.85);color:#FFD700;font-size:1.4rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center}
+.tnav:hover{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.25)}
+.tprev{left:0.3rem}.tnext{right:0.3rem}
+.tarot-wrapper{position:relative;padding:0.5rem 0}
+.tarot-footer{text-align:center;padding:2rem 0 0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:rgba(232,228,220,0.15);letter-spacing:0.15em}
+
+@media(max-width:768px){
+  .tarot-section{padding:2rem 1rem;margin-top:100vh}
+  .tarot-track{padding:0.5rem 1.5rem}
+  .tcard{flex:0 0 155px}
+  .tci{width:155px;height:300px}
+}
 </style>
 </head>
 <body>
@@ -91,10 +122,45 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;over
   </div>
 </div>
 
+<!-- 3D Tunnel -->
 <div class="viewport" id="viewport">
   <div class="world" id="world"></div>
 </div>
 <div class="scroll-proxy"></div>
+
+<!-- ===== TAROT GALLERY ===== -->
+<section class="tarot-section">
+  <div class="sl">▍22条非凡途径 · 塔罗牌画廊</div>
+  <div class="tarot-wrapper">
+    <div class="tarot-track" id="tarotTrack">
+      <div class="tcard"><div class="tci"><span class="tcn">0</span><span class="tns">愚者</span><div class="tdv"></div><span class="tpt">占卜家</span><span class="tds">占卜·秘偶·时之虫<br>克莱恩·莫雷蒂</span><span class="tcn">0</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">I</span><span class="tns">魔法师</span><div class="tdv"></div><span class="tpt">偷盗者</span><span class="tds">窃取·寄生·时之虫<br>阿蒙</span><span class="tcn">I</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">II</span><span class="tns">世界</span><div class="tdv"></div><span class="tpt">学徒</span><span class="tds">传送·空间·门<br>罗塞尔·古斯塔夫</span><span class="tcn">II</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">III</span><span class="tns">正义</span><div class="tdv"></div><span class="tpt">观众</span><span class="tds">读心·催眠·梦境<br>奥黛丽·霍尔</span><span class="tcn">III</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">IV</span><span class="tns">太阳</span><div class="tdv"></div><span class="tpt">太阳</span><span class="tds">光明·黎明·净化<br>戴里克·伯格</span><span class="tcn">IV</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">V</span><span class="tns">月亮</span><div class="tdv"></div><span class="tpt">不眠者</span><span class="tds">黑夜·梦境·寂静<br>伦纳德·米切尔</span><span class="tcn">V</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">VI</span><span class="tns">星星</span><div class="tdv"></div><span class="tpt">窥秘人</span><span class="tds">知识·发明·蒸汽<br>—</span><span class="tcn">VI</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">VII</span><span class="tns">倒吊人</span><div class="tdv"></div><span class="tpt">猎人</span><span class="tds">火焰·战争·征服<br>阿尔杰·威尔逊</span><span class="tcn">VII</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">VIII</span><span class="tns">死神</span><div class="tdv"></div><span class="tpt">收尸人</span><span class="tds">灵魂·亡灵·冥界<br>阿兹克·艾格斯</span><span class="tcn">VIII</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">IX</span><span class="tns">命运之轮</span><div class="tdv"></div><span class="tpt">怪物</span><span class="tds">幸运·概率·混乱<br>威尔·昂赛汀</span><span class="tcn">IX</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">X</span><span class="tns">隐者</span><div class="tdv"></div><span class="tpt">窥秘人</span><span class="tds">神秘·召唤·预言<br>—</span><span class="tcn">X</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XI</span><span class="tns">力量</span><div class="tdv"></div><span class="tpt">战士</span><span class="tds">战斗·黎明·守护<br>—</span><span class="tcn">XI</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XII</span><span class="tns">恶魔</span><div class="tdv"></div><span class="tpt">秘祈人</span><span class="tds">低语·献祭·隐秘<br>—</span><span class="tcn">XII</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XIII</span><span class="tns">女皇</span><div class="tdv"></div><span class="tpt">药师</span><span class="tds">魔药·吸血鬼·生命<br>血族</span><span class="tcn">XIII</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XIV</span><span class="tns">皇帝</span><div class="tdv"></div><span class="tpt">耕种者</span><span class="tds">自然·丰收·大地<br>—</span><span class="tcn">XIV</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XV</span><span class="tns">审判</span><div class="tdv"></div><span class="tpt">仲裁人</span><span class="tds">律法·秩序·裁决<br>—</span><span class="tcn">XV</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XVI</span><span class="tns">战车</span><div class="tdv"></div><span class="tpt">水手</span><span class="tds">风暴·海洋·雷霆<br>—</span><span class="tcn">XVI</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XVII</span><span class="tns">高塔</span><div class="tdv"></div><span class="tpt">囚犯</span><span class="tds">疯狂·诅咒·枷锁<br>—</span><span class="tcn">XVII</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XVIII</span><span class="tns">女祭司</span><div class="tdv"></div><span class="tpt">刺客</span><span class="tds">毒药·女巫·魅惑<br>特莉丝</span><span class="tcn">XVIII</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XIX</span><span class="tns">教皇</span><div class="tdv"></div><span class="tpt">通识者</span><span class="tds">知识·机械·蒸汽<br>—</span><span class="tcn">XIX</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XX</span><span class="tns">皇帝</span><div class="tdv"></div><span class="tpt">律师</span><span class="tds">规则·阴谋·独裁<br>罗塞尔</span><span class="tcn">XX</span></div></div>
+      <div class="tcard"><div class="tci"><span class="tcn">XXI</span><span class="tns">恋人</span><div class="tdv"></div><span class="tpt">罪犯</span><span class="tds">暴力·恶魔·深渊<br>—</span><span class="tcn">XXI</span></div></div>
+    </div>
+    <button class="tnav tprev" onclick="document.getElementById('tarotTrack').scrollLeft-=195">‹</button>
+    <button class="tnav tnext" onclick="document.getElementById('tarotTrack').scrollLeft+=195">›</button>
+  </div>
+  <div class="tarot-footer">ALL CONTENT BELONGS TO CUTTLEFISH THAT LOVES DIVING</div>
+</section>
 
 <script>
 var D = [
@@ -135,7 +201,6 @@ function init() {
     const el = document.createElement('div');
     el.className = 'item';
     const d = D[i];
-    
     if (i % 3 === 0) {
       const txt = document.createElement('div');
       txt.className = 'big-text';
@@ -146,28 +211,15 @@ function init() {
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        <div class="card-header">
-          <span class="card-id">途径</span>
-          <div style="width:6px;height:6px;border:1px solid rgba(255,215,0,0.15)"></div>
-        </div>
-        <div>
-          <h2>${d.n}</h2>
-          <div class="sub">${d.c}</div>
-          <div class="card-desc">${d.s}</div>
-          <div class="card-char">${d.a}</div>
-        </div>
-        <div class="card-footer">
-          <span>序列 9 → 0</span>
-          <span>LOTM</span>
-        </div>
-        <div class="card-badge">${String(i+1).padStart(2,'0')}</div>
-      `;
+        <div class="card-header"><span class="card-id">途径</span><div style="width:6px;height:6px;border:1px solid rgba(255,215,0,0.15)"></div></div>
+        <div><h2>${d.n}</h2><div class="sub">${d.c}</div><div class="card-desc">${d.s}</div><div class="card-char">${d.a}</div></div>
+        <div class="card-footer"><span>序列 9 → 0</span><span>LOTM</span></div>
+        <div class="card-badge">${String(i+1).padStart(2,'0')}</div>`;
       el.appendChild(card);
       items.push({el, type:'card', x:(Math.random()-0.5)*250, y:(Math.random()-0.5)*150, rot:(Math.random()-0.5)*15, baseZ:-i * CONFIG.zGap});
     }
     world.appendChild(el);
   }
-
   for (let i = 0; i < CONFIG.starCount; i++) {
     const el = document.createElement('div');
     el.className = 'star';
@@ -214,11 +266,8 @@ function raf(time) {
     if (alpha < 0) alpha = 0;
     item.el.style.opacity = alpha;
     
-    // Scale items as they approach
     let scale = 1;
-    if (item.type !== 'star' && vizZ > 0) {
-      scale = 1 + (vizZ / 2000) * 0.3; // slight grow as they approach
-    }
+    if (item.type !== 'star' && vizZ > 0) scale = 1 + (vizZ / 2000) * 0.3;
     
     if (alpha > 0) {
       let trans = `translate3d(${item.x}px, ${item.y}px, ${vizZ}px)`;
@@ -233,14 +282,12 @@ function raf(time) {
         } else item.el.style.textShadow = 'none';
       } else {
         const t = time * 0.001;
-        const float = Math.sin(t + item.x * 0.01) * 5;
-        trans += ` rotateZ(${item.rot}deg) rotateY(${float}deg) scale(${scale})`;
+        trans += ` rotateZ(${item.rot}deg) rotateY(${Math.sin(t + item.x * 0.01) * 5}deg) scale(${scale})`;
       }
       item.el.style.transform = trans;
     }
   });
 
-  // Update HUD pathway name
   const idx = Math.floor((state.scroll * CONFIG.camSpeed) / CONFIG.zGap) % D.length;
   coordEl.innerText = D[idx] ? D[idx].n + ' · ' + D[idx].c : '—';
   
