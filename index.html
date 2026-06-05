@@ -2,375 +2,316 @@
 <html lang="zh-Hans">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>诡秘之主 — 万物皆有代价</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诡秘之主 — 完整百科</title>
 <style>
-:root{--gold:#FFD700;--bg:#FAF8F5;--text:#1A1612;--text2:#7A756E;--border:rgba(26,22,18,0.12)}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);text-transform:uppercase;letter-spacing:0.02em;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-
-/* ===== INVERSION LAYER (Hermes signature) ===== */
-.inversion-layer{position:fixed;inset:0;background:var(--bg);mix-blend-mode:difference;z-index:100;pointer-events:none}
-
-/* ===== WARM GLOW ===== */
-.glow-layer{position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 55%,rgba(255,189,56,0.25) 100%);mix-blend-mode:lighten;opacity:0.35;z-index:99;pointer-events:none}
-
-/* ===== NOISE TEXTURE ===== */
-.noise-layer{position:fixed;inset:0;mix-blend-mode:difference;opacity:0.04;z-index:98;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-
-/* ===== DOT GRID ===== */
-.dot-grid{position:fixed;inset:0;background-image:radial-gradient(rgba(26,22,18,0.06) 1px,transparent 1px);background-size:32px 32px;z-index:97;pointer-events:none}
-
-/* ===== NAV ===== */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;mix-blend-mode:difference;color:#fff}
-nav a{color:#fff;text-decoration:none;font-size:0.75rem;letter-spacing:0.2em;transition:opacity 0.2s;font-family:'JetBrains Mono',monospace}
-nav a:hover{opacity:0.6}
-.nav-links{display:flex;gap:2rem}
-.nav-links a{font-size:0.65rem}
-.hamburger{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
-
-/* ===== LAYOUT ===== */
-.container{max-width:1400px;margin:0 auto;padding:0 2rem}
-.section{border-bottom:1px solid var(--border);padding:6rem 0}
-
-/* ===== HERO ===== */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;padding-top:5rem}
-.hero-tag{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;color:var(--text2);margin-bottom:1.5rem}
-.hero h1{font-size:clamp(3rem,8vw,7rem);font-weight:900;line-height:0.9;letter-spacing:-0.03em;margin-bottom:0.5rem}
-.hero h1 span{display:block}
-.hero-sub{font-size:0.85rem;color:var(--text2);max-width:420px;line-height:1.8;margin-top:2rem;letter-spacing:0.05em}
-.hero-actions{display:flex;gap:1rem;margin-top:3rem}
-.hero-actions a{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;padding:0.8rem 1.8rem;border:1px solid var(--text);text-decoration:none;color:var(--text);transition:all 0.3s}
-.hero-actions a:hover{background:var(--text);color:var(--bg)}
-
-/* ===== STAT ROW ===== */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin:4rem 0}
-.stat{background:var(--bg);padding:2.5rem 1.5rem;text-align:center}
-.stat-num{font-size:3rem;font-weight:900;line-height:1;letter-spacing:-0.03em}
-.stat-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--text2);margin-top:0.5rem}
-
-/* ===== SECTION TITLES ===== */
-.section-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--text2);margin-bottom:1rem}
-.section-title{font-size:clamp(1.8rem,4vw,3.5rem);font-weight:900;letter-spacing:-0.02em;line-height:1.1;margin-bottom:0.5rem}
-
-/* ===== INTRO ===== */
-.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
-.intro-text{font-size:0.85rem;line-height:2;text-transform:none;letter-spacing:0.02em;color:var(--text2)}
-.intro-text strong{color:var(--text)}.intro-text em{font-style:normal;color:var(--text)}
-
-/* ===== FEATURES ===== */
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
-.feature{background:var(--bg);padding:2.5rem 1.5rem;transition:background 0.3s}
-.feature:hover{background:rgba(255,215,0,0.02)}
-.feature-icon{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gold);margin-bottom:1rem;letter-spacing:0.15em}
-.feature h3{font-size:1rem;font-weight:700;margin-bottom:0.8rem;letter-spacing:0.02em}
-.feature p{font-size:0.75rem;color:var(--text2);line-height:1.8;text-transform:none;letter-spacing:0.02em}
-
-/* ===== VOLUMES ===== */
-.volume-list{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
-.volume{background:var(--bg);padding:2rem 1.5rem;position:relative;transition:background 0.3s}
-.volume:hover{background:rgba(255,215,0,0.02)}
-.vol-num{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--gold);letter-spacing:0.15em;margin-bottom:0.3rem}
-.volume h4{font-size:0.85rem;font-weight:700;margin-bottom:0.3rem;letter-spacing:0.02em}
-.volume p{font-size:0.65rem;color:var(--text2);line-height:1.6;text-transform:none;letter-spacing:0.02em}
-
-/* ===== TERMINAL ===== */
-.terminal{border:1px solid var(--border);background:rgba(26,22,18,0.02);margin:3rem 0}
-.terminal-bar{display:flex;align-items:center;gap:0.5rem;padding:0.8rem 1rem;border-bottom:1px solid var(--border)}
-.terminal-dot{width:8px;height:8px;border-radius:50%;border:1px solid var(--border)}
-.terminal-dot:first-child{background:rgba(255,100,80,0.4)}
-.terminal-dot:nth-child(2){background:rgba(255,215,0,0.4)}
-.terminal-dot:last-child{background:rgba(100,200,100,0.4)}
-.terminal-title{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--text2);letter-spacing:0.15em;margin-left:0.5rem}
-.terminal-body{font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:1.5rem;line-height:1.8;text-transform:none;min-height:180px;color:var(--text2)}
-.terminal-body .hl{color:var(--gold)}
-.terminal-body .hl2{color:var(--text);font-weight:700}
-.cursor{display:inline-block;width:0.6em;height:1em;background:var(--text);margin-left:2px;animation:blink 1s step-end infinite;vertical-align:text-bottom}
-@keyframes blink{50%{opacity:0}}
-
-/* ===== PATHWAYS ===== */
-.pathway-row{display:flex;align-items:baseline;gap:1rem;padding:1.2rem 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity 0.2s}
-.pathway-row:hover{opacity:0.6}
-.pathway-row:last-child{border-bottom:none}
-.pw-icon{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--gold);min-width:3rem;letter-spacing:0.1em}
-.pw-name{font-size:0.9rem;font-weight:700;min-width:5rem;letter-spacing:0.02em}
-.pw-class{font-size:0.7rem;color:var(--text2);min-width:6rem;letter-spacing:0.02em}
-.pw-desc{font-size:0.65rem;color:var(--text2);text-transform:none;letter-spacing:0.02em}
-
-/* ===== FOOTER ===== */
-footer{padding:3rem 0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--text2);letter-spacing:0.2em;border-top:1px solid var(--border)}
-
-/* ===== RESPONSIVE ===== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
+#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.065;z-index:101}
+#invert-layer{pointer-events:none;position:fixed;inset:0;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
+#glow{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
+#glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
+#vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
+#dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
+#grain-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:overlay;opacity:0.04;z-index:98}
+#tex-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:color-dodge;opacity:0.025;z-index:97}
+#pt-c{pointer-events:none;position:fixed;inset:0;z-index:95;opacity:0.45}
+main{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:2rem}
+header .g{border-top:1px solid rgba(255,215,0,0.1)}
+.logo-text{font-weight:900;font-size:2.625rem;line-height:1;letter-spacing:0.0525rem;mix-blend-mode:plus-lighter;color:#e8e4dc;display:block;transition:text-shadow 0.3s;text-decoration:none}
+.logo-text:hover{text-shadow:0 0 30px rgba(255,215,0,0.2)}
+.nav-link{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.2rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;position:relative;transition:all 0.3s;opacity:0.55;display:inline-block}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:#FFD700;transition:all 0.3s}
+.nav-link:hover{opacity:1}
+.nav-link:hover::after{left:0;width:100%}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.social-link{opacity:0.35;transition:all 0.3s;color:#e8e4dc;display:inline-flex}
+.social-link:hover{opacity:1;transform:translateY(-1px)}
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-left:1px solid rgba(255,215,0,0.06);border-right:1px solid rgba(255,215,0,0.06)}
+.gc{border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);padding:1rem;transition:border-color 0.3s}
+.gc:last-child{border-right:none}
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5.5rem 1rem 4.5rem;gap:1.5rem;position:relative}
+.hero::before{content:'';position:absolute;top:-20%;left:-10%;right:-10%;bottom:-20%;background:radial-gradient(ellipse at 50% 30%,rgba(255,215,0,0.03) 0%,transparent 60%);animation:hp 4s ease-in-out infinite;pointer-events:none;z-index:-1}
+@keyframes hp{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+.hero-sub{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.35rem;opacity:0.5;text-transform:uppercase;font-weight:300;animation:fsi 1s ease-out}
+.hero-title{font-weight:900;font-size:clamp(2.8rem,7vw,5.2rem);line-height:1.06;letter-spacing:0.04em;mix-blend-mode:plus-lighter;animation:fsi 1s ease-out 0.2s both}
+.hero-title .sub{display:block;margin-top:0.08em;font-size:0.45em;font-weight:300;opacity:0.2;letter-spacing:0.15em}
+.hero-desc{max-width:640px;font-size:1.05rem;line-height:1.9;opacity:0.5;font-weight:300;animation:fsi 1s ease-out 0.4s both}
+@keyframes fsi{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.tbox{border:4px double rgba(232,228,220,0.2);position:relative;overflow:hidden}
+.tbox::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.3),transparent);animation:sl 3s ease-in-out infinite}
+@keyframes sl{0%{left:-100%}100%{left:200%}}
+.th{display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0.75rem;border-bottom:1px solid rgba(255,215,0,0.06);background:rgba(0,0,0,0.25)}
+.td{width:0.5rem;height:0.5rem;border-radius:50%}
+.td:nth-child(1){background:#e8e4dc;mix-blend-mode:plus-lighter;animation:dp1 2s ease-in-out infinite}
+.td:nth-child(2){background:rgba(232,228,220,0.4);animation:dp2 2s ease-in-out infinite 0.3s}
+.td:nth-child(3){background:rgba(232,228,220,0.2);animation:dp3 2s ease-in-out infinite 0.6s}
+@keyframes dp1{0%,100%{opacity:1}50%{opacity:0.4}}@keyframes dp2{0%,100%{opacity:0.8}50%{opacity:0.3}}@keyframes dp3{0%,100%{opacity:0.6}50%{opacity:0.2}}
+.ttl{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:rgba(232,228,220,0.2)}
+.tt{font-family:'JetBrains Mono',monospace;font-size:0.72rem;line-height:1.65;padding:1rem;overflow:hidden;white-space:pre-wrap;height:380px;color:#c8c4bc;background:rgba(0,0,0,0.15)}
+.hl{color:#FFD700}.dim{color:rgba(232,228,220,0.3)}.gr{color:#6aaa6a}.cy{color:#5ab0c4}.rd{color:#c45a5a}.pu{color:#b48bb4}
+.tc{display:inline-block;width:1ch;height:1em;background:#FFD700;animation:blink 0.6s step-end infinite;vertical-align:text-bottom}
+.fg{display:grid;grid-template-columns:repeat(3,1fr)}
+.fc{position:relative;padding:1.25rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
+.fg>.fc:nth-child(3n){border-right:none}
+.fc:hover{background:rgba(255,215,0,0.015)}
+.fch{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,0.06),transparent);opacity:0;transition:opacity 0.4s}
+.fc:hover .fch{opacity:1}
+.fl{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.12rem;mix-blend-mode:plus-lighter}
+.ft{font-size:0.95rem;line-height:1.7;opacity:0.5;font-weight:300}
+.sl{font-family:'Noto Serif SC',serif;font-size:0.875rem;letter-spacing:0.2rem}
+.cg{display:grid;grid-template-columns:repeat(4,1fr)}
+.cc{position:relative;padding:1.25rem 0.75rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);text-align:center;transition:all 0.3s;cursor:default}
+.cg>.cc:nth-child(4n){border-right:none}
+.cc:hover{background:rgba(255,215,0,0.015);transform:translateY(-2px)}
+.ci{font-size:1.4rem;margin-bottom:0.15rem;display:block;color:rgba(255,215,0,0.3);letter-spacing:0.1em;font-weight:100}
+.cc:hover .ci{color:rgba(255,215,0,0.6)}
+.cn{font-weight:700;font-size:0.95rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.cc:hover .cn{color:#FFD700}
+.ct{font-size:0.7rem;opacity:0.4;margin-top:0.1rem;font-family:'Noto Serif SC',serif;transition:opacity 0.3s}
+.cc:hover .ct{opacity:0.7}
+.cd{font-size:0.75rem;opacity:0.45;line-height:1.5;margin-top:0.35rem;font-weight:300}
+.tb{display:flex;gap:0;border-bottom:1px solid rgba(232,228,220,0.06);flex-wrap:wrap;overflow-x:auto}
+.tbn{position:relative;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:0.35rem 0.8rem;font-family:'Noto Serif SC',serif;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;color:rgba(232,228,220,0.35);cursor:pointer;transition:all 0.3s;flex-shrink:0}
+.tbn:hover{color:#e8e4dc;background:rgba(255,215,0,0.03)}
+.tbn.act{color:#e8e4dc}
+.tbn.act::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:#FFD700;animation:tg 1.5s ease-in-out infinite}
+@keyframes tg{0%,100%{opacity:0.6}50%{opacity:1}}
+.sr{display:grid;grid-template-columns:3.5rem 1fr;gap:0;border-top:1px solid rgba(255,215,0,0.05);border-left:1px solid rgba(255,215,0,0.05);transition:all 0.2s}
+.sr:last-of-type{border-bottom:1px solid rgba(255,215,0,0.05)}
+.sr:hover{background:rgba(255,215,0,0.02)}
+.sl2{border-right:1px solid rgba(255,215,0,0.05);padding:0.45rem 0.3rem;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-size:0.65rem;letter-spacing:0.12em;color:rgba(255,215,0,0.35)}
+.si{padding:0.45rem 0.75rem;text-align:left;font-size:0.78rem;opacity:0.65;line-height:1.5}
+.og{display:grid;grid-template-columns:repeat(3,1fr)}
+.oc{position:relative;padding:1rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
+.og>.oc:nth-child(3n){border-right:none}
+.oc:hover{background:rgba(255,215,0,0.015)}
+.oc h4{font-weight:600;font-size:0.9rem;mix-blend-mode:plus-lighter;margin-bottom:0.15rem;transition:color 0.3s}
+.oc:hover h4{color:#FFD700}
+.oc p{font-size:0.78rem;opacity:0.45;line-height:1.6;font-weight:300}
+.ig{display:grid;grid-template-columns:repeat(2,1fr)}
+.ic{position:relative;padding:0.85rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
+.ig>.ic:nth-child(2n){border-right:none}
+.ic:hover{background:rgba(255,215,0,0.015)}
+.ic h4{font-weight:600;font-size:0.85rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.ic:hover h4{color:#FFD700}
+.ic .lv{font-size:0.6rem;color:#FFD700;font-family:'JetBrains Mono',monospace;mix-blend-mode:plus-lighter}
+.ic p{font-size:0.75rem;opacity:0.45;line-height:1.5;font-weight:300;margin-top:0.15rem}
+.vt{position:relative;padding-left:1.5rem}
+.vt::before{content:'';position:absolute;left:0.5rem;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(255,215,0,0.15),rgba(255,215,0,0.03))}
+.vn{position:relative;padding:0.6rem 0 0.6rem 0.75rem;transition:all 0.3s;cursor:default}
+.vn:hover{transform:translateX(4px)}
+.vn::before{content:'';position:absolute;left:-0.75rem;top:1rem;width:0.45rem;height:0.45rem;border-radius:50%;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);transition:all 0.3s}
+.vn:hover::before{background:rgba(255,215,0,0.4);border-color:#FFD700;box-shadow:0 0 12px rgba(255,215,0,0.2)}
+.vn.gold::before{background:#FFD700;box-shadow:0 0 12px rgba(255,215,0,0.25);animation:dg 2s ease-in-out infinite}
+@keyframes dg{0%,100%{box-shadow:0 0 8px rgba(255,215,0,0.2)}50%{box-shadow:0 0 20px rgba(255,215,0,0.4)}}
+.vn .vn1{font-weight:600;font-size:0.9rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.vn:hover .vn1{color:#FFD700}
+.vn .vn2{font-size:0.78rem;opacity:0.45;line-height:1.5}
+.vn .vn3{font-size:0.6rem;opacity:0.2;font-family:'JetBrains Mono',monospace}
+.qb{border-left:2px solid rgba(255,215,0,0.15);padding-left:1.25rem;font-style:italic;opacity:0.55;font-size:0.95rem;line-height:1.8}
+.fade{opacity:0;transform:translateY(14px);animation:fu 0.7s ease-out forwards}
+.fd1{animation-delay:0.15s}.fd2{animation-delay:0.3s}.fd3{animation-delay:0.45s}.fd4{animation-delay:0.6s}.fd5{animation-delay:0.75s}.fd6{animation-delay:0.9s}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.al{display:inline-flex;align-items:center;gap:0.5rem;background:none;border:none;color:rgba(232,228,220,0.45);font-family:'Noto Serif SC',serif;font-size:0.875rem;letter-spacing:0.2rem;text-transform:uppercase;cursor:pointer;transition:all 0.3s;text-decoration:none;position:relative}
+.al::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:#FFD700;transition:width 0.3s}
+.al:hover{color:#FFD700;opacity:1}
+.al:hover::after{width:100%}
+.al svg{width:0.7rem;height:0.7rem;transition:transform 0.3s}
+.al:hover svg{transform:translateX(4px)}
+.fl2{font-family:'Noto Serif SC',serif;font-size:0.875rem;letter-spacing:0.2rem;text-decoration:none;color:#e8e4dc}
+.cp1{background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.06);padding:1rem;text-align:center;transition:all 0.3s;position:relative;overflow:hidden}
+.cp1::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.03),transparent);transition:left 0.5s}
+.cp1:hover::before{left:100%}
+.cp1:hover{border-color:rgba(255,215,0,0.2);transform:translateY(-2px)}
+.cp1 .num{font-size:1.6rem;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter}
+.cp1 .lb{font-size:0.7rem;opacity:0.35;margin-top:0.2rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.tag{display:inline-block;background:rgba(255,215,0,0.03);padding:0.15rem 0.6rem;font-size:0.65rem;letter-spacing:0.08em;border:1px solid rgba(255,215,0,0.06);margin:0.15rem;border-radius:2px;color:rgba(232,228,220,0.5);transition:all 0.3s;cursor:default}
+.tag:hover{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.15)}
 @media(max-width:768px){
-  .nav-links{display:none}
-  .hamburger{display:block}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .intro-grid,.features-grid{grid-template-columns:1fr}
-  .volume-list{grid-template-columns:1fr}
-  nav{padding:1rem}
-  .section{padding:3rem 0}
-  .hero h1{font-size:clamp(2rem,12vw,4rem)}
-  .pathway-row{flex-wrap:wrap;gap:0.3rem}
-  .pw-icon,.pw-name,.pw-class,.pw-desc{min-width:auto}
+  main{padding:1rem}
+  .fg,.og{grid-template-columns:1fr}
+  .fg>.fc:nth-child(3n),.og>.oc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
+  .cg{grid-template-columns:repeat(2,1fr)}
+  .cg>.cc:nth-child(4n){border-right:1px solid rgba(255,215,0,0.06)}
+  .cg>.cc:nth-child(2n){border-right:none}
+  .ig{grid-template-columns:1fr}
+  .ig>.ic:nth-child(2n){border-right:1px solid rgba(255,215,0,0.06)}
+  .hm{display:none!important}
+  .logo-text{font-size:1.6rem}
+  .hero{padding:3rem 0.5rem 2rem}
+  .hero-title{font-size:clamp(2rem,8vw,3rem)}
+  .stats{grid-template-columns:1fr}
+}
+@media(min-width:769px)and(max-width:1024px){
+  .fg,.og{grid-template-columns:repeat(2,1fr)}
+  .fg>.fc:nth-child(3n),.og>.oc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
+  .fg>.fc:nth-child(2n),.og>.oc:nth-child(2n){border-right:none}
+  .cg{grid-template-columns:repeat(3,1fr)}
+  .cg>.cc:nth-child(4n){border-right:1px solid rgba(255,215,0,0.06)}
+  .cg>.cc:nth-child(3n){border-right:none}
 }
 </style>
 </head>
 <body>
+<div id="invert-layer"></div>
+<div id="glow"></div>
+<div id="glow2"></div>
+<div id="vn"></div>
+<div id="dots"></div>
+<canvas id="noise-layer"></canvas>
+<canvas id="grain-c"></canvas>
+<canvas id="tex-c"></canvas>
+<canvas id="pt-c"></canvas>
 
-<!-- Hermes-style overlay layers -->
-<div class="inversion-layer"></div>
-<div class="glow-layer"></div>
-<div class="noise-layer"></div>
-<div class="dot-grid"></div>
+<main>
 
-<!-- NAV -->
-<nav>
-  <a href="#">✦ 诡秘之主</a>
-  <div class="nav-links">
-    <a href="#intro">简介</a>
-    <a href="#pathways">非凡途径</a>
-    <a href="#volumes">分卷</a>
-    <a href="https://lotm.fandom.com/zh/wiki/" target="_blank">WIKI ↗</a>
+
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:0 0 1rem;border-bottom:1px solid rgba(255,215,0,0.08);margin-bottom:2rem">
+  <span style="font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:#e8e4dc">诡秘之主</span>
+  <div style="display:flex;gap:1.5rem">
+    <span style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:#e8e4dc;text-transform:uppercase">首页</span>
+    <a href="pages/characters.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">角色</a>
+    <a href="pages/pathways.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">途径</a>
+    <a href="pages/artifacts.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">封印物</a>
   </div>
-  <button class="hamburger">☰</button>
-</nav>
+</nav>>
 
-<main class="container">
-
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="hero-tag">OPEN SOURCE FICTION • 572 万字</div>
-  <h1>
-    <span style="mix-blend-mode:plus-lighter">诡秘之主</span>
-  </h1>
-  <div class="hero-sub">蒸汽与魔法交织的维多利亚时代<br>一位穿越者的非凡之旅</div>
-  <div class="hero-actions">
-    <a href="#intro">开始探索 →</a>
-    <a href="https://book.qidian.com/info/1010868264/" target="_blank">起点阅读</a>
+<div class="g"><div class="gc" style="grid-column:1/-1;border-bottom:none;">
+  <div class="hero">
+    <div class="hero-sub">▸  Fantasy · Mystery · Cosmic Horror  ◂</div>
+    <h1 class="hero-title">「不属于这个时代的愚者」<span class="sub">灰雾之上的神秘主宰 · 执掌好运的黄黑之王</span></h1>
+    <div class="hero-desc">蒸汽与机械的浪潮中，神秘侧的力量悄然复苏。穿越者克莱恩·莫雷蒂，<br>在这诡秘的世界中步步为营，从底层非凡者成长为执掌时空的诡秘之主。</div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;animation:fsi 1s ease-out 0.6s both;">
+      <span class="tag">447 万字</span><span class="tag">2018–2020</span><span class="tag">9 卷 · 1355 章</span><span class="tag">22 条非凡途径</span><span class="tag">起点年度最佳</span>
+    </div>
   </div>
-</section>
+</div></div>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stat"><div class="stat-num">572</div><div class="stat-label">万字</div></div>
-  <div class="stat"><div class="stat-num">22</div><div class="stat-label">非凡途径</div></div>
-  <div class="stat"><div class="stat-num">8</div><div class="stat-label">分卷</div></div>
-  <div class="stat"><div class="stat-num">446</div><div class="stat-label">章节</div></div>
+<div class="g" id="intro">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;"><div class="sl"><strong>▍小说简介</strong></div></div>
+  <div class="gc" style="grid-column:span 6;display:flex;flex-direction:column;justify-content:center;padding:2rem 1.5rem;">
+    <div class="fade">
+      <p style="font-size:0.95rem;line-height:2;opacity:0.55;font-weight:300;margin-bottom:1rem;">《诡秘之主》是网络作家「爱潜水的乌贼」创作的西方奇幻巨著，2018年4月1日于起点中文网连载，2020年5月1日完结，总字数约447万字，被广泛誉为网络文学史上最具开创性的里程碑之作。</p>
+      <p style="font-size:0.95rem;line-height:2;opacity:0.55;font-weight:300;margin-bottom:1rem;">故事背景设定在类似19世纪维多利亚时代的异世界——蒸汽与机械的工业革命正在深刻改变世界格局，而古老的神秘力量也在暗处复苏。主角周明瑞意外穿越，附身于自杀的青年历史系大学生克莱恩·莫雷蒂，在神秘学笔记和金手指「源堡」的指引下，一步步踏入非凡者的世界。</p>
+      <p style="font-size:0.95rem;line-height:2;opacity:0.55;font-weight:300;">小说精妙融合克苏鲁神话的恐怖氛围、SCP基金会式的收容概念、塔罗牌的神秘体系与蒸汽朋克美学，构建了一个宏大而自洽的非凡世界观。严谨的序列升级体系、智力密集的对决、深刻的角色塑造，使其成为玄幻网文史上不可绕过的经典。</p>
+    </div>
+  </div>
+  <div class="gc" style="grid-column:span 6;padding:2rem 1.5rem;">
+    <div class="fade fd1">
+      <div class="sl" style="opacity:0.3;margin-bottom:1rem;font-size:0.8rem;"><strong>▍核心数据</strong></div>
+      <div class="stats">
+        <div class="cp1"><div class="num" data-count="447">0</div><div class="lb">万字</div></div>
+        <div class="cp1"><div class="num">9</div><div class="lb">正卷</div></div>
+        <div class="cp1"><div class="num">1,355</div><div class="lb">章节</div></div>
+        <div class="cp1"><div class="num">22</div><div class="lb">非凡途径</div></div>
+      </div>
+      <div style="margin-top:1rem;"><span class="tag">#克苏鲁</span><span class="tag">#蒸汽朋克</span><span class="tag">#非凡序列</span><span class="tag">#塔罗牌</span><span class="tag">#穿越</span><span class="tag">#SCP</span><span class="tag">#西幻</span><span class="tag">#群像</span><span class="tag">#智力流</span></div>
+    </div>
+    <div class="fade fd2" style="margin-top:1.5rem;">
+      <div class="sl" style="opacity:0.3;margin-bottom:0.6rem;font-size:0.8rem;"><strong>▍主要奖项</strong></div>
+      <p style="font-size:0.78rem;line-height:1.8;opacity:0.4;font-weight:300;">起点中文网 2019 年度最佳 · 2020 年白金大神 · 首届「天马文学奖」得主 · 中国作协网络文学排行榜 · 翻译为英、日、韩等多国语言出海 · 动画《小丑篇》2025年上线腾讯视频</p>
+    </div>
+
+    <!-- 番外信息 -->
+    <div class="fade fd3" style="margin-top:1.5rem;">
+      <div class="sl" style="opacity:0.3;margin-bottom:0.6rem;font-size:0.8rem;"><strong>▍系列作品</strong></div>
+      <p style="font-size:0.78rem;line-height:1.8;opacity:0.4;font-weight:300;">
+        第一部《诡秘之主》· 番外《一个人的日常》《在现代》《1346年的一天》<br>
+        第二部《宿命之环》2023-2025年连载，共 687 章 · 
+        动画《小丑篇》2025年6月上线腾讯视频
+      </p>
+    </div>
+  </div>
 </div>
 
-<!-- INTRO -->
-<section class="section" id="intro">
-  <div class="section-label">INTRO</div>
-  <div class="intro-grid">
-    <div>
-      <h2 class="section-title" style="mix-blend-mode:plus-lighter">万物皆有代价</h2>
-    </div>
-    <div class="intro-text">
-      <p>穿越到异世界的周明瑞，成为历史系学生<strong>克莱恩·莫雷蒂</strong>。在这个蒸汽与魔法并存、神灵行走人间的维多利亚时代，他意外踏上了非凡之路——一条充满疯狂、诡秘与代价的晋升之路。</p>
-      <p style="margin-top:1rem">小说以<em>「愚者」</em>克莱恩的视角展开，从低序列的占卜家逐步晋升至序列0的真神。借助灰雾之上的神秘空间，他创建了<em>塔罗会</em>，在暗中编织自己的势力。诡秘、悬疑、克苏鲁、SCP——无数元素交织成这部划时代的东方奇幻巨著。</p>
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;"><div class="sl"><strong>▍分卷目录</strong></div></div>
+  <div class="gc" style="grid-column:span 6;">
+    <div class="fade vt">
+      <div class="vn gold"><div class="vn1">第一卷 · 小丑 <span class="vn3">第1-207章</span></div><div class="vn2">克莱恩穿越成为历史系大学生，接触非凡世界。首次在灰雾之上举行塔罗会，结识"正义"与"倒吊人"。</div></div>
+      <div class="vn"><div class="vn1">第二卷 · 无面人 <span class="vn3">第208-381章</span></div><div class="vn2">晋升无面人，以多种身份潜入各大势力，深入挖掘罗塞尔日记的秘密。</div></div>
+      <div class="vn"><div class="vn1">第三卷 · 旅行家 <span class="vn3">第382-534章</span></div><div class="vn2">成为秘偶大师游历各国，海上冒险中结识新同伴，塔罗会规模扩大。</div></div>
+      <div class="vn"><div class="vn1">第四卷 · 不死者 <span class="vn3">第535-702章</span></div><div class="vn2">晋升诡法师，与阿蒙首次正面交锋，参与因蒂斯共和国大事件。</div></div>
+      <div class="vn"><div class="vn1">第五卷 · 红祭司 <span class="vn3">第703-837章</span></div><div class="vn2">占据贝克兰德建立势力，与各大教会博弈，践行"愚者"的身份与权柄。</div></div>
     </div>
   </div>
+  <div class="gc" style="grid-column:span 6;">
+    <div class="fade fd1 vt">
+      <div class="vn"><div class="vn1">第六卷 · 逐光者 <span class="vn3">第838-970章</span></div><div class="vn2">穿梭历史获取力量，"愚者教会"正式建立，真神级力量开始正面冲突。</div></div>
+      <div class="vn"><div class="vn1">第七卷 · 倒吊人 <span class="vn3">第971-1088章</span></div><div class="vn2">克莱恩与阿蒙展开关乎命运的生死博弈，源堡之争进入白热化阶段。</div></div>
+      <div class="vn"><div class="vn1">第八卷 · 愚者 <span class="vn3">第1089-1245章</span></div><div class="vn2">晋升序列0「愚者」，击退各方觊觎。灰雾之上的战斗横跨时空维度。</div></div>
+      <div class="vn gold"><div class="vn1">第九卷 · 诡秘 <span class="vn3">第1246-1355章</span></div><div class="vn2">面对外神威胁与命运回归，克莱恩以永恒的沉睡为代价守护世界。</div></div>
+      <div class="vn gold"><div class="vn1">外传 · 宿命之环 <span class="vn3">2023-2025</span></div><div class="vn2">诡秘之主系列第二部，1368年七月之末，深红从天而降。全新的冒险再度展开。</div></div>
+    </div>
+  </div>
+</div>
 
-  <!-- Terminal -->
-  <div class="terminal">
-    <div class="terminal-bar">
-      <div class="terminal-dot"></div>
-      <div class="terminal-dot"></div>
-      <div class="terminal-dot"></div>
-      <span class="terminal-title">LOTM — SYSTEM LOG</span>
-    </div>
-    <div class="terminal-body" id="terminal">
-      <span class="hl2">$</span> <span class="hl">hermes</span> describe lotm<br>
-      <span>> 加载世界观... 完成<br>> 检索非凡特性... 22条途径已发现<br>> 分析序列晋升路径... 序列9→序列0<br>> 定位源质... 诡秘之主·上帝·母神</span><br><br>
-      <span class="hl2">$</span> <span class="hl">hermes</span> status —character "克莱恩·莫雷蒂"<br>
-      <span>> 当前序列：<span class="hl2">愚者 (序列0)</span><br>> 状态：<span class="hl2">诡秘之主</span><br>> 所属：塔罗会 · 灰雾之上<br>> 扮演法：<span class="hl2">「我们不属于这个时代」</span></span><span class="cursor"></span>
+<div class="g">
+  <div class="gc" style="grid-column:span 7;">
+    <div class="fade">
+      <div class="sl" style="margin-bottom:0.75rem;"><strong>▍终端回响</strong></div>
+      <div class="tbox">
+        <div class="th">
+          <span class="td"></span><span class="td"></span><span class="td"></span>
+          <span class="ttl">LOTM.exe — 序列扫描 v3.0</span>
+        </div>
+        <div class="tt" id="tt"></div>
+      </div>
     </div>
   </div>
-</section>
+  <div class="gc" style="grid-column:span 5;display:flex;flex-direction:column;justify-content:center;padding:2rem 1.5rem;">
+    <div class="fade fd1">
+      <small class="sl" style="opacity:0.3;margin-bottom:0.75rem;font-size:0.8rem;">LOST IN THE FOG</small>
+      <h2 style="font-weight:700;font-size:1.3rem;line-height:1.4;mix-blend-mode:plus-lighter;margin-bottom:0.75rem;">当疯狂逼近，<br>唯有隐秘才是救赎。</h2>
+      <div class="qb" style="margin-bottom:0.8rem;">"我们各自都是自己命运的主宰，也是自己命运中的唯一神话。"</div>
+      <div class="qb" style="margin-bottom:0.8rem;">"我来到这个时代，不是为了改变什么，只是想守护那些值得守护的东西。"</div>
+      <div class="qb">"总有一天，我会回来。以一个愚者的身份，再次坐在这里，和你们一起仰望星空。"</div>
+      <div style="margin-top:1rem;font-size:0.75rem;opacity:0.2;font-family:'JetBrains Mono',monospace;">—— 克莱恩·莫雷蒂 / 愚者</div>
+    </div>
+  </div>
+</div>
 
-<!-- PATHWAYS -->
-<section class="section" id="pathways">
-  <div class="section-label">SEQUENCE PATHS</div>
-  <h2 class="section-title" style="mix-blend-mode:plus-lighter">非凡途径</h2>
-  <p style="font-size:0.75rem;color:var(--text2);margin-bottom:2rem;text-transform:none;letter-spacing:0.02em">22条非凡途径，每一条都代表一种规则与力量</p>
-  <div id="pathway-list">
-    <div class="pathway-row"><span class="pw-icon">0</span><span class="pw-name">愚者</span><span class="pw-class">占卜家</span><span class="pw-desc">克莱恩·莫雷蒂 · 秘偶 · 时之虫</span></div>
-    <div class="pathway-row"><span class="pw-icon">I</span><span class="pw-name">魔法师</span><span class="pw-class">偷盗者</span><span class="pw-desc">阿蒙 · 寄生 · 时之虫</span></div>
-    <div class="pathway-row"><span class="pw-icon">II</span><span class="pw-name">世界</span><span class="pw-class">学徒</span><span class="pw-desc">门 · 传送 · 空间</span></div>
-    <div class="pathway-row"><span class="pw-icon">III</span><span class="pw-name">正义</span><span class="pw-class">观众</span><span class="pw-desc">奥黛丽·霍尔 · 读心 · 梦境</span></div>
-    <div class="pathway-row"><span class="pw-icon">IV</span><span class="pw-name">太阳</span><span class="pw-class">太阳</span><span class="pw-desc">戴里克 · 光明 · 净化</span></div>
-    <div class="pathway-row"><span class="pw-icon">V</span><span class="pw-name">月亮</span><span class="pw-class">不眠者</span><span class="pw-desc">伦纳德 · 黑夜 · 梦境</span></div>
-    <div class="pathway-row"><span class="pw-icon">VI</span><span class="pw-name">星星</span><span class="pw-class">窥秘人</span><span class="pw-desc">知识 · 发明 · 蒸汽</span></div>
-    <div class="pathway-row"><span class="pw-icon">VII</span><span class="pw-name">倒吊人</span><span class="pw-class">猎人</span><span class="pw-desc">火焰 · 战争 · 征服</span></div>
-    <div class="pathway-row"><span class="pw-icon">VIII</span><span class="pw-name">命运之轮</span><span class="pw-class">怪物</span><span class="pw-desc">幸运 · 概率 · 命运</span></div>
-    <div class="pathway-row"><span class="pw-icon">IX</span><span class="pw-name">隐者</span><span class="pw-class">窥秘人</span><span class="pw-desc">神秘 · 召唤 · 预言</span></div>
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;"><div class="sl"><strong><div class="g" style="border-bottom:1px solid rgba(255,215,0,0.06);">
+  <div class="gc" style="grid-column:span 12;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4rem 1rem;">
+    <div class="fade" style="max-width:650px;">
+      <small class="sl" style="opacity:0.2;margin-bottom:1rem;letter-spacing:0.3rem;">THE FOOL THAT NOT BELONGS TO THIS ERA</small>
+      <h2 style="font-family:'Noto Serif SC',serif;font-weight:400;font-size:1.25rem;line-height:2;opacity:0.5;letter-spacing:0.05em;">"诡秘的世界里，真相是最大的疯狂，但总有人在黑暗中守护着文明的火种。"</h2>
+      <p style="margin-top:1.5rem;font-size:0.9rem;opacity:0.3;line-height:1.8;font-weight:300;">一个关于牺牲与守护的故事。他本可以成为旧日支配者，却选择以永恒的沉睡守护这个世界。</p>
+      <p style="margin-top:1rem;font-size:0.7rem;opacity:0.15;font-family:'JetBrains Mono',monospace;">"所有命运的馈赠，都在暗中标好了价格。" —— 爱潜水的乌贼</p>
+      <div style="margin-top:2rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;">
+        <a href="https://www.qidian.com/book/1010731093/" class="al">起点阅读<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+        <a href="https://baike.baidu.com/item/诡秘之主" class="al">百度百科<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+      </div>
+    </div>
   </div>
-</section>
+</div>
 
-<!-- VOLUMES -->
-<section class="section" id="volumes">
-  <div class="section-label">VOLUMES</div>
-  <h2 class="section-title" style="mix-blend-mode:plus-lighter">分卷目录</h2>
-  <div class="volume-list">
-    <div class="volume"><div class="vol-num">VOL. 1</div><h4>克莱恩</h4><p>穿越成历史系学生，意外卷入非凡世界。接触占卜家途径，在值夜者小队的监视下学习扮演法。</p></div>
-    <div class="volume"><div class="vol-num">VOL. 2</div><h4>没有怜悯，没有愧疚</h4><p>成为序列7魔术师。创建塔罗会，结识奥黛丽·霍尔、阿尔杰·威尔逊。对抗因蒂斯间谍与密修会。</p></div>
-    <div class="volume"><div class="vol-num">VOL. 3</div><h4>旅行家</h4><p>晋升序列6无面人。离开贝克兰德远赴海上。与"0-08"神秘影响下的阿蒙展开初次交锋。</p></div>
-    <div class="volume"><div class="vol-num">VOL. 4</div><h4>不死者</h4><p>成为序列5秘偶大师，建立属于自己的秘偶军团。铁血十字会的阴谋、血族议会暗中涌动。</p></div>
-    <div class="volume"><div class="vol-num">VOL. 5</div><h4>红祭司</h4><p>序列4诡法师，元素潮汐下的贝克兰德大雾霾事件。特莉丝与"正义"女士的秘密行动。</p></div>
-    <div class="volume"><div class="vol-num">VOL. 6</div><h4>逐光者</h4><p>序列3古代学者，深入探索源堡的秘密。亚当的银色书卷、罗塞尔大帝的日记真相逐渐浮现。</p></div>
-    <div class="volume"><div class="vol-num">VOL. 7</div><h4>倒吊人</h4><p>序列2奇迹师。克莱恩的自我献祭与重生。灰雾之上，他与天尊的意志展开了最终对决。</p></div>
-    <div class="volume"><div class="vol-num">VOL. 8</div><h4>愚者</h4><p>序列0愚者。克莱恩·莫雷蒂从此沉睡于灰雾之上，以"愚者"的身份继续守护世界。</p></div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="section" style="border-bottom:none">
-  <div class="section-label">ABOUT</div>
-  <h2 class="section-title" style="mix-blend-mode:plus-lighter">诡秘之主的世界</h2>
-  <div class="features-grid" style="margin-top:2rem">
-    <div class="feature">
-      <div class="feature-icon">✦ 01</div>
-      <h3>扮演法</h3>
-      <p>非凡特性需要消化。扮演对应的序列角色——魔术师表演魔术、无面人扮演他人——才能快速消化魔药、安全晋升。</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">✦ 02</div>
-      <h3>非凡特性</h3>
-      <p>非凡特性总量守恒。一条途径的非凡特性在宇宙中只有固定份数。杀死非凡者后特性会析出，等待新的主人。</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">✦ 03</div>
-      <h3>灰雾之上</h3>
-      <p>古老源质的化身。克莱恩与灰雾的绑定使他能召唤信徒、分享能力、窥探命运。灰雾也是诡秘之主的居所。</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">✦ 04</div>
-      <h3>塔罗会</h3>
-      <p>由克莱恩以"愚者"身份建立的秘密组织。成员以塔罗牌为代号，通过灰雾进行交易、交换信息和下达任务。</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">✦ 05</div>
-      <h3>序列体系</h3>
-      <p>从序列9到序列0，共10级。每晋升一级都是一次蜕变。序列越高，越接近非凡特性本质，也越容易失控。</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">✦ 06</div>
-      <h3>神灵与源质</h3>
-      <p>旧日支配者、古神、真神——神灵体系复杂深邃。源质是宇宙本质的化身，诡秘之主与上帝是最强大的两个支柱。</p>
-    </div>
-  </div>
-</section>
+<footer class="g">
+  <div class="gc" style="display:flex;align-items:center;gap:0.5rem;"><small class="fl2">诡秘之主</small><small style="color:#FFD700;mix-blend-mode:plus-lighter;">爱潜水的乌贼</small></div>
+  <div class="gc hm"></div><div class="gc hm"></div>
+  <div class="gc" style="display:flex;align-items:center;"><a href="https://www.qidian.com/book/1010731093/" class="fl2" style="opacity:0.35;">起点中文网 ↗</a></div>
+  <div class="gc" style="display:flex;align-items:center;justify-content:flex-end;"><small style="color:#FFD700;mix-blend-mode:plus-lighter;font-family:'JetBrains Mono',monospace;font-size:0.6rem;">Fan Site · 2026</small></div>
+</footer>
 </main>
 
-<footer>
-LOTM · FAN SITE &nbsp;|&nbsp; ALL CONTENT BELONGS TO CUTTLEFISH THAT LOVES DIVING
-</footer>
-
 <script>
-// Terminal typewriter
-const lines = [
-  '<span class="hl2">$</span> <span class="hl">hermes</span> describe lotm',
-  '> 加载世界观... 完成',
-  '> 检索非凡特性... 22条途径已发现',
-  '> 分析序列晋升路径... 序列9→序列0',
-  '> 定位源质... 诡秘之主·上帝·母神',
-  '',
-  '<span class="hl2">$</span> <span class="hl">hermes</span> status --character "克莱恩·莫雷蒂"',
-  '> 当前序列：<span class="hl2">愚者 (序列0)</span>',
-  '> 状态：<span class="hl2">诡秘之主</span>',
-  '> 所属：塔罗会 · 灰雾之上',
-  '> 扮演法：<span class="hl2">「我们不属于这个时代」</span>'
-];
-
-const terminal = document.getElementById('terminal');
-let idx = 0;
-let charIdx = 0;
-let currentText = '';
-let isTyping = true;
-
-function typeTerminal() {
-  if (idx >= lines.length) {
-    setTimeout(() => { idx = 0; charIdx = 0; terminal.innerHTML = ''; typeTerminal(); }, 3000);
-    return;
-  }
-  
-  // Build the full content up to current line + current char
-  let html = '';
-  for (let i = 0; i <= idx; i++) {
-    if (i < idx) {
-      html += lines[i] + '<br>';
-    } else {
-      const line = lines[i];
-      // Render up to charIdx
-      // We need to handle HTML - find the inner text so far
-      const textSoFar = line.substring(0, charIdx);
-      // Find the last tag boundary
-      const openIdx = line.lastIndexOf('<', charIdx);
-      if (openIdx > 0) {
-        const closeIdx = line.indexOf('>', openIdx);
-        if (closeIdx >= charIdx) {
-          // We're inside a tag, include the whole tag
-          html += line.substring(0, closeIdx + 1);
-          charIdx = closeIdx + 1;
-        } else {
-          html += textSoFar;
-        }
-      } else {
-        html += textSoFar;
-      }
-    }
-  }
-  html += '<span class="cursor"></span>';
-  terminal.innerHTML = html;
-  
-  charIdx++;
-  const lineLen = lines[idx].replace(/<[^>]*>/g, '').length;
-  const rawLine = lines[idx];
-  const rawLen = rawLine.replace(/<[^>]*>/g, '').length;
-  
-  if (charIdx > rawLine.length) {
-    idx++;
-    charIdx = 0;
-  }
-  
-  const speed = rawLine.indexOf('<') >= 0 ? 15 : 25;
-  setTimeout(typeTerminal, speed);
-}
-typeTerminal();
-
-// Scroll reveal
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-    }
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.section-title, .stat, .feature, .volume').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-  observer.observe(el);
-});
-
-// Mobile nav
-document.querySelector('.hamburger')?.addEventListener('click', () => {
-  const nav = document.querySelector('.nav-links');
-  nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-  nav.style.flexDirection = 'column';
-  nav.style.position = 'absolute';
-  nav.style.top = '100%';
-  nav.style.left = '0';
-  nav.style.right = '0';
-  nav.style.background = 'rgba(0,0,0,0.9)';
-  nav.style.padding = '1rem 2rem';
-  nav.style.gap = '1rem';
-});
+function initCanvas(id){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d');function r(){c.width=window.innerWidth;c.height=window.innerHeight}r();window.addEventListener('resize',r);return{c,ctx,r}}
+initCanvas('noise-layer');setInterval(()=>{const c=document.getElementById('noise-layer');if(!c)return;const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;for(let i=0;i<b.length;i+=4){const v=Math.random()*255;b[i]=v;b[i+1]=v;b[i+2]=v;b[i+3]=255}c.getContext('2d').putImageData(id,0,0)},100);
+initCanvas('tex-c');(function(){const c=document.getElementById('tex-c');if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;const id=ctx.createImageData(w,h),b=id.data;for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4,p=(Math.sin(x*0.05)+Math.sin(y*0.05))*15+128,n=Math.random()*8-4;b[i]=p+n;b[i+1]=p*0.8+n;b[i+2]=p*0.5+n;b[i+3]=15}ctx.putImageData(id,0,0)})();
+initCanvas('grain-c');setInterval(()=>{const c=document.getElementById('grain-c');if(!c)return;const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;for(let i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}c.getContext('2d').putImageData(id,0,0)},200);
+const ptc=document.getElementById('pt-c'),ptctx=ptc.getContext('2d');let pw=0,ph=0,pts=[];
+function pr(){pw=ptc.width=window.innerWidth;ph=ptc.height=window.innerHeight;pts=[];for(let i=0;i<80;i++)pts.push({x:Math.random()*pw,y:Math.random()*ph,vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,s:Math.random()*1.8+0.3,a:Math.random()*0.35+0.08})}
+pr();window.addEventListener('resize',pr);
+(function dp(){ptctx.clearRect(0,0,pw,ph);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=pw;if(p.x>pw)p.x=0;if(p.y<0)p.y=ph;if(p.y>ph)p.y=0;ptctx.beginPath();ptctx.arc(p.x,p.y,p.s,0,Math.PI*2);ptctx.fillStyle=`rgba(255,215,0,${p.a})`;ptctx.fill()}requestAnimationFrame(dp)})();
+const tl=[{d:'$',c:'hl',t:' ./lotm --scan --mode=full'},{d:'',c:'dim',t:'[SYSTEM] 正在载入灰雾之上...'},{d:'',c:'dim',t:'[SYSTEM] 检测到源质共鸣——'},{d:'',c:'hl',t:'「诡秘之主」'},{d:'',c:'dim',t:'[01:23] 非凡特性聚合定律  ████████████░░ 83%'},{d:'',c:'dim',t:'[01:25] 解析 '},{d:'',c:'cy',t:'「愚者」'},{d:'',c:'dim',t:' 序列0 权柄...'},{d:'',c:'dim',t:'[01:27] 时之虫 总数：'},{d:'',c:'hl',t:'3,648,911'},{d:'',c:'dim',t:'[01:30] 跳转至 '},{d:'',c:'gr',t:'贝克兰德'},{d:'',c:'dim',t:' · 皇后区 · 155号'},{d:'',c:'dim',t:'[01:32] '},{d:'',c:'rd',t:'⚠ 高能预警：'},{d:'',c:'dim',t:'源堡坐标暴露'},{d:'',c:'dim',t:'[01:33] '},{d:'',c:'pu',t:'◇ 异常实体：'},{d:'',c:'dim',t:'阿蒙 (时之虫 · 错误途径)'},{d:'',c:'dim',t:'[01:34] 激活 '},{d:'',c:'hl',t:'「错乱时间线」'},{d:'',c:'dim',t:' 防御协议...'},{d:'',c:'dim',t:'[01:36] 来自 '},{d:'',c:'cy',t:'周明瑞'},{d:'',c:'dim',t:' 的精神印记：'},{d:'',c:'gr',t:'  "总要有人去守护这些美好。"'},{d:'',c:'dim',t:'[01:38] 序列升级路径：'},{d:'',c:'hl',t:'占卜家→小丑→魔术师→无面人→秘偶大师→诡法师→古代学者→奇迹师→诡秘侍者→愚者'},{d:'',c:'dim',t:'[01:40] 塔罗会成员信息加载完毕'},{d:'',c:'dim',t:'[01:42] 命运之轮 开始转动...'},{d:'',c:'dim',t:'[01:45] '},{d:'',c:'pu',t:'◇ 外神低语：'},{d:'',c:'dim',t:'混沌海 · 母神 · 欲望母树...'},{d:'',c:'dim',t:'[01:48] '},{d:'',c:'hl',t:'「福生玄黄天尊」'},{d:'',c:'dim',t:' 咒文共鸣启动'},{d:'',c:'rd',t:'▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 扫描完成 100%'},{d:'$',c:'hl',t:' '},{d:'',c:'dim',t:'诡秘之主途径验证通过。系统就绪。'}];const el=document.getElementById('tt');if(el){let ci=0;const tc=tl.reduce((a,l)=>a+(l.d||'').length+(l.t||'').length+1,0);function tp(){if(ci>=tc){setTimeout(()=>{ci=0;tp()},3000);return}let h='',cl=ci;ci++;for(const l of tl){let ln=(l.d||'')+(l.t||'')+'\n';if(cl<=0)break;if(cl>=ln.length){if(l.d)h+=`<span class="dim">${l.d}</span>`;h+=`<span class="${l.c}">${l.t||''}</span>\n`;cl-=ln.length}else{let r=cl;if(l.d&&r>0){const pd=l.d.slice(0,Math.min(r,l.d.length));h+=`<span class="dim">${pd}</span>`;r-=pd.length}if(r>0)h+=`<span class="${l.c}">${(l.t||'').slice(0,Math.min(r,(l.t||'').length))}</span>`;cl=0}}h+='<span class="tc"></span>';el.innerHTML=h;const ch=ci>0?(function(){let c=0;for(const l of tl){const ln=(l.d||'')+(l.t||'')+'\n';if(c+ln.length>=ci)return ln[ci-c-1];c+=ln.length}return''})():'';setTimeout(tp,ch==='\n'?35:ch===' '?12:10)}tp()}
+function sw(btn,id){document.querySelectorAll('.tbn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');document.querySelectorAll('.sp').forEach(p=>p.style.display='none');document.getElementById('p-'+id).style.display='block'}
+(function(){const ob=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting&&e.target.style.animationPlayState!=='running')e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('.fade').forEach(e=>{e.style.animationPlayState='paused';ob.observe(e)})})();
+(function(){const el=document.querySelector('[data-count]');if(!el)return;const ob=new IntersectionObserver(([e])=>{if(e.isIntersecting){let c=0;const iv=setInterval(()=>{c+=7;if(c>=447){c=447;clearInterval(iv)}el.textContent=c},30);ob.unobserve(el)}},{threshold:0.5});ob.observe(el)})();
 </script>
 </body>
 </html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>圆形旋转测试</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#111;color:#fff;height:3000vh;font-family:sans-serif}
+
+@property --rotate {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+body {
+  --cards: 22;
+  animation: pageRotate 1s linear;
+  animation-timeline: scroll(nearest block);
+  animation-timing-function: steps(var(--cards));
+}
+
+@keyframes pageRotate {
+  to { --rotate: 1; }
+}
+
+.wrapper {
+  --cards: 22;
+  --card-w: 130px;
+  --card-h: 180px;
+  --radius: calc(var(--card-w) * var(--cards) / (2 * 3.1416));
+  
+  position: fixed;
+  width: calc(var(--radius) * 2);
+  height: calc(var(--radius) * 2);
+  top: calc(var(--card-h) + 5vh);
+  left: 50%;
+  transform-origin: center center;
+  transform: translateX(-50%) rotate(calc(var(--rotate) * 360deg - 90deg));
+}
+
+.wrapper > div {
+  --card-i: 0;
+  --dist: 0;
+  position: absolute;
+  width: var(--card-w);
+  height: var(--card-h);
+  offset-path: circle(var(--radius) at 50% 50%);
+  offset-distance: calc((var(--card-i) - 1) / var(--cards) * 100%);
+  offset-rotate: auto;
+  offset-anchor: 50% 100%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+.hint {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.2);
+  z-index: 10;
+}
+</style>
+</head>
+<body>
+<div class="hint">⬇ 滚动测试</div>
+<section class="wrapper" id="wrap"></section>
+<script>
+var N = 22;
+var colors = ['#e74c3c','#e67e22','#f1c40f','#2ecc71','#1abc9c','#3498db','#9b59b6','#e74c3c','#e67e22','#f1c40f','#2ecc71','#1abc9c','#3498db','#9b59b6','#e74c3c','#e67e22','#f1c40f','#2ecc71','#1abc9c','#3498db','#9b59b6','#e74c3c'];
+var wrap = document.getElementById('wrap');
+for (var i = 0; i < N; i++) {
+  var d = document.createElement('div');
+  d.style.setProperty('--card-i', i + 1);
+  d.style.background = colors[i];
+  d.textContent = '卡' + (i + 1);
+  wrap.appendChild(d);
+}
+
+// JS fallback
+var supported = false;
+try { supported = CSS.supports && CSS.supports('animation-timeline', 'scroll()'); } catch(e) {}
+if (!supported) {
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      var max = document.body.scrollHeight - window.innerHeight;
+      var p = window.scrollY / max || 0;
+      if (p > 1) p = 1; if (p < 0) p = 0;
+      document.body.style.setProperty('--rotate', p);
+      ticking = false;
+    });
+  }, {passive: true});
+}
+</script>
+</body>
+</html>

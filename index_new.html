@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诡秘之主 — 愚者先生的非凡之旅 | 完整百科</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-left:1px solid rgba(255,215,0,0.08);border-right:1px solid rgba(255,215,0,0.08)}
+.gc{border-right:1px solid rgba(255,215,0,0.08);border-bottom:1px solid rgba(255,215,0,0.08);padding:1rem}
+.gc:last-child{border-right:none}
+#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.045;z-index:101}
+#invert-layer{pointer-events:none;position:fixed;inset:0;background-color:color-mix(in srgb,#FFFFFF 100%,transparent);mix-blend-mode:difference;z-index:100}
+#glow-layer{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 50%,rgba(255,189,56,0.30) 100%);mix-blend-mode:lighten;opacity:0.18;z-index:99}
+#bg-dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:32px 32px;z-index:0}
+main{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:2rem}
+header .g{border-top:1px solid rgba(255,215,0,0.08)}
+.logo-text{font-weight:900;font-size:2.625rem;line-height:1;letter-spacing:0.0525rem;mix-blend-mode:plus-lighter;text-decoration:none;color:#e8e4dc;display:block}
+.nav-link{font-family:'Noto Serif SC',serif;font-size:0.9375rem;letter-spacing:0.1875rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;display:flex;align-items:center;gap:0.25rem;position:relative;transition:opacity 0.2s;height:100%}
+.nav-link:hover{opacity:0.8}
+.nav-link .cursor-blink{display:none;width:1.2ch;height:1.1em;margin-left:0.25rem;margin-bottom:-0.15em;background:#e8e4dc;animation:blink 1s step-end infinite}
+.nav-link:hover .cursor-blink{display:inline-block}
+.nav-hover-bg{position:absolute;inset:0.25rem;background:#e8e4dc;pointer-events:none;opacity:0;transition:opacity 0.25s}
+.nav-link:hover .nav-hover-bg{opacity:0.05}
+@keyframes blink{50%{opacity:0}}
+.social-link{opacity:0.5;transition:opacity 0.2s;color:#e8e4dc;display:inline-flex}
+.social-link:hover{opacity:1}
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 1rem 4rem;gap:1.5rem}
+.hero-subtitle{font-family:'Noto Serif SC',serif;font-size:0.9375rem;letter-spacing:0.1875rem;opacity:0.65;text-transform:uppercase}
+.hero-title{font-weight:900;font-size:clamp(2.8rem,6.5vw,4.8rem);line-height:1.08;letter-spacing:0.04em;mix-blend-mode:plus-lighter}
+.hero-desc{max-width:600px;font-size:1.125rem;line-height:1.8;opacity:0.55;font-weight:300}
+.terminal-box{border:4px double rgba(232,228,220,0.3)}
+.terminal-header{display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0.75rem;border-bottom:1px solid rgba(255,215,0,0.08)}
+.terminal-dot{width:0.5rem;height:0.5rem;border-radius:50%}
+.terminal-dot:nth-child(1){background:#e8e4dc;mix-blend-mode:plus-lighter}
+.terminal-dot:nth-child(2){background:rgba(232,228,220,0.5)}
+.terminal-dot:nth-child(3){background:rgba(232,228,220,0.25)}
+.terminal-title{font-family:'JetBrains Mono',monospace;font-size:0.6875rem;letter-spacing:0.1em;color:rgba(232,228,220,0.25)}
+.terminal-body{font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;padding:1rem;overflow:hidden;white-space:pre-wrap;height:340px;color:#c8c4bc}
+.terminal-body .highlight{color:#FFD700}
+.terminal-body .dim{color:rgba(232,228,220,0.35)}
+.terminal-body .green{color:#7dab7d}
+.terminal-body .cyan{color:#6bb5c4}
+.terminal-body .red{color:#c46b6b}
+.terminal-body .purple{color:#b48bb4}
+.terminal-cursor{display:inline-block;width:1ch;height:1em;background:#FFD700;animation:blink 1s step-end infinite;vertical-align:text-bottom}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.feature-card{position:relative;padding:1.25rem;border-right:1px solid rgba(255,215,0,0.08);border-bottom:1px solid rgba(255,215,0,0.08)}
+.features-grid>.feature-card:nth-child(3n){border-right:none}
+.feature-card-inner{display:flex;flex-direction:column;gap:0.5rem}
+.feature-card-hover{position:absolute;inset:0.25rem;background:#e8e4dc;pointer-events:none;opacity:0;transition:opacity 0.25s}
+.feature-card:hover .feature-card-hover{opacity:0.04}
+.feature-label{font-family:'Noto Serif SC',serif;font-size:0.9rem;letter-spacing:0.15rem;mix-blend-mode:plus-lighter;color:#e8e4dc}
+.feature-text{font-size:1rem;line-height:1.7;opacity:0.55;font-weight:300}
+.section-label{font-family:'Noto Serif SC',serif;font-size:0.9375rem;letter-spacing:0.1875rem}
+.quote-block{border-left:2px solid rgba(255,215,0,0.25);padding-left:1.25rem;font-style:italic;opacity:0.7;font-size:1rem;line-height:1.8}
+.characters-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.character-card{position:relative;padding:1.25rem 0.75rem;border-right:1px solid rgba(255,215,0,0.08);border-bottom:1px solid rgba(255,215,0,0.08);text-align:center}
+.characters-grid>.character-card:nth-child(4n){border-right:none}
+.character-icon{font-size:2.2rem;margin-bottom:0.3rem;display:block}
+.character-name{font-weight:700;font-size:1rem;mix-blend-mode:plus-lighter}
+.character-title{font-size:0.75rem;opacity:0.5;margin-top:0.1rem;font-family:'Noto Serif SC',serif}
+.character-desc{font-size:0.8rem;opacity:0.55;line-height:1.5;margin-top:0.35rem;font-weight:300}
+.tab-bar{display:flex;gap:0;border-bottom:1px solid rgba(232,228,220,0.12);flex-wrap:wrap}
+.tab-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:0.4rem 0.85rem;font-family:'Noto Serif SC',serif;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;color:rgba(232,228,220,0.5);cursor:pointer;transition:color 0.2s}
+.tab-btn:hover{color:#e8e4dc}
+.tab-btn.active{color:#e8e4dc}
+.tab-btn.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:#FFD700}
+.sequence-row{display:grid;grid-template-columns:3.5rem 1fr;gap:0;border-top:1px solid rgba(255,215,0,0.08);border-left:1px solid rgba(255,215,0,0.08)}
+.sequence-row:last-of-type{border-bottom:1px solid rgba(255,215,0,0.08)}
+.sequence-label{border-right:1px solid rgba(255,215,0,0.08);padding:0.5rem 0.3rem;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-size:0.7rem;letter-spacing:0.1em;color:rgba(255,215,0,0.5)}
+.sequence-item{padding:0.5rem 0.75rem;text-align:left;font-size:0.8rem;opacity:0.75;line-height:1.5;transition:background 0.2s;cursor:default}
+.sequence-item:hover{background:rgba(255,215,0,0.04)}
+.fade-in{opacity:0;transform:translateY(12px);animation:fadeUp 0.6s ease-out forwards}
+.fade-in-delay-1{animation-delay:0.15s}
+.fade-in-delay-2{animation-delay:0.3s}
+.fade-in-delay-3{animation-delay:0.45s}
+.fade-in-delay-4{animation-delay:0.6s}
+.fade-in-delay-5{animation-delay:0.75s}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.action-link{display:inline-flex;align-items:center;gap:0.5rem;background:none;border:none;color:rgba(232,228,220,0.65);font-family:'Noto Serif SC',serif;font-size:0.9375rem;letter-spacing:0.1875rem;text-transform:uppercase;cursor:pointer;transition:opacity 0.2s;text-decoration:none}
+.action-link:hover{opacity:1}
+.action-link svg{width:0.75rem;height:0.75rem;transition:transform 0.3s}
+.action-link:hover svg{transform:translateY(0.25rem)}
+.footer-label{font-family:'Noto Serif SC',serif;font-size:0.9375rem;letter-spacing:0.1875rem;text-decoration:none;color:#e8e4dc}
+.footer-gold{color:#FFD700;mix-blend-mode:plus-lighter}
+.org-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.org-card{position:relative;padding:1rem;border-right:1px solid rgba(255,215,0,0.08);border-bottom:1px solid rgba(255,215,0,0.08)}
+.org-grid>.org-card:nth-child(3n){border-right:none}
+.org-card h4{font-weight:600;font-size:0.95rem;mix-blend-mode:plus-lighter;margin-bottom:0.2rem}
+.org-card p{font-size:0.85rem;opacity:0.55;line-height:1.6;font-weight:300}
+.item-grid{display:grid;grid-template-columns:repeat(2,1fr)}
+.item-card{position:relative;padding:0.85rem;border-right:1px solid rgba(255,215,0,0.08);border-bottom:1px solid rgba(255,215,0,0.08)}
+.item-grid>.item-card:nth-child(2n){border-right:none}
+.item-card h4{font-weight:600;font-size:0.9rem;mix-blend-mode:plus-lighter;margin-bottom:0.15rem}
+.item-card .level{font-size:0.65rem;color:#FFD700;font-family:'JetBrains Mono',monospace;mix-blend-mode:plus-lighter}
+.item-card p{font-size:0.8rem;opacity:0.55;line-height:1.5;font-weight:300;margin-top:0.2rem}
+.volume-timeline{position:relative;padding-left:1.5rem}
+.volume-timeline::before{content:'';position:absolute;left:0.5rem;top:0;bottom:0;width:1px;background:rgba(255,215,0,0.15)}
+.volume-node{position:relative;padding:0.6rem 0 0.6rem 0.75rem;border-left:1px solid transparent}
+.volume-node::before{content:'';position:absolute;left:-0.75rem;top:1rem;width:0.5rem;height:0.5rem;border-radius:50%;background:rgba(255,215,0,0.3);border:1px solid rgba(255,215,0,0.5)}
+.volume-node.highlight::before{background:#FFD700}
+.volume-node .vol-name{font-weight:600;font-size:0.95rem;mix-blend-mode:plus-lighter}
+.volume-node .vol-desc{font-size:0.8rem;opacity:0.55;line-height:1.5}
+.volume-node .vol-chap{font-size:0.65rem;opacity:0.3;font-family:'JetBrains Mono',monospace}
+@media(max-width:768px){main{padding:1rem}
+.features-grid,.org-grid{grid-template-columns:1fr}
+.features-grid>.feature-card:nth-child(3n),.org-grid>.org-card:nth-child(3n){border-right:1px solid rgba(255,215,0,0.08)}
+.characters-grid{grid-template-columns:repeat(2,1fr)}
+.characters-grid>.character-card:nth-child(4n){border-right:1px solid rgba(255,215,0,0.08)}
+.characters-grid>.character-card:nth-child(2n){border-right:none}
+.item-grid{grid-template-columns:1fr}
+.item-grid>.item-card:nth-child(2n){border-right:1px solid rgba(255,215,0,0.08)}
+.hide-mobile{display:none!important}
+.logo-text{font-size:1.8rem}
+.hero{padding:3rem 0.5rem 2rem}
+}
+@media(min-width:769px)and(max-width:1024px){
+.features-grid,.org-grid{grid-template-columns:repeat(2,1fr)}
+.features-grid>.feature-card:nth-child(3n),.org-grid>.org-card:nth-child(3n){border-right:1px solid rgba(255,215,0,0.08)}
+.features-grid>.feature-card:nth-child(2n),.org-grid>.org-card:nth-child(2n){border-right:none}
+.characters-grid{grid-template-columns:repeat(3,1fr)}
+.characters-grid>.character-card:nth-child(4n){border-right:1px solid rgba(255,215,0,0.08)}
+.characters-grid>.character-card:nth-child(3n){border-right:none}
+}
+</style>
+</head>
+<body>
+<div id="invert-layer"></div>
+<div id="glow-layer"></div>
+<div id="bg-dots"></div>
+<canvas id="noise-layer"></canvas>
+
+<main>
+
+<!-- ══════ HEADER ══════ -->
+<header>
+  <div class="g">
+    <div class="gc" style="grid-column:span 2;">
+      <a href="#" class="logo-text">诡秘<br>之主</a>
+    </div>
+    <div class="gc" style="grid-column:span 2;"><a href="#intro" class="nav-link">小说简介<span class="cursor-blink"></span><span class="nav-hover-bg"></span></a></div>
+    <div class="gc" style="grid-column:span 2;"><a href="#characters" class="nav-link">角色介绍<span class="cursor-blink"></span><span class="nav-hover-bg"></span></a></div>
+    <div class="gc" style="grid-column:span 2;"><a href="#pathways" class="nav-link">非凡途径<span class="cursor-blink"></span><span class="nav-hover-bg"></span></a></div>
+    <div class="gc" style="grid-column:span 2;display:flex;align-items:flex-start;justify-content:space-between;">
+      <span class="footer-label" style="opacity:0.4;">社交</span>
+      <div style="display:flex;gap:0.5rem;">
+        <a href="https://baike.baidu.com/item/诡秘之主" class="social-link" title="百度百科"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></a>
+        <a href="https://www.qidian.com/book/1010731093/" class="social-link" title="起点中文网"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg></a>
+        <a href="https://www.ciweimao.com/book/100142642" class="social-link" title="刺猬猫"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></a>
+      </div>
+    </div>
+    <div class="gc" style="grid-column:span 2;display:flex;align-items:center;justify-content:flex-end;">
+      <small class="footer-label" style="opacity:0.5;">爱潜水的乌贼 · 著</small>
+    </div>
+  </div>
+</header>
+
+<!-- ══════ HERO ══════ -->
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;">
+    <div class="hero">
+      <div class="fade-in">
+        <small class="hero-subtitle" style="letter-spacing:0.3rem;">Fantasy · Mystery · Cosmic Horror</small>
+        <h1 class="hero-title">
+          <span style="display:block;">「不属于这个时代的愚者」</span>
+          <span style="display:block;margin-top:0.1em;font-size:0.5em;opacity:0.28;">灰雾之上的神秘主宰 · 执掌好运的黄黑之王</span>
+        </h1>
+      </div>
+      <div class="hero-desc fade-in fade-in-delay-1">
+        蒸汽与机械的浪潮中，神秘侧的力量悄然复苏。<br>
+        穿越者克莱恩·莫雷蒂，在这诡秘的世界中步步为营，<br>
+        从底层非凡者成长为执掌时空的诡秘之主。
+      </div>
+      <div class="fade-in fade-in-delay-2" style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem;">
+        <div style="font-family:'Noto Serif SC',serif;font-size:0.8rem;letter-spacing:0.15em;opacity:0.45;"><span style="color:#FFD700;mix-blend-mode:plus-lighter;">447</span> 万字</div>
+        <div style="font-family:'Noto Serif SC',serif;font-size:0.8rem;letter-spacing:0.15em;opacity:0.45;"><span style="color:#FFD700;mix-blend-mode:plus-lighter;">2018</span>–<span style="color:#FFD700;mix-blend-mode:plus-lighter;">2020</span> 连载</div>
+        <div style="font-family:'Noto Serif SC',serif;font-size:0.8rem;letter-spacing:0.15em;opacity:0.45;">全网点击 <span style="color:#FFD700;mix-blend-mode:plus-lighter;">10亿+</span></div>
+        <div style="font-family:'Noto Serif SC',serif;font-size:0.8rem;letter-spacing:0.15em;opacity:0.45;"><span style="color:#FFD700;mix-blend-mode:plus-lighter;">22</span> 条非凡途径 · <span style="color:#FFD700;mix-blend-mode:plus-lighter;">9</span> 卷</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 小说简介 ══════ -->
+<div class="g" id="intro">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;">
+    <div class="section-label"><strong style="font-weight:700;">▍小说简介</strong></div>
+  </div>
+  <div class="gc" style="grid-column:span 6;display:flex;flex-direction:column;justify-content:center;padding:2rem;">
+    <div class="fade-in fade-in-delay-1">
+      <p style="font-size:1rem;line-height:2;opacity:0.65;font-weight:300;margin-bottom:1rem;">
+        《诡秘之主》是网络作家「爱潜水的乌贼」创作的西方奇幻小说，于 2018 年 4 月 1 日在起点中文网连载，2020 年 5 月 1 日完结。
+        总字数约 447 万字，被誉为网络文学史上的里程碑之作。
+      </p>
+      <p style="font-size:1rem;line-height:2;opacity:0.65;font-weight:300;margin-bottom:1rem;">
+        故事背景设定在一个类似 19 世纪维多利亚时代的异世界——蒸汽与机械的工业革命正在改变世界，但同时，超凡力量与远古隐秘也在暗处涌动。
+        主角周明瑞意外穿越到这个时代，附身于自杀的青年历史系大学生克莱恩·莫雷蒂身上，
+        在神秘学笔记和自身金手指「源堡」的指引下，一步步踏入非凡者的世界。
+      </p>
+      <p style="font-size:1rem;line-height:2;opacity:0.65;font-weight:300;">
+        小说融合了克苏鲁神话、SCP基金会式收容概念、塔罗牌体系和蒸汽朋克美学，构建了一个宏大而自洽的非凡世界观。
+        其严谨的序列体系、智力密集的对决描写和深刻的人物塑造，使其成为玄幻网文史上不可绕过的经典。
+      </p>
+    </div>
+  </div>
+  <div class="gc" style="grid-column:span 6;">
+    <div class="fade-in fade-in-delay-2">
+      <div class="section-label" style="margin-bottom:0.75rem;"><strong style="font-weight:700;opacity:0.4;">▍核心数据</strong></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+        <div style="background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.08);padding:1rem;text-align:center;">
+          <div style="font-size:1.8rem;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter;">447万</div>
+          <div style="font-size:0.75rem;opacity:0.45;margin-top:0.25rem;">总字数</div>
+        </div>
+        <div style="background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.08);padding:1rem;text-align:center;">
+          <div style="font-size:1.8rem;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter;">9卷</div>
+          <div style="font-size:0.75rem;opacity:0.45;margin-top:0.25rem;">正卷</div>
+        </div>
+        <div style="background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.08);padding:1rem;text-align:center;">
+          <div style="font-size:1.8rem;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter;">1,355章</div>
+          <div style="font-size:0.75rem;opacity:0.45;margin-top:0.25rem;">总章节</div>
+        </div>
+        <div style="background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.08);padding:1rem;text-align:center;">
+          <div style="font-size:1.8rem;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter;">22</div>
+          <div style="font-size:0.75rem;opacity:0.45;margin-top:0.25rem;">非凡途径</div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="background:rgba(255,215,0,0.06);padding:0.2rem 0.6rem;font-size:0.7rem;letter-spacing:0.1em;border:1px solid rgba(255,215,0,0.1);">#克苏鲁</span>
+        <span style="background:rgba(255,215,0,0.06);padding:0.2rem 0.6rem;font-size:0.7rem;letter-spacing:0.1em;border:1px solid rgba(255,215,0,0.1);">#蒸汽朋克</span>
+        <span style="background:rgba(255,215,0,0.06);padding:0.2rem 0.6rem;font-size:0.7rem;letter-spacing:0.1em;border:1px solid rgba(255,215,0,0.1);">#非凡序列</span>
+        <span style="background:rgba(255,215,0,0.06);padding:0.2rem 0.6rem;font-size:0.7rem;letter-spacing:0.1em;border:1px solid rgba(255,215,0,0.1);">#塔罗牌</span>
+        <span style="background:rgba(255,215,0,0.06);padding:0.2rem 0.6rem;font-size:0.7rem;letter-spacing:0.1em;border:1px solid rgba(255,215,0,0.1);">#穿越</span>
+        <span style="background:rgba(255,215,0,0.06);padding:0.2rem 0.6rem;font-size:0.7rem;letter-spacing:0.1em;border:1px solid rgba(255,215,0,0.1);">#SCP</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 分卷目录 ══════ -->
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;">
+    <div class="section-label"><strong style="font-weight:700;">▍分卷目录</strong></div>
+  </div>
+  <div class="gc" style="grid-column:span 6;">
+    <div class="fade-in fade-in-delay-1 volume-timeline">
+      <div class="volume-node highlight">
+        <div class="vol-name">第一卷 · 小丑 <span class="vol-chap">第1-207章</span></div>
+        <div class="vol-desc">克莱恩穿越成为历史系大学生，接触非凡世界。以占卜家途径低序列者身份周旋于各方势力之间，首次在灰雾之上举行塔罗会。</div>
+      </div>
+      <div class="volume-node">
+        <div class="vol-name">第二卷 · 无面人 <span class="vol-chap">第208-381章</span></div>
+        <div class="vol-desc">晋升无面人，以多种身份潜入各大势力。深入挖掘罗塞尔日记的秘密，与极光会、命运天使等势力交锋。</div>
+      </div>
+      <div class="volume-node">
+        <div class="vol-name">第三卷 · 旅行家 <span class="vol-chap">第382-534章</span></div>
+        <div class="vol-desc">成为秘偶大师，游历各国。在海上冒险中结识新同伴，塔罗会规模扩大，逐步揭开更多世界真相。</div>
+      </div>
+      <div class="volume-node">
+        <div class="vol-name">第四卷 · 不死者 <span class="vol-chap">第535-702章</span></div>
+        <div class="vol-desc">晋升诡法师。与阿蒙的首次正面对决，参与因蒂斯共和国的大事件。灰雾之上的秘偶军团初具规模。</div>
+      </div>
+      <div class="volume-node">
+        <div class="vol-name">第五卷 · 红祭司 <span class="vol-chap">第703-837章</span></div>
+        <div class="vol-desc">占据贝克兰德，建立自己的势力。与各大教会和周遭国家博弈，践行"愚者"的身份和权柄。</div>
+      </div>
+    </div>
+  </div>
+  <div class="gc" style="grid-column:span 6;">
+    <div class="fade-in fade-in-delay-2 volume-timeline">
+      <div class="volume-node">
+        <div class="vol-name">第六卷 · 逐光者 <span class="vol-chap">第838-970章</span></div>
+        <div class="vol-desc">穿梭于历史中获取知识和力量。"愚者教会"正式建立，非凡世界势力格局剧变，真神级力量开始正面冲突。</div>
+      </div>
+      <div class="volume-node">
+        <div class="vol-name">第七卷 · 倒吊人 <span class="vol-chap">第971-1088章</span></div>
+        <div class="vol-desc">扮演"愚者"的真相逐步揭露。克莱恩与阿蒙展开关乎命运的生死博弈，源堡之争进入白热化阶段。</div>
+      </div>
+      <div class="volume-node">
+        <div class="vol-name">第八卷 · 愚者 <span class="vol-chap">第1089-1245章</span></div>
+        <div class="vol-desc">晋升序列0「愚者」。击退各方真神与旧日的觊觎，真正成为诡秘之主的继任者。灰雾之上的战斗横跨时空。</div>
+      </div>
+      <div class="volume-node">
+        <div class="vol-name">第九卷 · 诡秘 <span class="vol-chap">第1246-1355章</span></div>
+        <div class="vol-desc">成神之后，面对来自星空的外神威胁和诡秘之主的命运回归。克莱恩以沉睡为代价守护世界，成为沉睡的诡秘之主。</div>
+      </div>
+      <div class="volume-node highlight">
+        <div class="vol-name">外传 · 诡秘：复苏 <span class="vol-chap">连载中</span></div>
+        <div class="vol-desc">诡秘之主系列第二部。故事在诡秘之主结局的多年后展开，新的危机降临，旧日支配者的阴影再次笼罩世界。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ TERMINAL ══════ -->
+<div class="g">
+  <div class="gc" style="grid-column:span 7;">
+    <div class="fade-in fade-in-delay-1">
+      <div class="section-label" style="margin-bottom:0.75rem;"><strong style="font-weight:700;">▍终端回响</strong></div>
+      <div class="terminal-box">
+        <div class="terminal-header">
+          <span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span>
+          <span class="terminal-title">LOTM.exe — 序列日志 v2.4.1</span>
+        </div>
+        <div class="terminal-body" id="terminal-content">
+<span class="dim">$</span> <span class="highlight">./lotm --scan --mode=full</span>
+<span class="dim">[系统]</span> 正在载入灰雾之上...
+<span class="dim">[系统]</span> 检测到源质共鸣——<span class="highlight">「诡秘之主」</span>
+<span class="dim">[01:23]</span> 非凡特性聚合定律  ████████████░░ 83%
+<span class="dim">[01:25]</span> 解析 <span class="cyan">「愚者」</span> 序列0 权柄...
+<span class="dim">[01:27]</span> 时之虫 总数：<span class="highlight">3,648,911</span>
+<span class="dim">[01:30]</span> 跳转至 <span class="green">贝克兰德</span> · 皇后区 · 155号
+<span class="dim">[01:32]</span> <span class="red">⚠ 高能预警：</span> 源堡坐标暴露
+<span class="dim">[01:33]</span> <span class="purple">◆ 异常实体：</span> 阿蒙 <span class="dim">(时之虫 · 错误途径真神)</span>
+<span class="dim">[01:34]</span> 激活 <span class="highlight">「错乱时间线」</span> 防御协议...
+<span class="dim">[01:36]</span> 来自 <span class="cyan">周明瑞</span> 的精神印记：
+<span class="green">  "总要有人去守护这些美好。"</span>
+<span class="dim">[01:38]</span> 序列升级路径确认：<span class="highlight">占卜家→小丑→魔术师→无面人→秘偶大师→诡法师→古代学者→奇迹师→诡秘侍者→愚者</span>
+<span class="dim">[01:40]</span> 塔罗会成员信息加载完毕
+<span class="dim">[01:42]</span> 命运之轮 开始转动...
+<span class="dim">[01:45]</span> <span class="purple">◇ 检测到外神低语：</span> 混沌海 · 母神 · 欲望母树 ...
+<span class="dim">[01:48]</span> <span class="highlight">「福生玄黄天尊」</span> 咒文共鸣启动
+<span class="dim">[01:50]</span> <span class="red">▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100%</span>
+<span class="dim">$</span> <span class="terminal-cursor"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gc" style="grid-column:span 5;display:flex;flex-direction:column;justify-content:center;padding:2rem 1.5rem;">
+    <div class="fade-in fade-in-delay-2">
+      <small class="section-label" style="opacity:0.35;margin-bottom:0.75rem;">THE WORLD BEYOND</small>
+      <h2 style="font-weight:700;font-size:1.3rem;line-height:1.4;mix-blend-mode:plus-lighter;margin-bottom:0.75rem;">当疯狂逼近，<br>唯有隐秘才是救赎。</h2>
+      <div class="quote-block" style="margin-bottom:1rem;">
+        "我们各自都是自己命运的主宰，也是自己命运中的唯一神话。"
+      </div>
+      <div class="quote-block" style="margin-bottom:1rem;">
+        "我来到这个时代，不是为了改变什么，只是想守护那些值得守护的东西。"
+      </div>
+      <div class="quote-block">
+        "愚者先生，您忠诚的仆人向您致以最崇高的敬意。塔罗会永远是您最锋利的刀和最坚实的盾。"
+      </div>
+      <div style="margin-top:1rem;font-size:0.8rem;opacity:0.3;font-family:'JetBrains Mono',monospace;">—— 克莱恩·莫雷蒂 / 世界先生 / 愚者</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ FEATURES ══════ -->
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;">
+    <div class="section-label"><strong style="font-weight:700;">▍非凡世界 · 核心设定</strong></div>
+  </div>
+  <div class="gc" style="grid-column:1/-1;padding:0;border-bottom:none;">
+    <div class="features-grid">
+      <div class="feature-card fade-in fade-in-delay-1">
+        <span class="feature-card-hover"></span>
+        <div class="feature-card-inner">
+          <small class="feature-label">22条非凡途径</small>
+          <p class="feature-text">每条途径对应一种权柄，从序列9到序列0共10个阶段。不同途径之间互有克制，聚合与分离是永恒的法则。</p>
+        </div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-2">
+        <span class="feature-card-hover"></span>
+        <div class="feature-card-inner">
+          <small class="feature-label">灰雾之上 · 源堡</small>
+          <p class="feature-text">三大源质之一，诡秘之主的居所。执掌者可在灰雾之上举行聚会，屏蔽一切窥探，是克莱恩最强大的底牌。</p>
+        </div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-3">
+        <span class="feature-card-hover"></span>
+        <div class="feature-card-inner">
+          <small class="feature-label">非凡特性聚合定律</small>
+          <p class="feature-text">同途径的非凡特性必然相互聚合。高位非凡者会不自觉地吸引相关的特性与秘宝，这是命运层面的吸引力。</p>
+        </div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-1">
+        <span class="feature-card-hover"></span>
+        <div class="feature-card-inner">
+          <small class="feature-label">咒文与符咒体系</small>
+          <p class="feature-text">四大咒文——「福生玄黄天尊」「福生玄黄上帝」「福生玄黄仙君」「福生玄黄道君」，对应四大源质。符咒可封印非凡之力于纸张之中。</p>
+        </div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-2">
+        <span class="feature-card-hover"></span>
+        <div class="feature-card-inner">
+          <small class="feature-label">封印物</small>
+          <p class="feature-text">非凡特性寄宿于器物中形成封印物，从0级（最危险）到3级。每件封印物都有独特的污染与环境影响机制。</p>
+        </div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-3">
+        <span class="feature-card-hover"></span>
+        <div class="feature-card-inner">
+          <small class="feature-label">时代背景 · 蒸汽与机械</small>
+          <p class="feature-text">类似19世纪维多利亚时代。鲁恩、因蒂斯、费内波特、伦堡、塞维亚……列强争霸，隐秘组织暗流涌动，工业革命与神秘复苏并行。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 隐秘组织 ══════ -->
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;">
+    <div class="section-label"><strong style="font-weight:700;">▍隐秘组织</strong></div>
+  </div>
+  <div class="gc" style="grid-column:1/-1;padding:0;border-bottom:none;">
+    <div class="org-grid">
+      <div class="org-card fade-in fade-in-delay-1">
+        <span class="feature-card-hover"></span>
+        <h4>🃏 塔罗会</h4>
+        <p>克莱恩在灰雾之上创建的隐秘组织，以塔罗牌为代号。成员跨越各大势力，是愚者最核心的力量体系。主要成员：「世界」「正义」「倒吊人」「魔术师」「隐者」……</p>
+      </div>
+      <div class="org-card fade-in fade-in-delay-2">
+        <span class="feature-card-hover"></span>
+        <h4>🌹 极光会</h4>
+        <p>信奉「真实造物主」的隐秘教派。成员暴躁而狂热，尊主为神灵降世的化身。在全球范围内拥有庞大的情报与信徒网络。</p>
+      </div>
+      <div class="org-card fade-in fade-in-delay-3">
+        <span class="feature-card-hover"></span>
+        <h4>🎩 命运隐士会</h4>
+        <p>聚集了一群追求知识与命运真相的非凡者。行事风格颇为神秘，只接纳通过特定考核的成员。与命运途径有密切联系。</p>
+      </div>
+      <div class="org-card fade-in fade-in-delay-1">
+        <span class="feature-card-hover"></span>
+        <h4>🌑 摩斯苦修会</h4>
+        <p>黑夜女神麾下的隐秘组织。成员以苦修者的方式追寻非凡之道，严守黑夜女神的教义，保卫贝克兰德的隐秘秩序。</p>
+      </div>
+      <div class="org-card fade-in fade-in-delay-2">
+        <span class="feature-card-hover"></span>
+        <h4>🕯️ 生命学派</h4>
+        <p>信奉知识与理性的非凡组织，脱离蒸汽与机械教会的激进派系。对非凡特性有深入的理论研究，在学术界有广泛影响力。</p>
+      </div>
+      <div class="org-card fade-in fade-in-delay-3">
+        <span class="feature-card-hover"></span>
+        <h4>👁️ 心理炼金会</h4>
+        <p>由观众途径非凡者组成的秘密组织。精通心理操纵与梦境掌控，在幕后影响各国政治与非凡世界格局。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 主要角色 ══════ -->
+<div class="g" id="characters">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;">
+    <div class="section-label"><strong style="font-weight:700;">▍主要角色</strong></div>
+  </div>
+  <div class="gc" style="grid-column:1/-1;padding:0;">
+    <div class="characters-grid">
+      <div class="character-card fade-in fade-in-delay-1">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">🃏</span>
+        <div class="character-name">克莱恩·莫雷蒂</div>
+        <div class="character-title">愚者 · 世界 · 诡秘之主</div>
+        <div class="character-desc">穿越者周明瑞，从底层非凡者一步步走向神座。以塔罗会愚者身份暗中布局，守护着那个不属于他的时代。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-2">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">🎭</span>
+        <div class="character-name">阿蒙</div>
+        <div class="character-title">时之虫 · 错误真神</div>
+        <div class="character-desc">诡秘侍者途径的天使之王。以窃取为乐，性格狡黠。与克莱恩相爱相杀，多次争夺源堡的控制权。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-3">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">👑</span>
+        <div class="character-name">罗塞尔·古斯塔夫</div>
+        <div class="character-title">蒸汽之子 · 黑皇帝</div>
+        <div class="character-desc">穿越者前辈，曾建立庞大帝国。留下的日记是克莱恩解谜的关键。以汉字密码书写，因非凡特性而逐步失控。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-4">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">🌙</span>
+        <div class="character-name">伦纳德·米切尔</div>
+        <div class="character-title">诗人同学 · 值夜者</div>
+        <div class="character-desc">克莱恩在值夜者小队的同事兼好友。体内寄宿着古老者帕列斯·索罗亚斯德。黑夜途径非凡者。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-1">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">🗡️</span>
+        <div class="character-name">艾琳·艾德勒</div>
+        <div class="character-title">「正义」小姐</div>
+        <div class="character-desc">塔罗会早期成员，贵族出身的美貌非凡者。勇敢正直，求知欲旺盛，是克莱恩最信任的塔罗会伙伴。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-2">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">⚓</span>
+        <div class="character-name">阿尔杰·威尔逊</div>
+        <div class="character-title">「倒吊人」</div>
+        <div class="character-desc">海上冒险家，塔罗会早期核心成员。游历七海，见多识广，是克莱恩了解海上世界的重要渠道。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-3">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">🎩</span>
+        <div class="character-name">奥黛丽·霍尔</div>
+        <div class="character-title">「魔术师」小姐</div>
+        <div class="character-desc">霍尔伯爵千金，塔罗会成员。表面是天真浪漫的贵族小姐，实际上拥有敏锐的洞察力和超凡天赋。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-4">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">🐙</span>
+        <div class="character-name">帕列斯·索罗亚斯德</div>
+        <div class="character-title">古老寄生者</div>
+        <div class="character-desc">寄宿在伦纳德体内的第四纪古老存在。知识渊博，性格傲娇。时之虫途径的天使之王，与阿蒙有旧怨。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-1">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">⚡</span>
+        <div class="character-name">「神使」</div>
+        <div class="character-title">格莱格·理查德</div>
+        <div class="character-desc">原值夜者高层，因非凡特性失控而沦为野兽。被克莱恩所救后成为塔罗会重要战力与情报员。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-2">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">🔮</span>
+        <div class="character-name">莎伦</div>
+        <div class="character-title">「星星」小姐</div>
+        <div class="character-desc">命运途径的非凡者，拥有预言能力。塔罗会成员，克莱恩的得力助手，在命运编织中扮演关键角色。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-3">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">🏛️</span>
+        <div class="character-name">「愚者教会」高层</div>
+        <div class="character-title">枢机主教团</div>
+        <div class="character-desc">克莱恩成神后建立的教会核心。由塔罗会成员及其继承人组成，管理着贝克兰德及周边地区的非凡秩序。</div>
+      </div>
+      <div class="character-card fade-in fade-in-delay-4">
+        <span class="feature-card-hover"></span>
+        <span class="character-icon">🌌</span>
+        <div class="character-name">七大真神</div>
+        <div class="character-title">执掌世界的众神</div>
+        <div class="character-desc">蒸汽与机械之神、黑夜女神、战神、永恒烈阳、风暴之主、知识与智慧之神、大地母神。执掌各自途径的序列0存在。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 非凡途径 ══════ -->
+<div class="g" id="pathways">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;">
+    <div class="section-label"><strong style="font-weight:700;">▍非凡途径详解</strong></div>
+  </div>
+  <div class="gc" style="grid-column:1/-1;padding:0;">
+    <div class="fade-in" style="padding:1rem 0;">
+      <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap;">
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="switchPathway(this,'seer')">占卜家</button>
+          <button class="tab-btn" onclick="switchPathway(this,'warrior')">战士</button>
+          <button class="tab-btn" onclick="switchPathway(this,'spectator')">观众</button>
+          <button class="tab-btn" onclick="switchPathway(this,'mystery')">秘祈人</button>
+          <button class="tab-btn" onclick="switchPathway(this,'night')">黑夜</button>
+          <button class="tab-btn" onclick="switchPathway(this,'sun')">太阳</button>
+          <button class="tab-btn" onclick="switchPathway(this,'tyrant')">暴君</button>
+          <button class="tab-btn" onclick="switchPathway(this,'error')">错误</button>
+          <button class="tab-btn" onclick="switchPathway(this,'steam')">蒸汽</button>
+          <button class="tab-btn" onclick="switchPathway(this,'door')">门</button>
+        </div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;opacity:0.25;">LOTM PATHWAYS · 22 in total</span>
+      </div>
+
+      <!-- 占卜家 -->
+      <div id="path-seer" class="sequence-pathway">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>占卜家</strong> — 灵摆占卜、梦境解读、星盘推演。初步接触非凡世界，以直觉与神秘学知识辅助判断。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>小丑</strong> — 杂技般的敏捷身手，模仿与伪装能力大幅提升。可在战斗中制造混乱和嘲讽效果。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>魔术师</strong> — 纸人替身、火焰跳跃、无痕换位。真正的"魔术"上演，以假乱真欺骗敌人。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>无面人</strong> — 千面之人，可变化容貌体态，完美模仿他人的气息与浅层非凡能力。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>秘偶大师</strong> — 操纵秘偶如提线木偶。以活人祭炼秘偶，集侦查、战斗、替死于一体。克莱恩的招牌能力。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>诡法师</strong> — 干涉现实，扭曲局部法则。在虚实之间编织诡秘法术，于不可思议之处创造奇迹。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>古代学者</strong> — 穿梭历史长河，召唤历史投影。以古人之力为剑，借先贤智慧破局。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>奇迹师</strong> — 化不可能为可能。以奇迹之力改天换地，窃取命运片段，篡改因果法则。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>诡秘侍者</strong> — 侍奉诡秘之道的高位存在。操纵时空乱流，距离神座仅一步之遥。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>愚者</strong> — 时之虫、秘偶、历史的操纵者。诡秘之主三道途径的交汇点。执掌命运、时空与隐秘的权柄。</div></div>
+      </div>
+
+      <!-- 战士 -->
+      <div id="path-warrior" class="sequence-pathway" style="display:none;">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>战士</strong> — 强化身体素质，掌握基础格斗与武器技巧的非凡者起点。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>格斗家</strong> — 精通各种搏击术，身体协调性与爆发力远超常人。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>武器大师</strong> — 通晓十八般兵器，以武器激活非凡之力，攻防一体。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>黎明骑士</strong> — 执掌黎明之光，以光明之力净化邪恶的骑士。曾一度辉煌的序列。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>守护者</strong> — 铁壁防御，以意志铸就屏障。守护信念即守护力量源泉。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>猎魔人</strong> — 追踪、猎杀超凡生物的专家，掌握多种针对非凡者的秘术与战技。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>银骑士</strong> — 银白铠甲的骑士，以月光与星辰为力量源泉，防御无双。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>荣耀者</strong> — 承载众生信念，以意志撼动现实。攻防一体的完美战士。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>神明之手</strong> — 神明的代行者，手握惩罚之力。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>空想家</strong> — 以意志塑造现实，将幻想变为真实。战士途径的终点——半愚者。</div></div>
+      </div>
+
+      <!-- 观众 -->
+      <div id="path-spectator" class="sequence-pathway" style="display:none;">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>观众</strong> — 旁观者视角，洞察人心，察觉隐藏的情感与异常情绪波动。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>读心者</strong> — 读取表层思维，倾听心底低语与潜意识碎片的窃密者。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>心理医生</strong> — 治疗心灵创伤，植入心理暗示，重构他人认知系统。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>催眠师</strong> — 深度催眠，操纵深层潜意识，在梦境与现实之间架桥。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>梦境行者</strong> — 穿行于集体潜意识之海，在他人梦境中编织故事与陷阱。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>操纵师</strong> — 操控人心的艺术家，于无形中导演一切命运的走向与布局。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>织梦人</strong> — 以梦境编织现实，打造虚幻与真实交织的领域结界。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>洞察者</strong> — 洞悉万物本质，看穿命运线。所有秘密在面前无所遁形。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>命运编织者</strong> — 操纵命运的丝线，在时间长廊中编织属于自己的印记。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>空想家</strong> — 将想象化为现实，以意志重塑世界的真神。战士途径的另一条终点。</div></div>
+      </div>
+
+      <!-- 秘祈人 -->
+      <div id="path-mystery" class="sequence-pathway" style="display:none;">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>秘祈人</strong> — 与隐秘存在建立联系，在祈祷中获取禁忌知识的探索者。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>倾听者</strong> — 能听到常人无法听到的声音，包括来自星空与深渊的低语。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>隐修士</strong> — 在隐秘中修行，掌握遮蔽与隐藏的秘术，遁入无人可见之境。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>蔷薇主教</strong> — 血腥与仪式的掌控者，以献祭换取力量与庇护。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>牧魂人</strong> — 牧养灵魂，引渡亡魂，操纵死者之力。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>黑骑士</strong> — 以死亡与恐惧为铠，行走于生死边界的黑暗骑士。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>三首圣堂</strong> — 三重面孔窥视过去、现在与未来，知晓隐秘的智者。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>唤神者</strong> — 召唤古老存在投影的媒介，祈求神灵的眷顾与庇护。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>神孽</strong> — 半神半魔的存在，知晓禁忌知识的代价是永受疯狂折磨。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>隐匿贤者</strong> — 隐秘知识的化身，所有秘祈者仰望的终极存在。</div></div>
+      </div>
+
+      <!-- 黑夜 -->
+      <div id="path-night" class="sequence-pathway" style="display:none;">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>不眠者</strong> — 黑夜中无需睡眠的守望者，对黑暗有天然的亲和力。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>午夜诗人</strong> — 以诗篇为咒的非凡者，吟唱中蕴藏神秘力量。伦纳德的晋升途径。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>梦魇</strong> — 操纵梦境，侵入他人沉睡中的意识。黑夜的忠实侍者。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>守夜人</strong> — 在黑夜中守护城市，监视异常与污染的值夜者核心序列。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>收割者</strong> — 收割灵魂的使者，掌握死亡与寂静的力量。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>沉默者</strong> — 于沉默中积蓄力量，一言可定生死。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>恐惧主教</strong> — 以恐惧为食的高位存在，在黑暗中传播敬畏。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>黑暗天使</strong> — 黑夜的化身天使，执掌阴影与寂静的权柄。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>厄难骑士</strong> — 带来厄运与灾难的骑士，以黑暗覆灭一切。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>黑夜女神</strong> — 永恒的黑夜之主，执掌隐秘与安宁的序列0真神。</div></div>
+      </div>
+
+      <!-- 太阳 -->
+      <div id="path-sun" class="sequence-pathway" style="display:none;">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>歌颂者</strong> — 以歌声与赞美祈求光明的力量，驱散邪祟。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>祈光人</strong> — 以祈祷召唤光芒，净化黑暗与污染。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>光之祭司</strong> — 掌握神圣法术，治愈创伤与诅咒。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>无暗者</strong> — 光明中无阴影存身，驱散一切黑暗与隐秘的化身。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>光之守护者</strong> — 以圣光庇护信徒，神圣不可侵犯。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>惩戒天使</strong> — 以神之名惩戒邪恶，燃烧不洁之物的天使。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>光之巨人</strong> — 化身光之巨人，威压天地。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>太阳神剑</strong> — 以日光凝为神剑，一剑破万邪。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>黎明使者</strong> — 带来永昼的使者，光芒永照。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>永恒烈阳</strong> — 永不坠落的光明之神，七大正神之一。</div></div>
+      </div>
+
+      <!-- 暴君 -->
+      <div id="path-tyrant" class="sequence-pathway" style="display:none;">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>水手</strong> — 熟悉海洋与航海，身体素质强化。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>暴怒之民</strong> — 愤怒中爆发惊人力量，以怒火驱动战力。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>航海家</strong> — 纵横七海的航海者，呼风唤雨。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>风眷者</strong> — 风暴的眷属，操纵气象与海浪。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>海洋歌者</strong> — 以歌声号令海洋生物，掀起巨浪。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>灾难主祭</strong> — 召唤风暴、海啸、雷暴等灾难的主祭。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>海神权杖</strong> — 执掌海洋权柄的高位存在。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>天灾化身</strong> — 行走的天灾，所到之处风暴席卷。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>雷霆之主</strong> — 执掌雷霆的君主，以雷罚审判。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>暴君</strong> — 执掌风暴与海洋、审判与毁灭的真神。</div></div>
+      </div>
+
+      <!-- 错误 -->
+      <div id="path-error" class="sequence-pathway" style="display:none;">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>偷盗者</strong> — 窃取他人财物的初级盗贼。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>诈骗师</strong> — 以谎言和骗术谋生的欺诈大师。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>窃密者</strong> — 盗取隐秘信息的无形之手。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>盗火者</strong> — 窃取他人超凡能力的窃贼。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>窃梦家</strong> — 潜入梦境盗取记忆与秘密。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>寄生者</strong> — 寄生于他人体内，共享感官与生命。帕列斯·索罗亚斯德所在序列。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>篡改者</strong> — 篡改命运与法则，改写现实。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>时之虫</strong> — 时空之虫，可在时间的缝隙中穿梭。阿蒙与帕列斯的位格。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>错误</strong> — 法则的BUG，不按常理出牌的存在。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>错误</strong> — 执掌错误与欺骗权的真神。诡秘之主三道途径之一。</div></div>
+      </div>
+
+      <!-- 蒸汽与机械 -->
+      <div id="path-steam" class="sequence-pathway" style="display:none;">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>通识者</strong> — 博学多才的学者，掌握广泛知识。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>考古学家</strong> — 发掘历史遗迹，解读古老文字与铭文。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>鉴定师</strong> — 鉴定非凡物品，评估封印物等级及危险程度。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>机械专家</strong> — 蒸汽时代的技术先驱，操纵机械造物。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>天文学家</strong> — 研究星辰与宇宙，观测星象预知未来。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>炼金术士</strong> — 物质转化的终极研究者，制造神秘药剂。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>奥秘法师</strong> — 揭示奥秘的法师，洞悉世界底层规则。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>知识皇帝</strong> — 知识领域的帝王，一切学识的主人。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>蒸汽之子</strong> — 蒸汽工业之灵，机械与文明的化身。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>蒸汽与机械之神</strong> — 科学与技术的守护神，七大正神之一。</div></div>
+      </div>
+
+      <!-- 门 -->
+      <div id="path-door" class="sequence-pathway" style="display:none;">
+        <div class="sequence-row"><div class="sequence-label">序列9</div><div class="sequence-item"><strong>戏法大师</strong> — 精通戏法与障眼法的街头艺人。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列8</div><div class="sequence-item"><strong>占星人</strong> — 以星盘占卜命运的占星术士。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列7</div><div class="sequence-item"><strong>记录官</strong> — 记录世间万象，以文字封印力量。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列6</div><div class="sequence-item"><strong>旅行家</strong> — 穿梭空间，一步万里的旅行者。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列5</div><div class="sequence-item"><strong>秘术导师</strong> — 掌握诸多秘术，知识渊博的导师。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列4</div><div class="sequence-item"><strong>漫游者</strong> — 自由穿行于不同位面的漫游者。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列3</div><div class="sequence-item"><strong>旅法师</strong> — 掌握空间法则的法师，创造独立空间。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列2</div><div class="sequence-item"><strong>星之使徒</strong> — 沟通星辰的使者，在宇宙尺度上旅行的存在。</div></div>
+        <div class="sequence-row"><div class="sequence-label">序列1</div><div class="sequence-item"><strong>维度支配者</strong> — 支配多维度空间的主宰。</div></div>
+        <div class="sequence-row"><div class="sequence-label" style="color:#FFD700;">序列0</div><div class="sequence-item" style="color:#FFD700;"><strong>门</strong> — 执掌空间与坐标权的真神。诡秘之主三道途径之一。</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 著名封印物 ══════ -->
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding-bottom:0;">
+    <div class="section-label"><strong style="font-weight:700;">▍著名封印物</strong></div>
+  </div>
+  <div class="gc" style="grid-column:1/-1;padding:0;border-bottom:none;">
+    <div class="item-grid">
+      <div class="item-card fade-in fade-in-delay-1">
+        <span class="feature-card-hover"></span>
+        <h4>🧳 0级 · 怪盗手套</h4>
+        <span class="level">Sealed Artifact · Level 0</span>
+        <p>能够窃取物品甚至概念的手套。拥有自我意识，佩戴者需以大量非凡特性喂养。长期使用会导致佩戴者产生偷窃癖。</p>
+      </div>
+      <div class="item-card fade-in fade-in-delay-2">
+        <span class="feature-card-hover"></span>
+        <h4>🪞 0级 · 魔镜</h4>
+        <span class="level">Sealed Artifact · Level 0</span>
+        <p>封印了一位序列1非凡者灵魂的魔镜。能回答任何问题，但答案以隐喻和谜语呈现，且每次提问都需要付出代价。</p>
+      </div>
+      <div class="item-card fade-in fade-in-delay-3">
+        <span class="feature-card-hover"></span>
+        <h4>📿 1级 · 全自动许愿机</h4>
+        <span class="level">Sealed Artifact · Level 1</span>
+        <p>投币运转的许愿机器。完成的愿望越多，许愿者的运气越差。克莱恩曾多次利用其实现短期目标，但不被长远命运青睐。</p>
+      </div>
+      <div class="item-card fade-in fade-in-delay-4">
+        <span class="feature-card-hover"></span>
+        <h4>🗝️ 1级 · 无源之门</h4>
+        <span class="level">Sealed Artifact · Level 1</span>
+        <p>一扇可以连接到任何地方的门。使用时需通过灵性判定，否则可能通向危险之地。是旅行者途径的著名封印物。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ CLOSING ══════ -->
+<div class="g" style="border-bottom:1px solid rgba(255,215,0,0.08);">
+  <div class="gc" style="grid-column:span 12;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4rem 1rem;">
+    <div class="fade-in fade-in-delay-1" style="max-width:650px;">
+      <small class="section-label" style="opacity:0.3;margin-bottom:1rem;letter-spacing:0.25rem;">THE FOOL THAT NOT BELONGS TO THIS ERA</small>
+      <h2 style="font-family:'Noto Serif SC',serif;font-weight:400;font-size:1.3rem;line-height:2;opacity:0.6;letter-spacing:0.05em;">
+        "诡秘的世界里，真相是最大的疯狂，<br>
+        但总有人在黑暗中守护着文明的火种。"
+      </h2>
+      <p style="margin-top:1.5rem;font-size:1rem;opacity:0.4;line-height:1.8;font-weight:300;max-width:500px;margin-left:auto;margin-right:auto;">
+        一个关于牺牲与守护的故事。他本可以成为旧日支配者，却选择以永恒的沉睡守护这个世界。<br>
+        愚者先生，感谢您。愿您永远不会被疯狂吞噬。
+      </p>
+      <p style="margin-top:1rem;font-size:0.8rem;opacity:0.2;font-family:'JetBrains Mono',monospace;">
+        "所有命运的馈赠，都在暗中标好了价格。"<br>
+        —— Lord of the Mysteries · 爱潜水的乌贼
+      </p>
+      <div style="margin-top:2rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;">
+        <a href="https://www.qidian.com/book/1010731093/" class="action-link">起点阅读<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+        <a href="https://baike.baidu.com/item/诡秘之主" class="action-link">百度百科<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+        <a href="https://www.ciweimao.com/book/100142642" class="action-link">刺猬猫<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="g">
+  <div class="gc" style="display:flex;align-items:center;gap:0.5rem;">
+    <small class="footer-label">诡秘之主</small>
+    <small class="footer-gold">爱潜水的乌贼</small>
+  </div>
+  <div class="gc hide-mobile"></div>
+  <div class="gc hide-mobile"></div>
+  <div class="gc" style="display:flex;align-items:center;">
+    <a href="https://www.qidian.com/book/1010731093/" class="footer-label" style="opacity:0.5;">起点中文网 ↗</a>
+  </div>
+  <div class="gc" style="display:flex;align-items:center;justify-content:flex-end;">
+    <small class="footer-gold" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;">Fan Site · 2026</small>
+  </div>
+</footer>
+
+</main>
+
+<script>
+const canvas=document.getElementById('noise-layer'),ctx=canvas.getContext('2d');
+function resize(){canvas.width=window.innerWidth*0.5;canvas.height=window.innerHeight*0.5}
+resize();window.addEventListener('resize',resize);
+function drawNoise(){const w=canvas.width,h=canvas.height,img=ctx.createImageData(w,h),buf=img.data;for(let i=0;i<buf.length;i+=4){const v=Math.random()*256;buf[i]=v;buf[i+1]=v;buf[i+2]=v;buf[i+3]=255}ctx.putImageData(img,0,0)}
+drawNoise();setInterval(drawNoise,200);
+
+// Terminal typewriter
+(function(){const t=document.getElementById('terminal-content');if(!t)return;const h=t.innerHTML;t.innerHTML='';let i=0;function n(){if(i>=h.length)return;if(h[i]==='<'){const e=h.indexOf('>',i)+1;t.innerHTML=h.slice(0,e)+'<span class="terminal-cursor"></span>';i=e;setTimeout(n,10)}else{t.innerHTML=h.slice(0,i+1)+'<span class="terminal-cursor"></span>';i++;const d=h[i-1]==='\n'?50:h[i-1]===' '?15:12;setTimeout(n,d)}}setTimeout(n,600)})();
+
+// Pathway tabs
+function switchPathway(btn,id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.sequence-pathway').forEach(p=>p.style.display='none');document.getElementById('path-'+id).style.display='block'}
+
+// Scroll observers
+(function(){const o=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.style.animationPlayState='running'})},{threshold:0.1});document.querySelectorAll('.fade-in').forEach(e=>{e.style.animationPlayState='paused';o.observe(e)})})();
+</script>
+</body>
+</html>
