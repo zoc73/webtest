@@ -9,22 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#030303;--card-bg:rgba(10,10,10,0.4);--text:#e0e0e0;--gold:#FFD700;--border:rgba(255,255,255,0.1);--font-display:'Noto Sans SC',sans-serif;--font-code:'JetBrains Mono',monospace}
+:root{--bg:#07070d;--card-bg:rgba(10,10,10,0.4);--text:#e8e4dc;--gold:#FFD700;--border:rgba(255,255,255,0.1);--font-display:'Noto Sans SC',sans-serif;--font-serif:'Noto Serif SC',serif;--font-code:'JetBrains Mono',monospace}
 *{margin:0;padding:0;box-sizing:border-box}
 body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font-display);overflow:hidden;width:100vw;height:100vh;cursor:crosshair}
-.scanlines{position:fixed;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0) 50%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.2));background-size:100% 4px;pointer-events:none;z-index:10}
-.vignette{position:fixed;inset:0;background:radial-gradient(circle,transparent 40%,#000 120%);z-index:11;pointer-events:none}
-.noise{position:fixed;inset:0;z-index:12;opacity:0.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")}
-.hud{position:fixed;inset:2rem;z-index:20;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--font-code);font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em}
+.scanlines{position:fixed;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0) 50%,rgba(0,0,0,0.15) 50%,rgba(0,0,0,0.15));background-size:100% 4px;pointer-events:none;z-index:10}
+.vignette{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(7,7,13,0.65) 100%);z-index:11;pointer-events:none}
+.noise{position:fixed;inset:0;z-index:12;opacity:0.04;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")}
+.hud{position:fixed;inset:2rem;z-index:20;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--font-code);font-size:9px;color:rgba(232,228,220,0.3);text-transform:uppercase;letter-spacing:0.08em}
 .hud-top,.hud-bottom{display:flex;justify-content:space-between;align-items:center}
 .hud strong{color:var(--gold)}
-.hud-line{flex:1;height:1px;background:rgba(255,255,255,0.15);margin:0 1rem;position:relative}
+.hud-line{flex:1;height:1px;background:rgba(255,215,0,0.1);margin:0 1rem;position:relative}
 .hud-line::after{content:'';position:absolute;right:0;top:-2px;width:5px;height:5px;background:var(--gold)}
-.center-nav{font-family:var(--font-code);font-size:9px;color:rgba(255,215,0,0.2);letter-spacing:0.1em}
+.center-nav{font-family:var(--font-code);font-size:8px;color:rgba(255,215,0,0.15);letter-spacing:0.12em}
 .viewport{position:fixed;inset:0;perspective:1000px;overflow:hidden;z-index:1}
 .world{position:absolute;top:50%;left:50%;transform-style:preserve-3d;will-change:transform}
-.item{position:absolute;left:0;top:0;backface-visibility:hidden;transform-origin:center center;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.card{width:380px;min-height:480px;background:var(--card-bg);border:1px solid rgba(255,215,0,0.06);position:relative;padding:2rem;display:flex;flex-direction:column;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 0 0 1px rgba(0,0,0,0.5),0 20px 50px rgba(0,0,0,0.5);transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);transform:translate(-50%,-50%);border-radius:4px;outline:none;-webkit-tap-highlight-color:transparent;user-select:none}
+.item{position:absolute;left:0;top:0;backface-visibility:hidden;transform-origin:center center;display:flex;align-items:center;justify-content:center}
+.card{width:380px;min-height:480px;background:var(--card-bg);border:1px solid rgba(255,215,0,0.08);position:relative;padding:2rem;display:flex;flex-direction:column;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 0 0 1px rgba(0,0,0,0.5),0 20px 50px rgba(0,0,0,0.5);transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);transform:translate(-50%,-50%);border-radius:4px;cursor:pointer}
 .card:hover{border-color:var(--gold);box-shadow:0 0 30px rgba(255,215,0,0.12);background:rgba(20,20,20,0.8);z-index:100}
 .card::before,.card::after{content:'';position:absolute;width:10px;height:10px;border:1px solid transparent;transition:0.3s}
 .card::before{top:-1px;left:-1px;border-top-color:var(--gold);border-left-color:var(--gold)}
@@ -32,32 +32,33 @@ body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(-
 .card:hover::before,.card:hover::after{width:100%;height:100%;border-color:var(--gold)}
 .card-header{border-bottom:1px solid rgba(255,215,0,0.08);padding-bottom:0.8rem;margin-bottom:0.8rem;display:flex;justify-content:space-between;align-items:center}
 .card-id{font-family:var(--font-code);color:var(--gold);font-size:0.7rem;letter-spacing:0.1em}
-.card h2{font-size:2.8rem;line-height:0.9;margin:0;font-weight:900;color:#FFD700;mix-blend-mode:plus-lighter;letter-spacing:-0.02em}
+.card h2{font-size:2.8rem;line-height:0.9;margin:0;text-transform:uppercase;font-weight:900;color:#fff;mix-blend-mode:hard-light;letter-spacing:-0.02em}
 .card .sub{font-size:0.75rem;color:rgba(255,215,0,0.3);font-family:var(--font-code);letter-spacing:0.12em;margin-top:0.2rem}
 .card-tags{display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.6rem 0}
 .card-tags span{font-family:var(--font-code);font-size:0.5rem;padding:0.15rem 0.5rem;background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.06);color:rgba(255,255,255,0.3);letter-spacing:0.08em}
 .card-desc{font-size:0.65rem;color:rgba(255,255,255,0.25);font-family:var(--font-code);line-height:1.5;margin-top:0.3rem;flex:1}
 .card-source{font-family:var(--font-code);font-size:0.55rem;color:rgba(255,215,0,0.15);letter-spacing:0.1em;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid rgba(255,215,0,0.05);display:flex;align-items:center;gap:0.4rem}
 .card-source .dot{width:5px;height:5px;border-radius:50%}
-.card-footer{margin-top:auto;padding-top:0.5rem;font-family:var(--font-code);font-size:0.55rem;color:rgba(255,255,255,0.15);display:flex;justify-content:space-between}
-.big-text{font-size:14vw;font-weight:900;text-transform:uppercase;white-space:nowrap;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-0.3rem;mix-blend-mode:overlay;transition:color 0.5s}
-.star{position:absolute;width:2px;height:2px;background:#fff;transform:translate(-50%,-50%);border-radius:50%}
+.card-footer{margin-top:auto;padding-top:0.5rem;font-family:var(--font-code);font-size:0.55rem;color:rgba(255,255,255,0.2);display:flex;justify-content:space-between}
+.big-text{font-size:12vw;font-weight:900;color:transparent;-webkit-text-stroke:2px rgba(255,215,0,0.06);text-transform:uppercase;white-space:nowrap;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-0.3rem;mix-blend-mode:overlay;font-family:var(--font-display)}
+.star{position:absolute;width:2px;height:2px;background:rgba(255,215,0,0.3);transform:translate(-50%,-50%);border-radius:50%}
 .scroll-proxy{height:10000vh;position:absolute;width:100%;z-index:-1}
-nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0.8rem 2rem;background:linear-gradient(180deg,rgba(3,3,3,0.85),transparent)}
-nav a{font-family:'Noto Serif SC',serif;font-size:0.8rem;letter-spacing:0.2rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;transition:all 0.3s;opacity:0.55;position:relative}
-nav a::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:#FFD700;transition:all 0.3s}
+nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0.8rem 2rem;background:linear-gradient(180deg,rgba(7,7,13,0.9),transparent)}
+nav a{font-family:var(--font-serif);font-size:0.8rem;letter-spacing:0.2rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;transition:all 0.3s;opacity:0.55;position:relative}
+nav a::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:var(--gold);transition:all 0.3s}
 nav a:hover{opacity:1}
 nav a:hover::after{left:0;width:100%}
-.click-hint{position:fixed;bottom:3rem;left:50%;transform:translateX(-50%);z-index:20;font-family:var(--font-code);font-size:0.55rem;color:rgba(255,215,0,0.2);letter-spacing:0.15em;text-transform:uppercase;animation:blink 2s ease-in-out infinite;pointer-events:none}
-@keyframes blink{0%,100%{opacity:0.2}50%{opacity:0.6}}
+.click-hint{position:fixed;bottom:3rem;left:50%;transform:translateX(-50%);z-index:20;font-family:var(--font-code);font-size:0.5rem;color:rgba(232,228,220,0.08);letter-spacing:0.15em;text-transform:uppercase;animation:blink 3s ease-in-out infinite;pointer-events:none}
+@keyframes blink{0%,100%{opacity:0.1}50%{opacity:0.35}}
 </style>
 </head>
 <body>
 <div class="scanlines"></div>
 <div class="vignette"></div>
 <div class="noise"></div>
+
 <nav>
-  <a href="../index.html" style="font-weight:900;font-size:1.4rem;letter-spacing:-0.02em;opacity:0.7">诡秘之主</a>
+  <a href="../index.html" style="font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;opacity:0.7;font-family:'Noto Sans SC',sans-serif">诡秘之主</a>
   <div style="display:flex;gap:1.5rem">
     <a href="../index.html">首页</a>
     <a href="characters.html">角色</a>
@@ -65,6 +66,7 @@ nav a:hover::after{left:0;width:100%}
     <a href="artifacts.html">封印物</a>
   </div>
 </nav>
+
 <div class="hud">
   <div class="hud-top">
     <span>LOTM.SYS</span>
@@ -72,19 +74,24 @@ nav a:hover::after{left:0;width:100%}
     <span>FPS: <strong id="fps">60</strong></span>
   </div>
   <div class="center-nav" style="align-self:flex-start;margin-top:auto;margin-bottom:auto;writing-mode:vertical-rl;transform:rotate(180deg)">
-    当前途径 // <strong id="coord">等待</strong>
+    源质共鸣 // <strong id="src-readout">NULL</strong>
   </div>
   <div class="hud-bottom">
-    <span>源质: <strong id="src-readout">—</strong></span>
+    <span>途径: <strong id="coord">000</strong></span>
     <div class="hud-line"></div>
     <span>VER 3.0 [TUNNEL]</span>
   </div>
 </div>
-<div class="viewport" id="viewport"><div class="world" id="world"></div></div>
+
+<div class="viewport" id="viewport">
+  <div class="world" id="world"></div>
+</div>
+
 <div class="scroll-proxy"></div>
-<div class="click-hint">✦ 点击画面查看当前途径 ✦</div>
+<div class="click-hint">点击卡片查看途径详情</div>
 
 <script>
+// === PATHWAY DATA ===
 var SOURCES = [
   {name:'源堡',color:'#FFD700',paths:[0,1,6]},
   {name:'混沌海',color:'#5ab0c4',paths:[11,5,16,19,12]},
@@ -98,123 +105,200 @@ var SOURCES = [
 ];
 var D = [
   {n:'愚者',c:'占卜家',h:'愚者',s:'占卜·秘偶·时之虫',a:'克莱恩·莫雷蒂',m:'灵之虫',y:'源堡',g:'诡秘之主',d:'掌握"变化"与"隐秘"权柄。以永恒的沉睡守护世界。'},
-  {n:'魔术师',c:'学徒',h:'门',s:'传送·空间·门',a:'佛尔思·沃尔',m:'星之虫',y:'源堡',g:'诡秘之主',d:'象征"空间"与"时空"权柄。'},
-  {n:'女祭司',c:'通识者',h:'完美者',s:'知识·机械·蒸汽',a:'贝尔纳黛·古斯塔夫',m:'知识之妖',y:'知识荒野',g:'知识之妖',d:'代表文明本身。带领文明发展跃迁。'},
-  {n:'女皇',c:'刺客',h:'魔女',s:'毒药·女巫·魅惑',a:'特莉丝',m:'蛇发女妖',y:'灾祸之城',g:'毁灭天灾',d:'代表阴性领域。序列7时性别转换。'},
-  {n:'皇帝',c:'律师',h:'黑皇帝',s:'规则·阴谋·独裁',a:'罗塞尔·古斯塔夫',m:'卷毛狒狒',y:'失序之国',g:'失序者',d:'秩序的阴影与规则的暗面。'},
-  {n:'教皇',c:'水手',h:'暴君',s:'风暴·海洋·雷霆',a:'阿尔杰·威尔逊',m:'海怪',y:'混沌海',g:'上帝',d:'代表"全知全能"中的物质领域。'},
-  {n:'恋人',c:'偷盗者',h:'错误',s:'窃取·寄生·时之虫',a:'阿蒙',m:'时之虫',y:'源堡',g:'诡秘之主',d:'权柄涵盖窃取与寄生。诡秘三途径之一。'},
-  {n:'战车',c:'猎人',h:'红祭司',s:'火焰·战争·征服',a:'梅迪奇',m:'灾祸巨人',y:'灾祸之城',g:'毁灭天灾',d:'战争与纯粹阳性的化身。'},
+  {n:'魔术师',c:'学徒',h:'门',s:'传送·空间·门',a:'佛尔思·沃尔',m:'星之虫',y:'源堡',g:'诡秘之主',d:'象征"空间"与"时空"权柄。掌握传送与记录能力。'},
+  {n:'女祭司',c:'通识者',h:'完美者',s:'知识·机械·蒸汽',a:'贝尔纳黛·古斯塔夫',m:'知识之妖',y:'知识荒野',g:'知识之妖',d:'代表文明本身。核心是带领文明实现发展跃迁。'},
+  {n:'女皇',c:'刺客',h:'魔女',s:'毒药·女巫·魅惑',a:'特莉丝',m:'蛇发女妖',y:'灾祸之城',g:'毁灭天灾',d:'代表阴性领域。序列7时发生性别转换。'},
+  {n:'皇帝',c:'律师',h:'黑皇帝',s:'规则·阴谋·独裁',a:'罗塞尔·古斯塔夫',m:'卷毛狒狒',y:'失序之国',g:'失序者',d:'代表秩序的阴影与规则的暗面。'},
+  {n:'教皇',c:'水手',h:'暴君',s:'风暴·海洋·雷霆',a:'阿尔杰·威尔逊',m:'海怪',y:'混沌海',g:'上帝',d:'代表"全知全能"中的物质领域。途径非凡者易暴怒。'},
+  {n:'恋人',c:'偷盗者',h:'错误',s:'窃取·寄生·时之虫',a:'阿蒙',m:'时之虫',y:'源堡',g:'诡秘之主',d:'权柄涵盖窃取、寄生与时间之虫。诡秘三途径之一。'},
+  {n:'战车',c:'猎人',h:'红祭司',s:'火焰·战争·征服',a:'梅迪奇',m:'灾祸巨人',y:'灾祸之城',g:'毁灭天灾',d:'战争与纯粹阳性的化身。代表最初造物主的阳性领域。'},
   {n:'力量',c:'战士',h:'黄昏巨人',s:'战斗·黎明·守护',a:'科林·伊利亚特',m:'独眼巨人',y:'永暗之河',g:'永恒之暗',d:'战神途径。代表守护与力量。'},
   {n:'隐者',c:'窥秘人',h:'隐者',s:'神秘·召唤·预言',a:'嘉德丽雅',m:'知识妖精',y:'知识荒野',g:'知识之妖',d:'偏向神秘侧的知识本身。'},
-  {n:'命运之轮',c:'怪物',h:'命运之轮',s:'幸运·概率·混乱',a:'威尔·昂赛汀',m:'衔尾蛇',y:'光之钥',g:'光之钥',d:'无相邻途径。靠命运眷顾生存。'},
+  {n:'命运之轮',c:'怪物',h:'命运之轮',s:'幸运·概率·混乱',a:'威尔·昂赛汀',m:'衔尾蛇',y:'光之钥',g:'光之钥',d:'无相邻途径。全靠直觉预感和命运眷顾生存。'},
   {n:'正义',c:'观众',h:'空想家',s:'读心·催眠·梦境',a:'奥黛丽·霍尔',m:'心灵巨龙',y:'混沌海',g:'上帝',d:'对应"全知全能"中的心灵领域。'},
-  {n:'倒吊人',c:'秘祈人',h:'倒吊人',s:'低语·献祭·隐秘',a:'真实造物主',m:'阴影与血肉',y:'混沌海',g:'上帝',d:'掌握"堕落"与"牺牲"权柄。'},
-  {n:'死神',c:'收尸人',h:'死神',s:'灵魂·亡灵·冥界',a:'阿兹克·艾格斯',m:'羽蛇',y:'永暗之河',g:'永恒之暗',d:'第三纪前称"不死鸟"途径。'},
-  {n:'节制',c:'囚犯',h:'被缚者',s:'疯狂·诅咒·枷锁',a:'莎伦',m:'诅咒集合体',y:'暗影世界',g:'恶魔之父',d:'异种途径。序列8起出现诅咒。'},
-  {n:'恶魔',c:'罪犯',h:'深渊',s:'暴力·恶魔·深渊',a:'欲望母树',m:'深渊恶魔',y:'暗影世界',g:'恶魔之父',d:'源自外神"欲望母树"。'},
+  {n:'倒吊人',c:'秘祈人',h:'倒吊人',s:'低语·献祭·隐秘',a:'真实造物主',m:'阴影与血肉',y:'混沌海',g:'上帝',d:'掌握"堕落"与"牺牲"权柄。代表"全知全能"的全能。'},
+  {n:'死神',c:'收尸人',h:'死神',s:'灵魂·亡灵·冥界',a:'阿兹克·艾格斯',m:'羽蛇',y:'永暗之河',g:'永恒之暗',d:'拥有强大灵性。第三纪前称"不死鸟"途径。'},
+  {n:'节制',c:'囚犯',h:'被缚者',s:'疯狂·诅咒·枷锁',a:'莎伦',m:'诅咒集合体',y:'暗影世界',g:'恶魔之父',d:'异种途径。心里潜藏嗜血欲望，从序列8起出现诅咒。'},
+  {n:'恶魔',c:'罪犯',h:'深渊',s:'暴力·恶魔·深渊',a:'欲望母树',m:'深渊恶魔',y:'暗影世界',g:'恶魔之父',d:'代表张扬的恶意。源自外神"欲望母树"。'},
   {n:'塔',c:'阅读者',h:'白塔',s:'知识·发明·推理',a:'艾德雯娜·爱德华兹',m:'书籍之塔',y:'混沌海',g:'上帝',d:'代表"全知全能"的全知领域。'},
-  {n:'星星',c:'不眠者',h:'黑暗',s:'黑夜·梦境·寂静',a:'伦纳德·米切尔',m:'四足魔狼',y:'永暗之河',g:'永恒之暗',d:'黑夜途径。序列6前缺乏辅助。'},
-  {n:'月亮',c:'药师',h:'月亮',s:'魔药·吸血鬼·生命',a:'埃姆林·怀特',m:'红月人形',y:'母巢',g:'根源之神',d:'纯阴性途径。序列7吸血鬼。'},
-  {n:'太阳',c:'歌颂者',h:'太阳',s:'光明·黎明·净化',a:'戴里克·伯格',m:'太阳鸟',y:'混沌海',g:'上帝',d:'克制黑暗与亡灵的最佳途径。'},
+  {n:'星星',c:'不眠者',h:'黑暗',s:'黑夜·梦境·寂静',a:'伦纳德·米切尔',m:'四足魔狼',y:'永暗之河',g:'永恒之暗',d:'黑夜途径。序列6前缺乏辅助能力。'},
+  {n:'月亮',c:'药师',h:'月亮',s:'魔药·吸血鬼·生命',a:'埃姆林·怀特',m:'红月人形',y:'母巢',g:'根源之神',d:'纯阴性途径。序列7"吸血鬼"为标志性节点。'},
+  {n:'太阳',c:'歌颂者',h:'太阳',s:'光明·黎明·净化',a:'戴里克·伯格',m:'太阳鸟',y:'混沌海',g:'上帝',d:'代表灿烂的金色与光明之力。克制黑暗与亡灵。'},
   {n:'审判',c:'仲裁人',h:'审判者',s:'律法·秩序·裁决',a:'休·迪尔查',m:'黄铜巨柱',y:'失序之国',g:'失序者',d:'代表着秩序与规则。'},
   {n:'世界',c:'耕种者',h:'母亲',s:'自然·丰收·大地',a:'弗兰克·李',m:'原始血肉',y:'母巢',g:'根源之神',d:'代表生命与繁衍的纯阴性途径。'}
 ];
 var ROMAN = ['0','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI'];
-var ORDERED = [], srcColors = {}, srcNames = {};
-SOURCES.forEach(function(s){ s.paths.forEach(function(pi){ ORDERED.push(pi); srcColors[pi]=s.color; srcNames[pi]=s.name; }); });
 
-var CONFIG = {itemCount:ORDERED.length, starCount:150, zGap:700, loopSize:ORDERED.length*700, camSpeed:2.5};
-var world=document.getElementById('world'), viewport=document.getElementById('viewport'), items=[], state={scroll:0,velocity:0,targetSpeed:0,mouseX:0,mouseY:0};
+// Build ordered list: grouped by source
+var ORDERED = [];
+SOURCES.forEach(function(s){ s.paths.forEach(function(pi){ ORDERED.push(pi); }); });
+
+// === TUNNEL CONFIG ===
+var BIG_TEXTS = ['诡秘','之主','非凡','途径','序列','命运','源堡','混沌','永暗','灾祸','母巢','暗影','失序','知识','光钥'];
+var CONFIG = {
+  itemCount: ORDERED.length,
+  starCount: 150,
+  zGap: 700,
+  loopSize: ORDERED.length * 700,
+  camSpeed: 2.5
+};
+
+var world = document.getElementById('world');
+var viewport = document.getElementById('viewport');
+var items = [];
+var srcColors = {};
+SOURCES.forEach(function(s){ s.paths.forEach(function(pi){ srcColors[pi] = s.color; }); });
+var srcNames = {};
+SOURCES.forEach(function(s){ s.paths.forEach(function(pi){ srcNames[pi] = s.name; }); });
 
 function init(){
+  var bigIdx = 0;
   var prevSource = null;
+  
   ORDERED.forEach(function(pi, i){
-    var d = D[pi], sc = srcColors[pi]||'#FFD700', curSource = srcNames[pi];
+    var d = D[pi];
+    var sc = srcColors[pi] || '#FFD700';
+    var curSource = srcNames[pi];
+    
+    // Insert group header before first card of each new source
     if (curSource !== prevSource && prevSource !== null) {
       var hEl = document.createElement('div');
       hEl.className = 'item';
       var txt = document.createElement('div');
       txt.className = 'big-text';
       txt.innerText = curSource;
-      txt.style.color = sc;
-      txt.style.opacity = '0.15';
+      txt.style.webkitTextStroke = '2px ' + sc + '20';
       hEl.appendChild(txt);
-      items.push({el:hEl, type:'text', x:0, y:0, rot:0, baseZ:-i*CONFIG.zGap+CONFIG.zGap*0.3});
+      // Place header slightly before this group
+      items.push({el:hEl, type:'text', x:0, y:0, rot:0, baseZ:-i * CONFIG.zGap + CONFIG.zGap * 0.3, color:sc});
       world.appendChild(hEl);
     }
     prevSource = curSource;
+    
+    // Always create a card for each pathway
     var el = document.createElement('div');
     el.className = 'item';
     var card = document.createElement('div');
     card.className = 'card';
-    var tags = d.s.split('·').map(function(t){return '<span>'+t.trim()+'</span>';}).join('');
+    card.setAttribute('data-pathway-id', pi);
+    card.onclick = function(){ location.href = 'pathway.html?id=' + pi; };
+    
+    var tags = d.s.split('·');
+    var tagHtml = tags.map(function(t){ return '<span>' + t.trim() + '</span>'; }).join('');
+    
     card.innerHTML =
-      '<div class="card-header"><span class="card-id">途径 '+ROMAN[pi]+'</span><div style="width:8px;height:8px;background:'+sc+';border-radius:50%"></div></div>'+
-      '<h2>'+d.n+'</h2><div class="sub">'+d.c+' → '+d.h+'</div>'+
-      '<div class="card-tags">'+tags+'</div><div class="card-desc">'+d.d+'</div>'+
-      '<div class="card-source"><div class="dot" style="background:'+sc+'"></div>'+d.y+' · '+d.g+'</div>'+
-      '<div class="card-footer"><span>『'+d.a+'』</span><span>'+d.m+'</span></div>';
+      '<div class="card-header"><span class="card-id">途径 ' + ROMAN[pi] + '</span><div style="width:8px;height:8px;background:' + sc + ';border-radius:50%"></div></div>' +
+      '<h2>' + d.n + '</h2>' +
+      '<div class="sub">' + d.c + ' → ' + d.h + '</div>' +
+      '<div class="card-tags">' + tagHtml + '</div>' +
+      '<div class="card-desc">' + d.d + '</div>' +
+      '<div class="card-source"><div class="dot" style="background:' + sc + '"></div>' + d.y + ' · ' + d.g + '</div>' +
+      '<div class="card-footer"><span>『' + d.a + '』</span><span>' + d.m + '</span></div>';
+    
     el.appendChild(card);
-    var angle = (i/ORDERED.length)*Math.PI*6;
-    items.push({el:el, type:'card', x:Math.cos(angle)*(window.innerWidth*0.25), y:Math.sin(angle)*(window.innerHeight*0.2), rot:(Math.random()-0.5)*15, baseZ:-i*CONFIG.zGap});
+    
+    var angle = (i / ORDERED.length) * Math.PI * 6;
+    items.push({
+      el:el, type:'card', pi:pi,
+      x: Math.cos(angle) * (window.innerWidth * 0.25),
+      y: Math.sin(angle) * (window.innerHeight * 0.2),
+      rot: (Math.random() - 0.5) * 15,
+      baseZ: -i * CONFIG.zGap
+    });
     world.appendChild(el);
   });
-  for (var i=0; i<CONFIG.starCount; i++) {
-    var el=document.createElement('div'); el.className='star'; world.appendChild(el);
-    items.push({el:el, type:'star', x:(Math.random()-0.5)*3000, y:(Math.random()-0.5)*3000, baseZ:-Math.random()*CONFIG.loopSize});
+  
+  // Stars
+  for (var i = 0; i < CONFIG.starCount; i++) {
+    var el = document.createElement('div');
+    el.className = 'star';
+    world.appendChild(el);
+    items.push({
+      el:el, type:'star',
+      x: (Math.random() - 0.5) * 3000,
+      y: (Math.random() - 0.5) * 3000,
+      baseZ: -Math.random() * CONFIG.loopSize
+    });
   }
-  window.addEventListener('mousemove', function(e){ state.mouseX=(e.clientX/innerWidth-0.5)*2; state.mouseY=(e.clientY/innerHeight-0.5)*2; });
+  
+  window.addEventListener('mousemove', function(e){
+    state.mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    state.mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
 }
+
+var state = {scroll:0, velocity:0, targetSpeed:0, mouseX:0, mouseY:0};
 init();
 
 var lenis = new Lenis({smooth:true, lerp:0.08, direction:'vertical', gestureDirection:'vertical', smoothTouch:true});
-lenis.on('scroll', function(_a){ state.scroll=_a.scroll; state.targetSpeed=_a.velocity; });
+lenis.on('scroll', function(_a){
+  state.scroll = _a.scroll;
+  state.targetSpeed = _a.velocity;
+});
 
-var feedbackSrc=document.getElementById('src-readout'), feedbackFPS=document.getElementById('fps'), coordEl=document.getElementById('coord'), lastTime=0;
+var feedbackSrc = document.getElementById('src-readout');
+var feedbackFPS = document.getElementById('fps');
+var coordEl = document.getElementById('coord');
+var lastTime = 0;
 
 function raf(time){
   lenis.raf(time);
-  var delta=time-lastTime; lastTime=time;
-  if (time%10<1) feedbackFPS.innerText=Math.round(1000/delta);
-  state.velocity += (state.targetSpeed-state.velocity)*0.1;
-  var cameraZ=state.scroll*CONFIG.camSpeed;
-  var tiltX=state.mouseY*5-state.velocity*0.5, tiltY=state.mouseX*5;
-  world.style.transform='rotateX('+tiltX+'deg) rotateY('+tiltY+'deg)';
-  viewport.style.perspective=(1000-Math.min(Math.abs(state.velocity)*10,600))+'px';
-
-  var centerIdx=Math.round(cameraZ/CONFIG.zGap)%ORDERED.length;
-  if (centerIdx<0) centerIdx+=ORDERED.length;
-  var centerPi=ORDERED[centerIdx], cD=D[centerPi];
-  coordEl.innerText=cD.n+' · '+cD.c;
-  feedbackSrc.innerText=srcNames[centerPi]||'—';
-
+  var delta = time - lastTime;
+  lastTime = time;
+  if (time % 10 < 1) feedbackFPS.innerText = Math.round(1000 / delta);
+  state.velocity += (state.targetSpeed - state.velocity) * 0.1;
+  
+  var cameraZ = state.scroll * CONFIG.camSpeed;
+  var tiltX = state.mouseY * 5 - state.velocity * 0.5;
+  var tiltY = state.mouseX * 5;
+  world.style.transform = 'rotateX(' + tiltX + 'deg) rotateY(' + tiltY + 'deg)';
+  var fov = 1000 - Math.min(Math.abs(state.velocity) * 10, 600);
+  viewport.style.perspective = fov + 'px';
+  
+  // Find which pathway is currently at center
+  var centerIdx = Math.round(cameraZ / CONFIG.zGap) % ORDERED.length;
+  if (centerIdx < 0) centerIdx += ORDERED.length;
+  var pi = ORDERED[centerIdx];
+  var d = D[pi];
+  coordEl.innerText = d.n + ' · ' + d.c;
+  feedbackSrc.innerText = srcNames[pi] || '—';
+  
+  // Update card highlights - dim the non-center ones
   items.forEach(function(item){
-    var relZ=item.baseZ+cameraZ, modC=CONFIG.loopSize, vizZ=((relZ%modC)+modC)%modC;
-    if (vizZ>modC/2) vizZ-=modC;
-    var alpha=1;
-    if (vizZ<-3000) alpha=0; else if (vizZ<-2000) alpha=(vizZ+3000)/1000;
-    if (vizZ>100 && item.type!=='star') alpha=1-((vizZ-100)/400);
-    if (alpha<0) alpha=0;
-    item.el.style.opacity=alpha;
-    if (alpha>0){
-      var trans='translate3d('+item.x+'px,'+item.y+'px,'+vizZ+'px)';
-      if (item.type==='star'){ var stretch=Math.max(1,Math.min(1+Math.abs(state.velocity)*0.1,10)); trans+=' scale3d(1,1,'+stretch+')'; }
-      else if (item.type==='text'){ trans+=' rotateZ('+item.rot+'deg)'; }
-      else { trans+=' rotateZ('+item.rot+'deg)'; }
-      item.el.style.transform=trans;
+    var relZ = item.baseZ + cameraZ;
+    var modC = CONFIG.loopSize;
+    var vizZ = ((relZ % modC) + modC) % modC;
+    if (vizZ > modC/2) vizZ -= modC;
+    
+    var alpha = 1;
+    if (vizZ < -3000) alpha = 0;
+    else if (vizZ < -2000) alpha = (vizZ + 3000) / 1000;
+    if (vizZ > 100 && item.type !== 'star') alpha = 1 - ((vizZ - 100) / 400);
+    if (alpha < 0) alpha = 0;
+    item.el.style.opacity = alpha;
+    
+    if (alpha > 0) {
+      var trans = 'translate3d(' + item.x + 'px, ' + item.y + 'px, ' + vizZ + 'px)';
+      if (item.type === 'star') {
+        var stretch = Math.max(1, Math.min(1 + Math.abs(state.velocity) * 0.1, 10));
+        trans += ' scale3d(1, 1, ' + stretch + ')';
+      } else if (item.type === 'text') {
+        trans += ' rotateZ(' + item.rot + 'deg)';
+        if (Math.abs(state.velocity) > 1) {
+          var off = state.velocity * 2;
+          item.el.style.textShadow = off + 'px 0 rgba(255,215,0,0.15), ' + (-off) + 'px 0 rgba(232,228,220,0.1)';
+        } else { item.el.style.textShadow = 'none'; }
+      } else {
+        var t = time * 0.001;
+        trans += ' rotateZ(' + item.rot + 'deg)';
+      }
+      item.el.style.transform = trans;
     }
   });
+  
   requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);
-
-// ✦ GLOBAL CLICK: jump to currently centered pathway ✦
-document.addEventListener('click', function(){
-  var idx = Math.round(state.scroll * CONFIG.camSpeed / CONFIG.zGap) % ORDERED.length;
-  if (idx < 0) idx += ORDERED.length;
-  location.href = 'pathway.html?id=' + ORDERED[idx];
-});
 </script>
 </body>
 </html>
