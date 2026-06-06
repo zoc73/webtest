@@ -163,8 +163,8 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
       <div class="tcard"><div class="tci"><span class="tcn">XX</span><span class="tns">审判</span><div class="tdv"></div><span class="tpt">仲裁人</span><span class="tds">休·迪尔查<br>律法·秩序</span><span class="tcn">XX</span></div></div>
       <div class="tcard"><div class="tci"><span class="tcn">XXI</span><span class="tns">世界</span><div class="tdv"></div><span class="tpt">耕种者</span><span class="tds">弗兰克·李<br>自然·大地</span><span class="tcn">XXI</span></div></div>
     </div>
-    <button class="tnav tprev" onclick="document.getElementById('tarotTrack').scrollLeft-=184" id="tarotPrev">‹</button>
-    <button class="tnav tnext" onclick="document.getElementById('tarotTrack').scrollLeft+=184" id="tarotNext">›</button>
+    <button class="tnav tprev" id="tarotPrev">‹</button>
+    <button class="tnav tnext" id="tarotNext">›</button>
   </div>
   </div>
 </section>
@@ -326,22 +326,14 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// Arrow buttons with wrap-around
+// Arrow buttons - gallery only (no tunnel sync)
 document.getElementById('tarotPrev').onclick = function() {
   var tr = document.getElementById('tarotTrack');
-  var maxScroll = tr.scrollWidth - tr.clientWidth;
-  var newPos = tr.scrollLeft - 184;
-  if (newPos < 0) newPos = maxScroll; // wrap to end
-  tr.scrollTo({left: newPos, behavior: 'smooth'});
-  setTimeout(syncTarotToTunnelReal, 250);
+  tr.scrollBy({left: -184, behavior: 'smooth'});
 };
 document.getElementById('tarotNext').onclick = function() {
   var tr = document.getElementById('tarotTrack');
-  var maxScroll = tr.scrollWidth - tr.clientWidth;
-  var newPos = tr.scrollLeft + 184;
-  if (newPos > maxScroll) newPos = 0; // wrap to start
-  tr.scrollTo({left: newPos, behavior: 'smooth'});
-  setTimeout(syncTarotToTunnelReal, 250);
+  tr.scrollBy({left: 184, behavior: 'smooth'});
 };
 function syncTarotToTunnelReal() {
   var tr = document.getElementById('tarotTrack');
