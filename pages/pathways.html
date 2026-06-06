@@ -2,156 +2,94 @@
 <html lang="zh-Hans">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>非凡途径 — 诡秘之主</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>非凡途径 // 诡秘之主</title>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Noto+Sans+SC:wght@300;700;900&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;-webkit-font-smoothing:antialiased}
-body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow:hidden;width:100vw;height:100vh}
-#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.065;z-index:101}
-#glow{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
-#glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
-#vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
-#dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
-#grain-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:overlay;opacity:0.04;z-index:98}
-#tex-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:color-dodge;opacity:0.025;z-index:97}
-#pt-c{pointer-events:none;position:fixed;inset:0;z-index:95;opacity:0.45}
-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:linear-gradient(180deg,rgba(7,7,13,0.9),transparent)}
-nav a{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.2rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;position:relative;transition:all 0.3s;opacity:0.55}
-nav a:hover{opacity:1}
-/* -------- 3D CAROUSEL -------- */
-.scene{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;perspective:1200px;z-index:1}
-.carousel{position:relative;width:400px;height:560px;transform-style:preserve-3d;transition:transform 0.8s cubic-bezier(0.65,0,0.35,1)}
-.card{position:absolute;width:400px;height:560px;left:0;top:0;backface-visibility:hidden;border:1px solid rgba(255,215,0,0.08);background:rgba(10,10,18,0.55);backdrop-filter:blur(12px);border-radius:6px;padding:2rem;display:flex;flex-direction:column;cursor:pointer;transition:all 0.4s;transform-style:preserve-3d;overflow:hidden}
-.card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.03),transparent);transition:left 0.6s}
-.card:hover::before{left:100%}
-.card:hover{border-color:rgba(255,215,0,0.2);box-shadow:0 0 40px rgba(255,215,0,0.06)}
-.card::after{content:'';position:absolute;inset:0;border-radius:6px;border:1px solid transparent;transition:all 0.5s;pointer-events:none}
-.card:hover::after{border-color:rgba(255,215,0,0.1);box-shadow:inset 0 0 30px rgba(255,215,0,0.03)}
-/* Corner brackets */
-.card-c{position:absolute;width:16px;height:16px;border-color:rgba(255,215,0,0.12);border-style:solid;transition:all 0.4s}
-.card:hover .card-c{border-color:rgba(255,215,0,0.3)}
-.card-c.tl{top:10px;left:10px;border-width:1px 0 0 1px}
-.card-c.tr{top:10px;right:10px;border-width:1px 1px 0 0}
-.card-c.bl{bottom:10px;left:10px;border-width:0 0 1px 1px}
-.card-c.br{bottom:10px;right:10px;border-width:0 1px 1px 0}
-.card-badge{font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.15em;color:rgba(255,215,0,0.3);text-transform:uppercase;margin-bottom:0.5rem}
-.card-roman{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(255,215,0,0.15);margin-top:auto;letter-spacing:0.1em}
-.card-title{font-weight:900;font-size:2.8rem;line-height:1.05;letter-spacing:-0.01em;mix-blend-mode:plus-lighter;margin:0.3rem 0 0.1rem;transition:color 0.3s}
-.card:hover .card-title{color:#FFD700}
-.card-sub{font-size:0.85rem;opacity:0.35;font-weight:300;letter-spacing:0.08em;font-family:'Noto Serif SC',serif}
-.card-path{display:flex;gap:0.3rem;flex-wrap:wrap;margin:1rem 0 0.5rem}
-.card-path span{font-family:'JetBrains Mono',monospace;font-size:0.55rem;padding:0.15rem 0.5rem;background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.06);color:rgba(232,228,220,0.4);letter-spacing:0.05em}
-.card-desc{font-size:0.75rem;opacity:0.35;line-height:1.6;margin-top:0.3rem;font-weight:300;flex:1;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.card-source{margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid rgba(255,215,0,0.06);display:flex;align-items:center;gap:0.5rem}
-.source-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.source-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(255,215,0,0.25);letter-spacing:0.1em}
-/* Navigation arrows */
-.arrow{position:fixed;top:50%;z-index:40;transform:translateY(-50%);width:52px;height:52px;border:1px solid rgba(255,215,0,0.08);background:rgba(7,7,13,0.6);backdrop-filter:blur(8px);color:rgba(232,228,220,0.4);font-size:1.4rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;border-radius:50%}
-.arrow:hover{border-color:rgba(255,215,0,0.2);color:#e8e4dc;background:rgba(255,215,0,0.04)}
-.arrow-l{left:2rem}
-.arrow-r{right:2rem}
-/* Source indicator dots */
-.dot-bar{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%);z-index:40;display:flex;gap:0.6rem;align-items:center}
-.dot-group{display:flex;gap:0.3rem;padding:0.3rem 0.6rem;border:1px solid rgba(255,215,0,0.06);background:rgba(7,7,13,0.4);border-radius:3px;cursor:pointer;transition:all 0.3s}
-.dot-group:hover{border-color:rgba(255,215,0,0.15)}
-.dot-group:hover .dg-label{opacity:0.8}
-.dg-dot{width:6px;height:6px;border-radius:50%;opacity:0.3;transition:all 0.3s}
-.dg-dot.act{opacity:1;box-shadow:0 0 8px currentColor}
-.dg-label{font-family:'JetBrains Mono',monospace;font-size:0.45rem;color:rgba(232,228,220,0.35);letter-spacing:0.06em;transition:opacity 0.3s;margin-left:0.2rem}
-/* Group label */
-.group-label{position:fixed;top:7rem;left:50%;transform:translateX(-50%);z-index:40;font-family:'Noto Serif SC',serif;font-size:0.75rem;letter-spacing:0.35rem;color:rgba(255,215,0,0.2);text-transform:uppercase;font-weight:300;animation:fsi 0.8s ease-out;pointer-events:none}
-/* Click hint */
-.click-hint{position:fixed;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:40;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:rgba(232,228,220,0.12);letter-spacing:0.12em;text-transform:uppercase;animation:blink 2s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:0.12}50%{opacity:0.4}}
-@keyframes fsi{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-/* Source colors */
-.source-源堡{--sc:#FFD700}.source-混沌海{--sc:#5ab0c4}.source-永暗之河{--sc:#6a4a8a}.source-灾祸之城{--sc:#c45a5a}.source-母巢{--sc:#6aaa6a}.source-暗影世界{--sc:#8a6a4a}.source-失序之国{--sc:#b48bb4}.source-知识荒野{--sc:#4a9a8a}.source-光之钥{--sc:#c4a84a}
-
-@media(max-width:768px){
-  .card{width:300px;height:460px;padding:1.5rem}
-  .carousel{width:300px;height:460px}
-  .card-title{font-size:2rem}
-  .arrow-l{left:0.5rem}
-  .arrow-r{right:0.5rem}
-  .arrow{width:40px;height:40px;font-size:1rem}
-  .dot-bar{flex-wrap:wrap;justify-content:center;bottom:4rem;max-width:90vw}
-  .group-label{font-size:0.6rem;top:5.5rem}
-  nav{padding:0.8rem 1rem}
-  nav a{font-size:0.65rem}
-}
+:root{--bg:#030303;--card-bg:rgba(10,10,10,0.4);--text:#e0e0e0;--gold:#FFD700;--border:rgba(255,255,255,0.1);--font-display:'Noto Sans SC',sans-serif;--font-code:'JetBrains Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font-display);overflow:hidden;width:100vw;height:100vh;cursor:crosshair}
+.scanlines{position:fixed;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0) 50%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.2));background-size:100% 4px;pointer-events:none;z-index:10}
+.vignette{position:fixed;inset:0;background:radial-gradient(circle,transparent 40%,#000 120%);z-index:11;pointer-events:none}
+.noise{position:fixed;inset:0;z-index:12;opacity:0.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")}
+.hud{position:fixed;inset:2rem;z-index:20;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--font-code);font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase}
+.hud-top,.hud-bottom{display:flex;justify-content:space-between;align-items:center}
+.hud strong{color:var(--gold)}
+.hud-line{flex:1;height:1px;background:rgba(255,255,255,0.2);margin:0 1rem;position:relative}
+.hud-line::after{content:'';position:absolute;right:0;top:-2px;width:5px;height:5px;background:var(--gold)}
+.center-nav{font-family:var(--font-code);font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.1em}
+.viewport{position:fixed;inset:0;perspective:1000px;overflow:hidden;z-index:1}
+.world{position:absolute;top:50%;left:50%;transform-style:preserve-3d;will-change:transform}
+.item{position:absolute;left:0;top:0;backface-visibility:hidden;transform-origin:center center;display:flex;align-items:center;justify-content:center}
+.card{width:380px;min-height:480px;background:var(--card-bg);border:1px solid rgba(255,215,0,0.08);position:relative;padding:2rem;display:flex;flex-direction:column;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 0 0 1px rgba(0,0,0,0.5),0 20px 50px rgba(0,0,0,0.5);transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);transform:translate(-50%,-50%);border-radius:4px;cursor:pointer}
+.card:hover{border-color:var(--gold);box-shadow:0 0 30px rgba(255,215,0,0.12);background:rgba(20,20,20,0.8);z-index:100}
+.card::before,.card::after{content:'';position:absolute;width:10px;height:10px;border:1px solid transparent;transition:0.3s}
+.card::before{top:-1px;left:-1px;border-top-color:var(--gold);border-left-color:var(--gold)}
+.card::after{bottom:-1px;right:-1px;border-bottom-color:var(--gold);border-right-color:var(--gold)}
+.card:hover::before,.card:hover::after{width:100%;height:100%;border-color:var(--gold)}
+.card-header{border-bottom:1px solid rgba(255,215,0,0.08);padding-bottom:0.8rem;margin-bottom:0.8rem;display:flex;justify-content:space-between;align-items:center}
+.card-id{font-family:var(--font-code);color:var(--gold);font-size:0.7rem;letter-spacing:0.1em}
+.card h2{font-size:2.8rem;line-height:0.9;margin:0;text-transform:uppercase;font-weight:900;color:#fff;mix-blend-mode:hard-light;letter-spacing:-0.02em}
+.card .sub{font-size:0.75rem;color:rgba(255,215,0,0.3);font-family:var(--font-code);letter-spacing:0.12em;margin-top:0.2rem}
+.card-tags{display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.6rem 0}
+.card-tags span{font-family:var(--font-code);font-size:0.5rem;padding:0.15rem 0.5rem;background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.06);color:rgba(255,255,255,0.3);letter-spacing:0.08em}
+.card-desc{font-size:0.65rem;color:rgba(255,255,255,0.25);font-family:var(--font-code);line-height:1.5;margin-top:0.3rem;flex:1}
+.card-source{font-family:var(--font-code);font-size:0.55rem;color:rgba(255,215,0,0.15);letter-spacing:0.1em;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid rgba(255,215,0,0.05);display:flex;align-items:center;gap:0.4rem}
+.card-source .dot{width:5px;height:5px;border-radius:50%}
+.card-footer{margin-top:auto;padding-top:0.5rem;font-family:var(--font-code);font-size:0.55rem;color:rgba(255,255,255,0.2);display:flex;justify-content:space-between}
+.big-text{font-size:12vw;font-weight:900;color:transparent;-webkit-text-stroke:2px rgba(255,215,0,0.08);text-transform:uppercase;white-space:nowrap;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-0.3rem;mix-blend-mode:overlay;font-family:var(--font-display)}
+.star{position:absolute;width:2px;height:2px;background:rgba(255,215,0,0.4);transform:translate(-50%,-50%);border-radius:50%}
+.scroll-proxy{height:10000vh;position:absolute;width:100%;z-index:-1}
+nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0.8rem 2rem;background:linear-gradient(180deg,rgba(3,3,3,0.85),transparent)}
+nav a{font-family:var(--font-code);font-size:0.7rem;letter-spacing:0.12rem;color:rgba(255,255,255,0.4);text-decoration:none;text-transform:uppercase;transition:color 0.3s}
+nav a:hover{color:var(--gold)}
+.click-hint{position:fixed;bottom:3rem;left:50%;transform:translateX(-50%);z-index:20;font-family:var(--font-code);font-size:0.5rem;color:rgba(255,255,255,0.1);letter-spacing:0.15em;text-transform:uppercase;animation:blink 2s ease-in-out infinite;pointer-events:none}
+@keyframes blink{0%,100%{opacity:0.1}50%{opacity:0.35}}
 </style>
 </head>
 <body>
-<div id="noise-layer"></div>
-<div id="glow"></div>
-<div id="glow2"></div>
-<div id="vn"></div>
-<div id="dots"></div>
-<canvas id="grain-c"></canvas>
-<canvas id="tex-c"></canvas>
-<canvas id="pt-c"></canvas>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+<div class="noise"></div>
 
 <nav>
-  <a href="../index.html" style="font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter">诡秘之主</a>
+  <a href="../index.html" style="font-weight:900;font-size:1.2rem;letter-spacing:-0.02em">诡秘之主</a>
   <div style="display:flex;gap:1.5rem">
     <a href="../index.html">首页</a>
     <a href="characters.html">角色</a>
-    <a href="pathways.html" style="opacity:1">途径</a>
+    <a href="pathways.html" style="color:var(--gold)">途径</a>
     <a href="artifacts.html">封印物</a>
   </div>
 </nav>
 
-<div class="group-label" id="groupLabel"></div>
-<div class="scene">
-  <div class="carousel" id="carousel"></div>
+<div class="hud">
+  <div class="hud-top">
+    <span>LOTM.SYS</span>
+    <div class="hud-line"></div>
+    <span>FPS: <strong id="fps">60</strong></span>
+  </div>
+  <div class="center-nav" style="align-self:flex-start;margin-top:auto;margin-bottom:auto;writing-mode:vertical-rl;transform:rotate(180deg)">
+    源质共鸣 // <strong id="src-readout">NULL</strong>
+  </div>
+  <div class="hud-bottom">
+    <span>途径: <strong id="coord">000</strong></span>
+    <div class="hud-line"></div>
+    <span>VER 3.0 [TUNNEL]</span>
+  </div>
 </div>
 
-<button class="arrow arrow-l" id="prevBtn">‹</button>
-<button class="arrow arrow-r" id="nextBtn">›</button>
+<div class="viewport" id="viewport">
+  <div class="world" id="world"></div>
+</div>
 
-<div class="dot-bar" id="dotBar"></div>
-<div class="click-hint">点击卡片查看详情</div>
+<div class="scroll-proxy"></div>
+<div class="click-hint">点击卡片查看途径详情</div>
 
 <script>
-// Canvas effects
-function initCanvas(id){
-  const c=document.getElementById(id);
-  if(!c)return;
-  const ctx=c.getContext('2d');
-  function r(){c.width=window.innerWidth;c.height=window.innerHeight}
-  r();
-  window.addEventListener('resize',r);
-  return{c,ctx,r}
-}
-initCanvas('grain-c');
-setInterval(()=>{
-  const c=document.getElementById('grain-c');
-  if(!c)return;
-  const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;
-  for(let i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}
-  c.getContext('2d').putImageData(id,0,0)
-},200);
-initCanvas('tex-c');
-(function(){
-  const c=document.getElementById('tex-c');
-  if(!c)return;
-  const ctx=c.getContext('2d'),w=c.width,h=c.height;
-  const id=ctx.createImageData(w,h),b=id.data;
-  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
-    const i=(y*w+x)*4,p=(Math.sin(x*0.05)+Math.sin(y*0.05))*15+128,n=Math.random()*8-4;
-    b[i]=p+n;b[i+1]=p*0.8+n;b[i+2]=p*0.5+n;b[i+3]=15
-  }
-  ctx.putImageData(id,0,0)
-})();
-const ptc=document.getElementById('pt-c'),ptctx=ptc.getContext('2d');
-let pw=0,ph=0,pts=[];
-function pr(){pw=ptc.width=window.innerWidth;ph=ptc.height=window.innerHeight;pts=[];for(let i=0;i<80;i++)pts.push({x:Math.random()*pw,y:Math.random()*ph,vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,s:Math.random()*1.8+0.3,a:Math.random()*0.35+0.08})}
-pr();window.addEventListener('resize',pr);
-(function dp(){ptctx.clearRect(0,0,pw,ph);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=pw;if(p.x>pw)p.x=0;if(p.y<0)p.y=ph;if(p.y>ph)p.y=0;ptctx.beginPath();ptctx.arc(p.x,p.y,p.s,0,Math.PI*2);ptctx.fillStyle=`rgba(255,215,0,${p.a})`;ptctx.fill()}requestAnimationFrame(dp)})();
-
-// Pathway data - grouped by source (源质)
+// === PATHWAY DATA ===
 var SOURCES = [
   {name:'源堡',color:'#FFD700',paths:[0,1,6]},
   {name:'混沌海',color:'#5ab0c4',paths:[11,5,16,19,12]},
@@ -163,149 +101,202 @@ var SOURCES = [
   {name:'知识荒野',color:'#4a9a8a',paths:[2,9]},
   {name:'光之钥',color:'#c4a84a',paths:[10]}
 ];
-// Update D array from pathway.html data (key fields only)
 var D = [
-  {n:'愚者',c:'占卜家',h:'愚者',s:'占卜·秘偶·时之虫',a:'克莱恩·莫雷蒂',y:'源堡',g:'诡秘之主',m:'灵之虫'},
-  {n:'魔术师',c:'学徒',h:'门',s:'传送·空间·门',a:'佛尔思·沃尔',y:'源堡',g:'诡秘之主',m:'星之虫'},
-  {n:'女祭司',c:'通识者',h:'完美者',s:'知识·机械·蒸汽',a:'贝尔纳黛·古斯塔夫',y:'知识荒野',g:'知识之妖',m:'知识之妖'},
-  {n:'女皇',c:'刺客',h:'魔女',s:'毒药·女巫·魅惑',a:'特莉丝',y:'灾祸之城',g:'毁灭天灾',m:'蛇发女妖'},
-  {n:'皇帝',c:'律师',h:'黑皇帝',s:'规则·阴谋·独裁',a:'罗塞尔·古斯塔夫',y:'失序之国',g:'失序者',m:'卷毛狒狒'},
-  {n:'教皇',c:'水手',h:'暴君',s:'风暴·海洋·雷霆',a:'阿尔杰·威尔逊',y:'混沌海',g:'上帝',m:'海怪'},
-  {n:'恋人',c:'偷盗者',h:'错误',s:'窃取·寄生·时之虫',a:'阿蒙',y:'源堡',g:'诡秘之主',m:'时之虫'},
-  {n:'战车',c:'猎人',h:'红祭司',s:'火焰·战争·征服',a:'梅迪奇',y:'灾祸之城',g:'毁灭天灾',m:'灾祸巨人'},
-  {n:'力量',c:'战士',h:'黄昏巨人',s:'战斗·黎明·守护',a:'科林·伊利亚特',y:'永暗之河',g:'永恒之暗',m:'独眼巨人'},
-  {n:'隐者',c:'窥秘人',h:'隐者',s:'神秘·召唤·预言',a:'嘉德丽雅',y:'知识荒野',g:'知识之妖',m:'知识妖精'},
-  {n:'命运之轮',c:'怪物',h:'命运之轮',s:'幸运·概率·混乱',a:'威尔·昂赛汀',y:'光之钥',g:'光之钥',m:'衔尾蛇'},
-  {n:'正义',c:'观众',h:'空想家',s:'读心·催眠·梦境',a:'奥黛丽·霍尔',y:'混沌海',g:'上帝',m:'心灵巨龙'},
-  {n:'倒吊人',c:'秘祈人',h:'倒吊人',s:'低语·献祭·隐秘',a:'真实造物主',y:'混沌海',g:'上帝',m:'阴影与血肉'},
-  {n:'死神',c:'收尸人',h:'死神',s:'灵魂·亡灵·冥界',a:'阿兹克·艾格斯',y:'永暗之河',g:'永恒之暗',m:'羽蛇'},
-  {n:'节制',c:'囚犯',h:'被缚者',s:'疯狂·诅咒·枷锁',a:'莎伦',y:'暗影世界',g:'恶魔之父',m:'诅咒集合体'},
-  {n:'恶魔',c:'罪犯',h:'深渊',s:'暴力·恶魔·深渊',a:'欲望母树',y:'暗影世界',g:'恶魔之父',m:'深渊恶魔'},
-  {n:'塔',c:'阅读者',h:'白塔',s:'知识·发明·推理',a:'艾德雯娜·爱德华兹',y:'混沌海',g:'上帝',m:'书籍之塔'},
-  {n:'星星',c:'不眠者',h:'黑暗',s:'黑夜·梦境·寂静',a:'伦纳德·米切尔',y:'永暗之河',g:'永恒之暗',m:'四足魔狼'},
-  {n:'月亮',c:'药师',h:'月亮',s:'魔药·吸血鬼·生命',a:'埃姆林·怀特',y:'母巢',g:'根源之神',m:'红月人形'},
-  {n:'太阳',c:'歌颂者',h:'太阳',s:'光明·黎明·净化',a:'戴里克·伯格',y:'混沌海',g:'上帝',m:'太阳鸟'},
-  {n:'审判',c:'仲裁人',h:'审判者',s:'律法·秩序·裁决',a:'休·迪尔查',y:'失序之国',g:'失序者',m:'黄铜巨柱'},
-  {n:'世界',c:'耕种者',h:'母亲',s:'自然·丰收·大地',a:'弗兰克·李',y:'母巢',g:'根源之神',m:'原始血肉'}
+  {n:'愚者',c:'占卜家',h:'愚者',s:'占卜·秘偶·时之虫',a:'克莱恩·莫雷蒂',m:'灵之虫',y:'源堡',g:'诡秘之主',d:'掌握"变化"与"隐秘"权柄。以永恒的沉睡守护世界。'},
+  {n:'魔术师',c:'学徒',h:'门',s:'传送·空间·门',a:'佛尔思·沃尔',m:'星之虫',y:'源堡',g:'诡秘之主',d:'象征"空间"与"时空"权柄。掌握传送与记录能力。'},
+  {n:'女祭司',c:'通识者',h:'完美者',s:'知识·机械·蒸汽',a:'贝尔纳黛·古斯塔夫',m:'知识之妖',y:'知识荒野',g:'知识之妖',d:'代表文明本身。核心是带领文明实现发展跃迁。'},
+  {n:'女皇',c:'刺客',h:'魔女',s:'毒药·女巫·魅惑',a:'特莉丝',m:'蛇发女妖',y:'灾祸之城',g:'毁灭天灾',d:'代表阴性领域。序列7时发生性别转换。'},
+  {n:'皇帝',c:'律师',h:'黑皇帝',s:'规则·阴谋·独裁',a:'罗塞尔·古斯塔夫',m:'卷毛狒狒',y:'失序之国',g:'失序者',d:'代表秩序的阴影与规则的暗面。'},
+  {n:'教皇',c:'水手',h:'暴君',s:'风暴·海洋·雷霆',a:'阿尔杰·威尔逊',m:'海怪',y:'混沌海',g:'上帝',d:'代表"全知全能"中的物质领域。途径非凡者易暴怒。'},
+  {n:'恋人',c:'偷盗者',h:'错误',s:'窃取·寄生·时之虫',a:'阿蒙',m:'时之虫',y:'源堡',g:'诡秘之主',d:'权柄涵盖窃取、寄生与时间之虫。诡秘三途径之一。'},
+  {n:'战车',c:'猎人',h:'红祭司',s:'火焰·战争·征服',a:'梅迪奇',m:'灾祸巨人',y:'灾祸之城',g:'毁灭天灾',d:'战争与纯粹阳性的化身。代表最初造物主的阳性领域。'},
+  {n:'力量',c:'战士',h:'黄昏巨人',s:'战斗·黎明·守护',a:'科林·伊利亚特',m:'独眼巨人',y:'永暗之河',g:'永恒之暗',d:'战神途径。代表守护与力量。'},
+  {n:'隐者',c:'窥秘人',h:'隐者',s:'神秘·召唤·预言',a:'嘉德丽雅',m:'知识妖精',y:'知识荒野',g:'知识之妖',d:'偏向神秘侧的知识本身。'},
+  {n:'命运之轮',c:'怪物',h:'命运之轮',s:'幸运·概率·混乱',a:'威尔·昂赛汀',m:'衔尾蛇',y:'光之钥',g:'光之钥',d:'无相邻途径。全靠直觉预感和命运眷顾生存。'},
+  {n:'正义',c:'观众',h:'空想家',s:'读心·催眠·梦境',a:'奥黛丽·霍尔',m:'心灵巨龙',y:'混沌海',g:'上帝',d:'对应"全知全能"中的心灵领域。'},
+  {n:'倒吊人',c:'秘祈人',h:'倒吊人',s:'低语·献祭·隐秘',a:'真实造物主',m:'阴影与血肉',y:'混沌海',g:'上帝',d:'掌握"堕落"与"牺牲"权柄。代表"全知全能"的全能。'},
+  {n:'死神',c:'收尸人',h:'死神',s:'灵魂·亡灵·冥界',a:'阿兹克·艾格斯',m:'羽蛇',y:'永暗之河',g:'永恒之暗',d:'拥有强大灵性。第三纪前称"不死鸟"途径。'},
+  {n:'节制',c:'囚犯',h:'被缚者',s:'疯狂·诅咒·枷锁',a:'莎伦',m:'诅咒集合体',y:'暗影世界',g:'恶魔之父',d:'异种途径。心里潜藏嗜血欲望，从序列8起出现诅咒。'},
+  {n:'恶魔',c:'罪犯',h:'深渊',s:'暴力·恶魔·深渊',a:'欲望母树',m:'深渊恶魔',y:'暗影世界',g:'恶魔之父',d:'代表张扬的恶意。源自外神"欲望母树"。'},
+  {n:'塔',c:'阅读者',h:'白塔',s:'知识·发明·推理',a:'艾德雯娜·爱德华兹',m:'书籍之塔',y:'混沌海',g:'上帝',d:'代表"全知全能"的全知领域。'},
+  {n:'星星',c:'不眠者',h:'黑暗',s:'黑夜·梦境·寂静',a:'伦纳德·米切尔',m:'四足魔狼',y:'永暗之河',g:'永恒之暗',d:'黑夜途径。序列6前缺乏辅助能力。'},
+  {n:'月亮',c:'药师',h:'月亮',s:'魔药·吸血鬼·生命',a:'埃姆林·怀特',m:'红月人形',y:'母巢',g:'根源之神',d:'纯阴性途径。序列7"吸血鬼"为标志性节点。'},
+  {n:'太阳',c:'歌颂者',h:'太阳',s:'光明·黎明·净化',a:'戴里克·伯格',m:'太阳鸟',y:'混沌海',g:'上帝',d:'代表灿烂的金色与光明之力。克制黑暗与亡灵。'},
+  {n:'审判',c:'仲裁人',h:'审判者',s:'律法·秩序·裁决',a:'休·迪尔查',m:'黄铜巨柱',y:'失序之国',g:'失序者',d:'代表着秩序与规则。'},
+  {n:'世界',c:'耕种者',h:'母亲',s:'自然·丰收·大地',a:'弗兰克·李',m:'原始血肉',y:'母巢',g:'根源之神',d:'代表生命与繁衍的纯阴性途径。'}
 ];
 var ROMAN = ['0','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI'];
 
-// Build ordered list of pathway indices by source groups
+// Build ordered list: grouped by source
 var ORDERED = [];
-SOURCES.forEach(function(s){
-  s.paths.forEach(function(pi){ ORDERED.push(pi); });
-});
+SOURCES.forEach(function(s){ s.paths.forEach(function(pi){ ORDERED.push(pi); }); });
 
-// Build cards
-var carousel = document.getElementById('carousel');
-var totalCards = ORDERED.length;
-var angleStep = 360 / totalCards;
+// === TUNNEL CONFIG ===
+var BIG_TEXTS = ['诡秘','之主','非凡','途径','序列','命运','源堡','混沌','永暗','灾祸','母巢','暗影','失序','知识','光钥'];
+var CONFIG = {
+  itemCount: ORDERED.length,
+  starCount: 150,
+  zGap: 700,
+  loopSize: ORDERED.length * 700,
+  camSpeed: 2.5
+};
 
-function buildCarousel(){
-  var html = '';
+var world = document.getElementById('world');
+var viewport = document.getElementById('viewport');
+var items = [];
+var srcColors = {};
+SOURCES.forEach(function(s){ s.paths.forEach(function(pi){ srcColors[pi] = s.color; }); });
+var srcNames = {};
+SOURCES.forEach(function(s){ s.paths.forEach(function(pi){ srcNames[pi] = s.name; }); });
+
+function init(){
+  var bigIdx = 0;
+  var prevSource = null;
+  
   ORDERED.forEach(function(pi, i){
     var d = D[pi];
-    var source = SOURCES.find(function(s){return s.paths.includes(pi)});
-    var sc = source ? source.color : '#FFD700';
-    var rotY = i * angleStep;
-    var zOffset = 0; // all at same radius
-    html += '<div class="card" data-idx="' + pi + '" data-source="' + (source?source.name:'') + '" onclick="gotoPathway(' + pi + ')" style="transform:rotateY(' + rotY + 'deg) translateZ(520px)" data-rotY="' + rotY + '">'
-      + '<div class="card-c tl"></div><div class="card-c tr"></div><div class="card-c bl"></div><div class="card-c br"></div>'
-      + '<div class="card-badge" style="color:' + sc + '">途径 ' + ROMAN[pi] + '</div>'
-      + '<div class="card-title">' + d.n + '</div>'
-      + '<div class="card-sub">' + d.c + ' → ' + d.h + '</div>'
-      + '<div class="card-path"><span>' + d.s.split('·').join('</span><span>') + '</span></div>'
-      + '<div class="card-desc">代表角色：' + d.a + ' · 神话形态：' + d.m + '</div>'
-      + '<div class="card-source"><div class="source-dot" style="background:' + sc + '"></div><div class="source-label">' + d.y + ' · ' + d.g + '</div></div>'
-      + '<div class="card-roman">' + ROMAN[pi] + '</div>'
-      + '</div>';
-  });
-  carousel.innerHTML = html;
-}
-
-var currentAngle = 0;
-var currentSourceIdx = 0;
-
-function updateCarousel(animate){
-  carousel.style.transition = animate ? 'transform 0.8s cubic-bezier(0.65,0,0.35,1)' : 'none';
-  carousel.style.transform = 'rotateY(' + currentAngle + 'deg)';
-  
-  // Update group label
-  var visibleIdx = Math.floor(((-currentAngle % 360 + 360) % 360) / angleStep) % totalCards;
-  var visiblePi = ORDERED[visibleIdx];
-  var source = SOURCES.find(function(s){return s.paths.includes(visiblePi)});
-  if(source){
-    document.getElementById('groupLabel').textContent = source.name;
-    document.getElementById('groupLabel').style.color = source.color;
-  }
-  
-  // Update dots
-  document.querySelectorAll('.dg-dot').forEach(function(dot, i){
-    dot.classList.toggle('act', i === currentSourceIdx);
-  });
-}
-
-function goToSource(idx){
-  if(idx < 0) idx = SOURCES.length - 1;
-  if(idx >= SOURCES.length) idx = 0;
-  currentSourceIdx = idx;
-  var source = SOURCES[idx];
-  // Find where this source's first pathway is in the ORDERED list
-  var firstPi = source.paths[0];
-  var pos = ORDERED.indexOf(firstPi);
-  if(pos >= 0){
-    currentAngle = -(pos * angleStep) + (360 - angleStep * totalCards / 2) % 360;
-    updateCarousel(true);
-  }
-  // Update dot bar active state
-  document.querySelectorAll('.dg-dot').forEach(function(dot, i){
-    dot.classList.toggle('act', i === idx);
-  });
-}
-
-function gotoPathway(pi){
-  location.href = 'pathway.html?id=' + pi;
-}
-
-// Build dot bar (source groups)
-function buildDotBar(){
-  var html = '';
-  SOURCES.forEach(function(s, si){
-    html += '<div class="dot-group" onclick="goToSource(' + si + ')" title="' + s.name + '">';
-    s.paths.forEach(function(){
-      html += '<div class="dg-dot" style="color:' + s.color + ';background:currentColor"></div>';
+    var sc = srcColors[pi] || '#FFD700';
+    var curSource = srcNames[pi];
+    
+    // Insert group header before first card of each new source
+    if (curSource !== prevSource && prevSource !== null) {
+      var hEl = document.createElement('div');
+      hEl.className = 'item';
+      var txt = document.createElement('div');
+      txt.className = 'big-text';
+      txt.innerText = curSource;
+      txt.style.webkitTextStroke = '2px ' + sc + '20';
+      hEl.appendChild(txt);
+      // Place header slightly before this group
+      items.push({el:hEl, type:'text', x:0, y:0, rot:0, baseZ:-i * CONFIG.zGap + CONFIG.zGap * 0.3, color:sc});
+      world.appendChild(hEl);
+    }
+    prevSource = curSource;
+    
+    // Always create a card for each pathway
+    var el = document.createElement('div');
+    el.className = 'item';
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.setAttribute('data-pathway-id', pi);
+    card.onclick = function(){ location.href = 'pathway.html?id=' + pi; };
+    
+    var tags = d.s.split('·');
+    var tagHtml = tags.map(function(t){ return '<span>' + t.trim() + '</span>'; }).join('');
+    
+    card.innerHTML =
+      '<div class="card-header"><span class="card-id">途径 ' + ROMAN[pi] + '</span><div style="width:8px;height:8px;background:' + sc + ';border-radius:50%"></div></div>' +
+      '<h2>' + d.n + '</h2>' +
+      '<div class="sub">' + d.c + ' → ' + d.h + '</div>' +
+      '<div class="card-tags">' + tagHtml + '</div>' +
+      '<div class="card-desc">' + d.d + '</div>' +
+      '<div class="card-source"><div class="dot" style="background:' + sc + '"></div>' + d.y + ' · ' + d.g + '</div>' +
+      '<div class="card-footer"><span>『' + d.a + '』</span><span>' + d.m + '</span></div>';
+    
+    el.appendChild(card);
+    
+    var angle = (i / ORDERED.length) * Math.PI * 6;
+    items.push({
+      el:el, type:'card', pi:pi,
+      x: Math.cos(angle) * (window.innerWidth * 0.25),
+      y: Math.sin(angle) * (window.innerHeight * 0.2),
+      rot: (Math.random() - 0.5) * 15,
+      baseZ: -i * CONFIG.zGap
     });
-    html += '<span class="dg-label">' + s.name + '</span></div>';
+    world.appendChild(el);
   });
-  document.getElementById('dotBar').innerHTML = html;
+  
+  // Stars
+  for (var i = 0; i < CONFIG.starCount; i++) {
+    var el = document.createElement('div');
+    el.className = 'star';
+    world.appendChild(el);
+    items.push({
+      el:el, type:'star',
+      x: (Math.random() - 0.5) * 3000,
+      y: (Math.random() - 0.5) * 3000,
+      baseZ: -Math.random() * CONFIG.loopSize
+    });
+  }
+  
+  window.addEventListener('mousemove', function(e){
+    state.mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    state.mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
 }
 
-// Navigation
-document.getElementById('prevBtn').addEventListener('click', function(){
-  currentAngle -= angleStep;
-  // Update currentSourceIdx based on visible card
-  updateCarousel(true);
-});
-document.getElementById('nextBtn').addEventListener('click', function(){
-  currentAngle += angleStep;
-  updateCarousel(true);
+var state = {scroll:0, velocity:0, targetSpeed:0, mouseX:0, mouseY:0};
+init();
+
+var lenis = new Lenis({smooth:true, lerp:0.08, direction:'vertical', gestureDirection:'vertical', smoothTouch:true});
+lenis.on('scroll', function(_a){
+  state.scroll = _a.scroll;
+  state.targetSpeed = _a.velocity;
 });
 
-// Keyboard nav
-document.addEventListener('keydown', function(e){
-  if(e.key === 'ArrowLeft') { currentAngle -= angleStep; updateCarousel(true); }
-  if(e.key === 'ArrowRight') { currentAngle += angleStep; updateCarousel(true); }
-  if(e.key === 'Enter') {
-    var visibleIdx = Math.floor(((-currentAngle % 360 + 360) % 360) / angleStep) % totalCards;
-    var pi = ORDERED[visibleIdx];
-    gotoPathway(pi);
-  }
-});
+var feedbackSrc = document.getElementById('src-readout');
+var feedbackFPS = document.getElementById('fps');
+var coordEl = document.getElementById('coord');
+var lastTime = 0;
 
-// Init
-buildCarousel();
-buildDotBar();
-goToSource(0);
+function raf(time){
+  lenis.raf(time);
+  var delta = time - lastTime;
+  lastTime = time;
+  if (time % 10 < 1) feedbackFPS.innerText = Math.round(1000 / delta);
+  state.velocity += (state.targetSpeed - state.velocity) * 0.1;
+  
+  var cameraZ = state.scroll * CONFIG.camSpeed;
+  var tiltX = state.mouseY * 5 - state.velocity * 0.5;
+  var tiltY = state.mouseX * 5;
+  world.style.transform = 'rotateX(' + tiltX + 'deg) rotateY(' + tiltY + 'deg)';
+  var fov = 1000 - Math.min(Math.abs(state.velocity) * 10, 600);
+  viewport.style.perspective = fov + 'px';
+  
+  // Find which pathway is currently at center
+  var centerIdx = Math.round(cameraZ / CONFIG.zGap) % ORDERED.length;
+  if (centerIdx < 0) centerIdx += ORDERED.length;
+  var pi = ORDERED[centerIdx];
+  var d = D[pi];
+  coordEl.innerText = d.n + ' · ' + d.c;
+  feedbackSrc.innerText = srcNames[pi] || '—';
+  
+  // Update card highlights - dim the non-center ones
+  items.forEach(function(item){
+    var relZ = item.baseZ + cameraZ;
+    var modC = CONFIG.loopSize;
+    var vizZ = ((relZ % modC) + modC) % modC;
+    if (vizZ > modC/2) vizZ -= modC;
+    
+    var alpha = 1;
+    if (vizZ < -3000) alpha = 0;
+    else if (vizZ < -2000) alpha = (vizZ + 3000) / 1000;
+    if (vizZ > 100 && item.type !== 'star') alpha = 1 - ((vizZ - 100) / 400);
+    if (alpha < 0) alpha = 0;
+    item.el.style.opacity = alpha;
+    
+    if (alpha > 0) {
+      var trans = 'translate3d(' + item.x + 'px, ' + item.y + 'px, ' + vizZ + 'px)';
+      if (item.type === 'star') {
+        var stretch = Math.max(1, Math.min(1 + Math.abs(state.velocity) * 0.1, 10));
+        trans += ' scale3d(1, 1, ' + stretch + ')';
+      } else if (item.type === 'text') {
+        trans += ' rotateZ(' + item.rot + 'deg)';
+        if (Math.abs(state.velocity) > 1) {
+          var off = state.velocity * 2;
+          item.el.style.textShadow = off + 'px 0 rgba(255,0,0,0.2), ' + (-off) + 'px 0 rgba(0,243,255,0.2)';
+        } else { item.el.style.textShadow = 'none'; }
+      } else {
+        var t = time * 0.001;
+        trans += ' rotateZ(' + item.rot + 'deg)';
+      }
+      item.el.style.transform = trans;
+    }
+  });
+  
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
 </script>
 </body>
 </html>
