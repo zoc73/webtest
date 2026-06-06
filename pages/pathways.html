@@ -40,7 +40,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 .card-source{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(255,215,0,0.15);letter-spacing:0.1em;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid rgba(255,215,0,0.05);display:flex;align-items:center;gap:0.4rem}
 .card-source .dot{width:5px;height:5px;border-radius:50%}
 .card-footer{margin-top:auto;padding-top:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(232,228,220,0.15);display:flex;justify-content:space-between}
-.big-text{font-size:14vw;font-weight:900;color:transparent;-webkit-text-stroke:2px rgba(255,215,0,0.06);text-transform:uppercase;white-space:nowrap;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-0.3rem;mix-blend-mode:overlay;font-family:'Noto Sans SC',sans-serif}
+.big-text{font-size:14vw;font-weight:900;text-transform:uppercase;white-space:nowrap;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-0.3rem;mix-blend-mode:overlay;font-family:'Noto Sans SC',sans-serif}
 .star{position:absolute;width:2px;height:2px;background:rgba(255,215,0,0.35);transform:translate(-50%,-50%);border-radius:50%}
 .scroll-proxy{height:10000vh;position:absolute;width:100%;z-index:-1}
 /* Nav - exact match with other pages */
@@ -179,6 +179,13 @@ function init(){
     if (curSource !== prevSource && prevSource !== null) {
       var hEl = document.createElement('div'); hEl.className = 'item';
       var txt = document.createElement('div'); txt.className = 'big-text'; txt.innerText = curSource;
+      // Two-layer gradient: colored fill + lighter stroke
+      txt.style.background = 'linear-gradient(135deg, ' + sc + '80, ' + sc + '30)';
+      txt.style.backgroundClip = 'text';
+      txt.style.webkitBackgroundClip = 'text';
+      txt.style.color = 'transparent';
+      txt.style.webkitTextStroke = '1px ' + sc;
+      txt.style.textShadow = '0 0 60px ' + sc + '20';
       hEl.appendChild(txt);
       items.push({el:hEl, type:'text', x:0, y:0, rot:0, baseZ:-i*CONFIG.zGap+CONFIG.zGap*0.3});
       world.appendChild(hEl);
