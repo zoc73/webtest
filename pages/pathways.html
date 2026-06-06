@@ -204,27 +204,32 @@ const viewport = document.getElementById('viewport');
 const items = [];
 
 function init() {
+  // Create all pathway cards (22 cards, no skipping)
   for (let i = 0; i < CONFIG.itemCount; i++) {
     const el = document.createElement('div');
     el.className = 'item';
     const d = D[i];
-    if (i % 3 === 0) {
-      const txt = document.createElement('div');
-      txt.className = 'big-text';
-      txt.innerText = BIG_TEXTS[i % BIG_TEXTS.length];
-      el.appendChild(txt);
-      items.push({el, type:'text', x:0, y:0, rot:0, baseZ:-i * CONFIG.zGap});
-    } else {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <div class="card-header"><span class="card-id">途径</span><div style="width:6px;height:6px;border:1px solid rgba(255,215,0,0.15)"></div></div>
-        <div><h2>${d.n}</h2><div class="sub">${d.c}</div><div class="card-desc">${d.s}</div><div class="card-char">${d.a}</div></div>
-        <div class="card-footer"><span>序列 9 → 0</span><span>LOTM</span></div>
-        <div class="card-badge">${String(i+1).padStart(2,'0')}</div>`;
-      el.appendChild(card);
-      items.push({el, type:'card', x:(Math.random()-0.5)*250, y:(Math.random()-0.5)*150, rot:(Math.random()-0.5)*15, baseZ:-i * CONFIG.zGap});
-    }
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-header"><span class="card-id">途径</span><div style="width:6px;height:6px;border:1px solid rgba(255,215,0,0.15)"></div></div>
+      <div><h2>${d.n}</h2><div class="sub">${d.c}</div><div class="card-desc">${d.s}</div><div class="card-char">${d.a}</div></div>
+      <div class="card-footer"><span>序列 9 → 0</span><span>LOTM</span></div>
+      <div class="card-badge">${String(i+1).padStart(2,'0')}</div>`;
+    el.appendChild(card);
+    items.push({el, type:'card', x:(Math.random()-0.5)*250, y:(Math.random()-0.5)*150, rot:(Math.random()-0.5)*15, baseZ:-i * CONFIG.zGap});
+    world.appendChild(el);
+  }
+  // Add big floating text as extra items between cards (not replacing any)
+  for (let i = 0; i < BIG_TEXTS.length; i++) {
+    const el = document.createElement('div');
+    el.className = 'item';
+    const txt = document.createElement('div');
+    txt.className = 'big-text';
+    txt.innerText = BIG_TEXTS[i];
+    el.appendChild(txt);
+    const zPos = -(i * CONFIG.zGap + CONFIG.zGap / 3); // intersperse between cards
+    items.push({el, type:'text', x:0, y:0, rot:0, baseZ:zPos});
     world.appendChild(el);
   }
   for (let i = 0; i < CONFIG.starCount; i++) {
