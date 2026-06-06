@@ -152,7 +152,6 @@ function init() {
       <div class="card-footer"><span>序列 9 → 0</span><span>LOTM</span></div>
       <div class="card-badge">${String(i+1).padStart(2,'0')}</div>`;
     card.style.cursor = 'pointer';
-    card.onclick = function() { window.location.href = 'pathway.html?id=' + i; };
     el.appendChild(card);
     items.push({el, type:'card', x:0, y:0, rot:0, baseZ:-i * CONFIG.zGap});
     world.appendChild(el);
@@ -181,7 +180,7 @@ init();
 const lenis = new Lenis({smooth:true, lerp:0.08, direction:'vertical', gestureDirection:'vertical', smoothTouch:true});
 lenis.on('scroll', ({scroll, velocity}) => {state.scroll = scroll; state.targetSpeed = velocity});
 
-const state = {scroll:0, velocity:0, targetSpeed:0, mouseX:0, mouseY:0};
+const state = {scroll:0, velocity:0, targetSpeed:0, mouseX:0, mouseY:0, cardIdx:0};
 const fpsEl = document.getElementById('fps');
 const coordEl = document.getElementById('coord');
 let lastTime = 0;
@@ -238,6 +237,7 @@ function raf(time) {
   });
 
   const idx = Math.floor((state.scroll * CONFIG.camSpeed) / CONFIG.zGap) % D.length;
+  state.cardIdx = idx;
   coordEl.innerText = D[idx] ? D[idx].n + ' · ' + D[idx].c : '—';
   
   
@@ -245,6 +245,10 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
+// Click viewport → go to current pathway detail page
+document.getElementById('viewport').onclick = function() {
+  window.location.href = 'pathway.html?id=' + state.cardIdx;
+};
 </script>
 </body>
 </html>
