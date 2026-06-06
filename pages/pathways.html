@@ -154,7 +154,7 @@ function init() {
     card.style.cursor = 'pointer';
     card.onclick = function() { window.location.href = 'pathway.html?id=' + i; };
     el.appendChild(card);
-    items.push({el, type:'card', x:(Math.random()-0.5)*250, y:(Math.random()-0.5)*150, rot:(Math.random()-0.5)*15, baseZ:-i * CONFIG.zGap});
+    items.push({el, type:'card', x:0, y:0, rot:0, baseZ:-i * CONFIG.zGap});
     world.appendChild(el);
   }
   // Add big floating text as extra items between cards (not replacing any)
