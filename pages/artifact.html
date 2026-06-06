@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title id="pageTitle">封印物详情 — 诡秘之主</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -178,6 +179,25 @@ if (rels.length > 0) {
 }
 document.getElementById('relatedGrid').innerHTML = relHtml;
 setTimeout(function(){var ob=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting&&e.target.style.animationPlayState!=='running')e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('#relatedGrid .fade').forEach(function(e){e.style.animationPlayState='paused';ob.observe(e)})},100);
+</script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+heroTl.fromTo('#glow', { opacity: 0 }, { opacity: 0.15, duration: 1.2 }, 0);
+heroTl.fromTo('#glow2', { opacity: 0 }, { opacity: 0.12, duration: 1.5 }, 0.3);
+heroTl.from('.hero-sub', { y: -30, opacity: 0, duration: 0.9 }, 0.2);
+const titleEl = document.querySelector('.hero-title'); if (titleEl) { const mainText = titleEl.childNodes[0] ? (titleEl.childNodes[0].textContent || '').trim() : ''; const subHtml = titleEl.querySelector('.sub') ? titleEl.querySelector('.sub').outerHTML : ''; const mainChars = mainText.split('').map(c => c === ' ' ? ' ' : `<span class="gsap-char">${c}</span>`).join(''); titleEl.innerHTML = mainChars + subHtml; heroTl.from('.gsap-char', { opacity: 0, scale: 1.6, rotationX: -90, duration: 0.6, stagger: 0.025, ease: 'back.out(1.4)' }, 0.6); }
+heroTl.from('.hero-title .sub', { y: 30, opacity: 0, duration: 0.8 }, 1.8);
+
+setTimeout(() => {
+  gsap.utils.toArray('.section-title').forEach((el) => { ScrollTrigger.create({ trigger: el.closest('.g'), start: 'top 80%', onEnter: () => { gsap.fromTo(el, { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }); }, once: true }); });
+  gsap.utils.toArray('.info-item').forEach((el, i) => { gsap.fromTo(el, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, delay: i*0.08, ease: 'power2.out' }); });
+  gsap.from('.desc-box', { scrollTrigger: { trigger: '.desc-box', start: 'top 80%' }, y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+  gsap.utils.toArray('.rel-item').forEach((el, i) => { ScrollTrigger.create({ trigger: el.closest('.related-grid'), start: 'top 75%', onEnter: () => { gsap.fromTo(el, { x: i%2===0?-20:20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, delay: i*0.06, ease: 'power2.out' }); }, once: true }); });
+  gsap.utils.toArray('[onclick*="history.back"]').forEach(el => { gsap.from(el, { opacity: 0, y: 10, duration: 0.5, scrollTrigger: { trigger: el, start: 'top 90%' } }); });
+}, 200);
+
+const symbols = ['◇', '◈', '▸', '✦', '✧']; const floatContainer = document.createElement('div'); floatContainer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:93;overflow:hidden'; document.body.appendChild(floatContainer); for (let i = 0; i < 8; i++) { const sym = document.createElement('span'); sym.textContent = symbols[i % symbols.length]; sym.style.cssText = `position:absolute;color:rgba(255,215,0,0.10);font-size:${12+Math.random()*14}px;font-family:serif;`; sym.style.left = Math.random() * 100 + '%'; sym.style.top = Math.random() * 100 + '%'; floatContainer.appendChild(sym); gsap.to(sym, { y: -60-Math.random()*100, x: (Math.random()-0.5)*80, opacity: 0, rotation: (Math.random()-0.5)*360, duration: 6+Math.random()*8, repeat: -1, delay: Math.random()*10, ease: 'none' }); }
 </script>
 </body>
 </html>

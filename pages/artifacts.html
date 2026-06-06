@@ -154,7 +154,7 @@ header .g{border-top:1px solid rgba(255,215,0,0.1)}
   .cg>.cc:nth-child(4n){border-right:1px solid rgba(255,215,0,0.06)}
   .cg>.cc:nth-child(3n){border-right:none}
 }
-</style></head><body>
+</style><script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script></head><body>
 <body>
 <div id="invert-layer"></div>
 <div id="glow"></div>
@@ -262,7 +262,7 @@ function renderArts(filter){
   var filtered = filter === 'all' ? ART_DATA : ART_DATA.filter(function(a){return a.c === filter});
   filtered.forEach(function(a, i){
     var delay = (i % 6) + 1;
-    html += '<div class="ic fade fd' + delay + '" onclick="location.href=\'artifact.html?name=' + encodeURIComponent(a.n) + '\'" style="cursor:pointer"><h4>◈ ' + a.n + '</h4><span class="lv">' + a.t + '</span><p>' + a.d + '</p></div>';
+    html += '<div class="ic fade fd' + delay + '" onclick="location.href=\\'artifact.html?name=' + encodeURIComponent(a.n) + '\\'" style="cursor:pointer"><h4>◈ ' + a.n + '</h4><span class="lv">' + a.t + '</span><p>' + a.d + '</p></div>';
   });
   document.getElementById('artGrid').innerHTML = html;
   // Re-run intersection observer for new fade elements
@@ -277,6 +277,29 @@ function sw(btn, id){
   renderArts(id);
 }
 renderArts('all');
+</script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+heroTl.fromTo('#glow', { opacity: 0 }, { opacity: 0.15, duration: 1.2 }, 0);
+heroTl.fromTo('#glow2', { opacity: 0 }, { opacity: 0.12, duration: 1.5 }, 0.3);
+heroTl.from('.hero-sub', { y: -30, opacity: 0, duration: 0.9 }, 0.2);
+const titleEl = document.querySelector('.hero-title'); if (titleEl) { const mainText = titleEl.childNodes[0] ? (titleEl.childNodes[0].textContent || '').trim() : ''; const subHtml = titleEl.querySelector('.sub') ? titleEl.querySelector('.sub').outerHTML : ''; const mainChars = mainText.split('').map(c => c === ' ' ? ' ' : `<span class="gsap-char">${c}</span>`).join(''); titleEl.innerHTML = mainChars + subHtml; heroTl.from('.gsap-char', { opacity: 0, scale: 1.6, rotationX: -90, duration: 0.6, stagger: 0.025, ease: 'back.out(1.4)' }, 0.6); }
+heroTl.from('.hero-title .sub', { y: 30, opacity: 0, duration: 0.8 }, 1.8);
+heroTl.from('.hero-desc', { y: 25, opacity: 0, duration: 0.8 }, 2.0);
+heroTl.from('.hero .tag', { y: 15, opacity: 0, scale: 0.9, duration: 0.4, stagger: 0.08 }, 2.2);
+
+gsap.utils.toArray('.sl').forEach((el) => { const section = el.closest('.g') || el.parentElement; ScrollTrigger.create({ trigger: section, start: 'top 80%', onEnter: () => { gsap.fromTo(el, { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power2.out' }); }, once: true }); });
+
+gsap.utils.toArray('.ic').forEach((el, i) => { const side = i % 2 === 0 ? -1 : 1; ScrollTrigger.create({ trigger: el.closest('.ig') || el.parentElement, start: 'top 75%', onEnter: () => { gsap.fromTo(el, { x: side * 40, opacity: 0, y: 20 }, { x: 0, opacity: 1, y: 0, duration: 0.5, delay: i * 0.04, ease: 'power2.out' }); }, once: true }); });
+
+gsap.utils.toArray('.tbn').forEach((el) => { ScrollTrigger.create({ trigger: el.closest('.tb'), start: 'top 85%', onEnter: () => { gsap.fromTo(el, { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, delay: Array.from(el.parentElement.children).indexOf(el)*0.05, ease: 'power2.out' }); }, once: true }); });
+
+const symbols = ['◇', '◈', '▸', '✦', '✧']; const floatContainer = document.createElement('div'); floatContainer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:93;overflow:hidden'; document.body.appendChild(floatContainer); for (let i = 0; i < 8; i++) { const sym = document.createElement('span'); sym.textContent = symbols[i % symbols.length]; sym.style.cssText = `position:absolute;color:rgba(255,215,0,0.10);font-size:${12+Math.random()*14}px;font-family:serif;`; sym.style.left = Math.random() * 100 + '%'; sym.style.top = Math.random() * 100 + '%'; floatContainer.appendChild(sym); gsap.to(sym, { y: -60-Math.random()*100, x: (Math.random()-0.5)*80, opacity: 0, rotation: (Math.random()-0.5)*360, duration: 6+Math.random()*8, repeat: -1, delay: Math.random()*10, ease: 'none' }); }
+
+gsap.from('.al', { opacity: 0.3, stagger: 0.15, duration: 0.6, scrollTrigger: { trigger: 'footer', start: 'top 90%' } });
+
+gsap.utils.toArray('[data-count]').forEach(el => { const val = parseFloat(el.getAttribute('data-count')); if (!val) return; ScrollTrigger.create({ trigger: el, start: 'top 85%', onEnter: () => { gsap.from(el, { textContent: 0, duration: 1.5, ease: 'power2.out', snap: { textContent: 1 }, onUpdate: () => { el.textContent = Math.round(parseFloat(el.textContent)); } }); }, once: true }); });
 </script>
 </body>
 </html>

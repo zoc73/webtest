@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>非凡途径 — 诡秘之主</title>
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
@@ -17,7 +18,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 #glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 40%,rgba(180,120,50,0.18) 100%);mix-blend-mode:screen;opacity:0.08;z-index:98}
 #vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
 #dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
-#grain-c,#tex-c,#pt-c{display:none}
+#grain-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:overlay;opacity:0.04;z-index:98}#tex-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:color-dodge;opacity:0.025;z-index:97}#pt-c{pointer-events:none;position:fixed;inset:0;z-index:95;opacity:0.45}
 .viewport{position:fixed;inset:0;perspective:1200px;overflow:hidden;z-index:1}
 .world{position:absolute;top:50%;left:50%;transform-style:preserve-3d;will-change:transform}
 .item{position:absolute;left:0;top:0;backface-visibility:hidden;transform-origin:center center;display:flex;align-items:center;justify-content:center;pointer-events:none}
@@ -81,6 +82,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:50;background:linear-gradient(18
   <span>源质 <strong id="src-readout">—</strong></span>
 </div>
 <div class="click-hint">✦ 点击查看详情 ✦</div>
+<canvas id="grain-c"></canvas><canvas id="tex-c"></canvas><canvas id="pt-c"></canvas>
 
 <script>
 // Canvas effects - lightweight (only noise layer for snow effect)
@@ -230,7 +232,13 @@ document.addEventListener('click', function(){
   var idx = Math.round(state.scroll * CONFIG.camSpeed / CONFIG.zGap) % ORDERED.length;
   if (idx < 0) idx += ORDERED.length;
   location.href = 'pathway.html?id=' + ORDERED[idx];
-});
+});</script>
+<script>
+gsap.from('nav', { y: -30, opacity: 0, duration: 0.8, ease: 'power3.out' });
+gsap.from('.hud', { opacity: 0, y: 20, duration: 0.8, delay: 0.5, ease: 'power2.out' });
+gsap.from('.click-hint', { opacity: 0, duration: 0.6, delay: 1.2, ease: 'power2.out' });
+
+const symbols = ['◇', '◈', '▸', '✦', '✧']; const floatContainer = document.createElement('div'); floatContainer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:93;overflow:hidden'; document.body.appendChild(floatContainer); for (let i = 0; i < 6; i++) { const sym = document.createElement('span'); sym.textContent = symbols[i % symbols.length]; sym.style.cssText = `position:absolute;color:rgba(255,215,0,0.08);font-size:${10+Math.random()*12}px;font-family:serif;`; sym.style.left = Math.random() * 100 + '%'; sym.style.top = Math.random() * 100 + '%'; floatContainer.appendChild(sym); gsap.to(sym, { y: -40-Math.random()*60, x: (Math.random()-0.5)*60, opacity: 0, rotation: (Math.random()-0.5)*360, duration: 8+Math.random()*8, repeat: -1, delay: Math.random()*12, ease: 'none' }); }
 </script>
 </body>
 </html>

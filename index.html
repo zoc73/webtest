@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>诡秘之主 — 完整百科</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -312,6 +314,160 @@ const tl=[{d:'$',c:'hl',t:' ./lotm --scan --mode=full'},{d:'',c:'dim',t:'[SYSTEM
 function sw(btn,id){document.querySelectorAll('.tbn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');document.querySelectorAll('.sp').forEach(p=>p.style.display='none');document.getElementById('p-'+id).style.display='block'}
 (function(){const ob=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting&&e.target.style.animationPlayState!=='running')e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('.fade').forEach(e=>{e.style.animationPlayState='paused';ob.observe(e)})})();
 (function(){const el=document.querySelector('[data-count]');if(!el)return;const ob=new IntersectionObserver(([e])=>{if(e.isIntersecting){let c=0;const iv=setInterval(()=>{c+=7;if(c>=447){c=447;clearInterval(iv)}el.textContent=c},30);ob.unobserve(el)}},{threshold:0.5});ob.observe(el)})();
+</script>
+
+<!-- ═══════ GSAP 动画 ═══════ -->
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── 1. Hero 入场动画 ──
+const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+// 背景辉光渐入
+heroTl.fromTo('#glow', { opacity: 0 }, { opacity: 0.15, duration: 1.2 }, 0);
+heroTl.fromTo('#glow2', { opacity: 0 }, { opacity: 0.12, duration: 1.5 }, 0.3);
+
+// 副标题从上滑入
+heroTl.from('.hero-sub', {
+  y: -30, opacity: 0, duration: 0.9,
+}, 0.2);
+
+// 主标题：逐字缩放淡入（保留 .sub 子元素）
+const titleEl = document.querySelector('.hero-title');
+if (titleEl) {
+  const subEl = titleEl.querySelector('.sub');
+  // 只拆主文本节点，保留 sub span
+  const mainText = titleEl.childNodes[0] ? (titleEl.childNodes[0].textContent || '').trim() : '';
+  const subHtml = subEl ? subEl.outerHTML : '';
+  const mainChars = mainText.split('').map(c => c === ' ' ? ' ' : `<span class="gsap-char">${c}</span>`).join('');
+  titleEl.innerHTML = mainChars + (subHtml ? subHtml : '');
+  heroTl.from('.gsap-char', {
+    opacity: 0, scale: 1.6, rotationX: -90,
+    duration: 0.6, stagger: 0.025, ease: 'back.out(1.4)',
+  }, 0.6);
+}
+
+// 副标题行（sub span）
+heroTl.from('.hero-title .sub', {
+  y: 30, opacity: 0, duration: 0.8,
+}, 1.8);
+
+// 描述文字
+heroTl.from('.hero-desc', {
+  y: 25, opacity: 0, duration: 0.8,
+}, 2.0);
+
+// 标签组 stagger 入场
+heroTl.from('.hero .tag', {
+  y: 15, opacity: 0, scale: 0.9, duration: 0.4, stagger: 0.08,
+}, 2.2);
+
+// ── 2. 分节标题入场（scroll trigger）──
+gsap.utils.toArray('.g > .gc > .sl').forEach((el) => {
+  const section = el.closest('.g') || el.parentElement;
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top 80%',
+    onEnter: () => {
+      gsap.fromTo(el, { x: -40, opacity: 0 }, {
+        x: 0, opacity: 1, duration: 0.7, ease: 'power2.out',
+      });
+    },
+    once: true,
+  });
+});
+
+// ── 3. 分卷时间线条目入场 ──
+gsap.utils.toArray('.vn').forEach((el, i) => {
+  const side = i % 2 === 0 ? -1 : 1;
+  ScrollTrigger.create({
+    trigger: el.closest('.vt') || el.parentElement,
+    start: 'top 75%',
+    onEnter: () => {
+      gsap.fromTo(el, {
+        x: side * 40, opacity: 0, scale: 0.95,
+      }, {
+        x: 0, opacity: 1, scale: 1,
+        duration: 0.5, delay: i * 0.1, ease: 'power2.out',
+      });
+    },
+    once: true,
+  });
+});
+
+// ── 4. 金句块从右滑入 ──
+gsap.utils.toArray('.qb').forEach((el, i) => {
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 85%',
+    onEnter: () => {
+      gsap.fromTo(el, { x: 50, opacity: 0, rotation: 2 }, {
+        x: 0, opacity: 1, rotation: 0,
+        duration: 0.6, delay: i * 0.15, ease: 'power3.out',
+      });
+    },
+    once: true,
+  });
+});
+
+// ── 5. 数据卡片 count-up 用 GSAP 补间 ──
+gsap.utils.toArray('[data-count]').forEach(el => {
+  const val = parseFloat(el.getAttribute('data-count'));
+  if (!val) return;
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 85%',
+    onEnter: () => {
+      gsap.from(el, {
+        textContent: 0,
+        duration: 1.5,
+        ease: 'power2.out',
+        snap: { textContent: 1 },
+        onUpdate: () => {
+          el.textContent = Math.round(parseFloat(el.textContent));
+        },
+      });
+    },
+    once: true,
+  });
+});
+
+// ── 6. 神秘浮动符号（氛围） ──
+const symbols = ['◇', '◈', '▸', '✦', '✧'];
+const floatContainer = document.createElement('div');
+floatContainer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:93;overflow:hidden';
+document.body.appendChild(floatContainer);
+
+for (let i = 0; i < 12; i++) {
+  const sym = document.createElement('span');
+  sym.textContent = symbols[i % symbols.length];
+  sym.style.cssText = `position:absolute;color:rgba(255,215,0,0.12);font-size:${12 + Math.random() * 16}px;font-family:serif;`;
+  sym.style.left = Math.random() * 100 + '%';
+  sym.style.top = Math.random() * 100 + '%';
+  floatContainer.appendChild(sym);
+
+  gsap.to(sym, {
+    y: -80 - Math.random() * 120,
+    x: (Math.random() - 0.5) * 100,
+    opacity: 0,
+    rotation: (Math.random() - 0.5) * 360,
+    duration: 6 + Math.random() * 8,
+    repeat: -1,
+    delay: Math.random() * 10,
+    ease: 'none',
+  });
+}
+
+// ── 7. 页脚链接辉光脉冲 ──
+gsap.from('.al', {
+  opacity: 0.3,
+  stagger: 0.15,
+  duration: 0.6,
+  scrollTrigger: {
+    trigger: 'footer',
+    start: 'top 90%',
+  },
+});
 </script>
 </body>
 </html>

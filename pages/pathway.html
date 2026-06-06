@@ -83,9 +83,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 0 1r
   main{padding:1rem}
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
 </head>
 <body>
-<div id="noise-layer"></div>
+<canvas id="noise-layer"></canvas>
 <div id="invert-layer"></div>
 <div id="glow"></div>
 <div id="glow2"></div>
@@ -155,6 +156,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 0 1r
   </div>
 </div>
 </main>
+
+<script>
+function initCanvas(id){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d');function r(){c.width=window.innerWidth;c.height=window.innerHeight}r();window.addEventListener('resize',r);return{c,ctx,r}}
+initCanvas('noise-layer');setInterval(()=>{const c=document.getElementById('noise-layer');if(!c)return;const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;for(let i=0;i<b.length;i+=4){const v=Math.random()*255;b[i]=v;b[i+1]=v;b[i+2]=v;b[i+3]=255}c.getContext('2d').putImageData(id,0,0)},100);
+initCanvas('tex-c');(function(){const c=document.getElementById('tex-c');if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;const id=ctx.createImageData(w,h),b=id.data;for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4,p=(Math.sin(x*0.05)+Math.sin(y*0.05))*15+128,n=Math.random()*8-4;b[i]=p+n;b[i+1]=p*0.8+n;b[i+2]=p*0.5+n;b[i+3]=15}ctx.putImageData(id,0,0)})();
+initCanvas('grain-c');setInterval(()=>{const c=document.getElementById('grain-c');if(!c)return;const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;for(let i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}c.getContext('2d').putImageData(id,0,0)},200);
+const ptc=document.getElementById('pt-c'),ptctx=ptc.getContext('2d');let pw=0,ph=0,pts=[];function pr(){pw=ptc.width=window.innerWidth;ph=ptc.height=window.innerHeight;pts=[];for(let i=0;i<80;i++)pts.push({x:Math.random()*pw,y:Math.random()*ph,vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,s:Math.random()*1.8+0.3,a:Math.random()*0.35+0.08})}pr();window.addEventListener('resize',pr);(function dp(){ptctx.clearRect(0,0,pw,ph);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=pw;if(p.x>pw)p.x=0;if(p.y<0)p.y=ph;if(p.y>ph)p.y=0;ptctx.beginPath();ptctx.arc(p.x,p.y,p.s,0,Math.PI*2);ptctx.fillStyle=`rgba(255,215,0,${p.a})`;ptctx.fill()}requestAnimationFrame(dp)})();
+</script>
 
 <script>
 var D = [
@@ -267,6 +276,27 @@ chars.forEach(function(ch) {
   charHtml += '<div class="char-item" onclick="location.href=\'character.html?name=' + encodeURIComponent(ch.name) + '\'" style="cursor:pointer"><div class="char-name">' + ch.name + '</div><div class="char-title">' + ch.title + '</div><div class="char-bio">' + ch.bio + '</div></div>';
 });
 document.getElementById('charGrid').innerHTML = charHtml;
+</script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+heroTl.fromTo('#glow', { opacity: 0 }, { opacity: 0.15, duration: 1.2 }, 0);
+heroTl.fromTo('#glow2', { opacity: 0 }, { opacity: 0.12, duration: 1.5 }, 0.3);
+heroTl.from('.hero-sub', { y: -30, opacity: 0, duration: 0.9 }, 0.2);
+const titleEl = document.querySelector('.hero-title'); if (titleEl) { const mainText = titleEl.childNodes[0] ? (titleEl.childNodes[0].textContent || '').trim() : ''; const subHtml = titleEl.querySelector('.sub') ? titleEl.querySelector('.sub').outerHTML : ''; const mainChars = mainText.split('').map(c => c === ' ' ? ' ' : `<span class="gsap-char">${c}</span>`).join(''); titleEl.innerHTML = mainChars + subHtml; heroTl.from('.gsap-char', { opacity: 0, scale: 1.6, rotationX: -90, duration: 0.6, stagger: 0.025, ease: 'back.out(1.4)' }, 0.6); }
+heroTl.from('.hero-title .sub', { y: 30, opacity: 0, duration: 0.8 }, 1.8);
+
+setTimeout(() => {
+  gsap.utils.toArray('.section-title').forEach((el) => { ScrollTrigger.create({ trigger: el.closest('.g'), start: 'top 80%', onEnter: () => { gsap.fromTo(el, { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }); }, once: true }); });
+  gsap.utils.toArray('.info-item').forEach((el, i) => { gsap.fromTo(el, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, delay: i*0.08, ease: 'power2.out' }); });
+  gsap.utils.toArray('.seq-item').forEach((el, i) => { gsap.fromTo(el, { y: 15, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.35, delay: i*0.04, ease: 'back.out(1.2)' }); });
+  gsap.utils.toArray('.ability-item').forEach((el, i) => { ScrollTrigger.create({ trigger: el.closest('.ability-grid'), start: 'top 80%', onEnter: () => { gsap.fromTo(el, { x: i%2===0?-20:20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, delay: i*0.05, ease: 'power2.out' }); }, once: true }); });
+  gsap.utils.toArray('.char-item').forEach((el, i) => { ScrollTrigger.create({ trigger: el.closest('.char-grid'), start: 'top 75%', onEnter: () => { gsap.fromTo(el, { y: 25, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, delay: i*0.06, ease: 'power2.out' }); }, once: true }); });
+  gsap.from('.desc-box', { scrollTrigger: { trigger: '.desc-box', start: 'top 80%' }, y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+  gsap.utils.toArray('[onclick*="history.back"]').forEach(el => { gsap.from(el, { opacity: 0, y: 10, duration: 0.5, scrollTrigger: { trigger: el, start: 'top 90%' } }); });
+}, 200);
+
+const symbols = ['◇', '◈', '▸', '✦', '✧']; const floatContainer = document.createElement('div'); floatContainer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:93;overflow:hidden'; document.body.appendChild(floatContainer); for (let i = 0; i < 8; i++) { const sym = document.createElement('span'); sym.textContent = symbols[i % symbols.length]; sym.style.cssText = `position:absolute;color:rgba(255,215,0,0.10);font-size:${12+Math.random()*14}px;font-family:serif;`; sym.style.left = Math.random() * 100 + '%'; sym.style.top = Math.random() * 100 + '%'; floatContainer.appendChild(sym); gsap.to(sym, { y: -60-Math.random()*100, x: (Math.random()-0.5)*80, opacity: 0, rotation: (Math.random()-0.5)*360, duration: 6+Math.random()*8, repeat: -1, delay: Math.random()*10, ease: 'none' }); }
 </script>
 </body>
 </html>
