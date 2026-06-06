@@ -187,7 +187,7 @@ function init(){
       txt.className = 'big-text';
       txt.innerText = curSource;
       txt.style.color = sc;
-      txt.style.opacity = '0.06';
+      txt.style.opacity = '0.18';
       txt.style.webkitTextStroke = '0';
       hEl.appendChild(txt);
       items.push({el:hEl, type:'text', x:0, y:0, rot:0, baseZ:-i*CONFIG.zGap+CONFIG.zGap*0.3});
@@ -196,8 +196,7 @@ function init(){
     prevSource = curSource;
     var el = document.createElement('div');
     el.className = 'item';
-    el.onclick = function(){ location.href = 'pathway.html?id=' + pi; };
-    el.style.cursor = 'pointer';
+    el.style.pointerEvents = 'none';
     var card = document.createElement('div');
     card.className = 'card';
     var tags = d.s.split('·').map(function(t){return '<span>'+t.trim()+'</span>';}).join('');
@@ -260,6 +259,13 @@ function raf(time){
   requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);
+
+// Global click: navigate to the center pathway
+document.addEventListener('click', function(){
+  var idx = Math.round(state.scroll * CONFIG.camSpeed / CONFIG.zGap) % ORDERED.length;
+  if (idx < 0) idx += ORDERED.length;
+  location.href = 'pathway.html?id=' + ORDERED[idx];
+});
 </script>
 </body>
 </html>
