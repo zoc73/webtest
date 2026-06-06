@@ -64,6 +64,11 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 .tarot-track::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.15);border-radius:2px}
 .tcard{flex:0 0 175px;scroll-snap-align:start;transition:all 0.4s;cursor:pointer}
 .tcard:hover{transform:translateY(-6px)}
+.tcard.tactive{transform:translateY(-10px);z-index:2}
+.tcard.tactive .tci{border-color:#FFD700;box-shadow:0 0 35px rgba(255,215,0,0.25),inset 0 0 60px rgba(255,215,0,0.06)}
+.tcard.tactive .tns{color:#FFD700;text-shadow:0 0 25px rgba(255,215,0,0.4)}
+.tcard.tactive .tcn,.tcard.tactive .tpt{color:#FFD700;opacity:0.9}
+.tcard.tactive .tdv{background:linear-gradient(90deg,transparent,rgba(255,215,0,0.5),transparent)}
 .tci{width:175px;height:330px;background:linear-gradient(180deg,#0c0c18,#07070d);border:1px solid rgba(255,215,0,0.12);border-radius:6px;padding:0.5rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3),inset 0 0 40px rgba(255,215,0,0.02)}
 .tci::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:5px;border:1px solid rgba(255,215,0,0.06);pointer-events:none}
 .tci::after{content:'';position:absolute;top:6px;left:6px;right:6px;bottom:6px;border:1px solid rgba(255,215,0,0.04);border-radius:3px;pointer-events:none}
@@ -331,6 +336,18 @@ function syncTarotToTunnelReal() {
   var loops = Math.round(state.scroll / (CONFIG.loopSize / CONFIG.camSpeed));
   lenis.scrollTo(ts + loops * CONFIG.loopSize / CONFIG.camSpeed, {duration: 0.8});
 }
+// Click tarot card → center it + sync tunnel
+document.querySelectorAll('.tcard').forEach(function(card, i) {
+  card.addEventListener('click', function() {
+    // Scroll card to center of gallery
+    var tr = document.getElementById('tarotTrack');
+    tr.scrollTo({left: Math.max(0, i * 184 - tr.clientWidth / 2 + 87), behavior: 'smooth'});
+    // Sync tunnel
+    var ts = (i * CONFIG.zGap) / CONFIG.camSpeed;
+    var loops = Math.round(state.scroll / (CONFIG.loopSize / CONFIG.camSpeed));
+    lenis.scrollTo(ts + loops * CONFIG.loopSize / CONFIG.camSpeed, {duration: 0.8});
+  });
+});
 </script>
 </body>
 </html>
