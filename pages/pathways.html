@@ -44,7 +44,8 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 .star{position:absolute;width:2px;height:2px;background:rgba(255,215,0,0.35);transform:translate(-50%,-50%);border-radius:50%}
 .scroll-proxy{height:10000vh;position:absolute;width:100%;z-index:-1}
 /* Nav - exact match with other pages */
-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:linear-gradient(180deg,rgba(7,7,13,0.85),transparent)}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:linear-gradient(180deg,rgba(7,7,13,0.85),transparent)}
+.nav-inner{max-width:1600px;margin:0 auto;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
 .nav{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.2rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;position:relative;transition:all 0.3s;opacity:0.55}
 .nav::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:#FFD700;transition:all 0.3s}
 .nav:hover{opacity:1}
@@ -70,12 +71,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:cent
 <canvas id="pt-c"></canvas>
 
 <nav>
-  <a href="../index.html" style="font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;opacity:0.7;text-decoration:none;color:#e8e4dc;font-family:'Noto Sans SC',sans-serif">诡秘之主</a>
-  <div style="display:flex;gap:1.5rem">
-    <a href="../index.html" class="nav">首页</a>
-    <a href="characters.html" class="nav">角色</a>
-    <a href="pathways.html" class="nav" style="opacity:1">途径</a>
-    <a href="artifacts.html" class="nav">封印物</a>
+  <div class="nav-inner">
+    <a href="../index.html" style="font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;opacity:0.7;text-decoration:none;color:#e8e4dc;font-family:'Noto Sans SC',sans-serif">诡秘之主</a>
+    <div style="display:flex;gap:1.5rem">
+      <a href="../index.html" class="nav">首页</a>
+      <a href="characters.html" class="nav">角色</a>
+      <a href="pathways.html" class="nav" style="opacity:1">途径</a>
+      <a href="artifacts.html" class="nav">封印物</a>
+    </div>
   </div>
 </nav>
 
