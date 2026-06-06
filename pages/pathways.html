@@ -241,6 +241,12 @@ function init() {
 }
 init();
 
+// Center 愚者 card on load
+setTimeout(function() {
+  var tr = document.getElementById('tarotTrack');
+  if (tr) tr.scrollLeft = Math.max(0, 0 * 184 - tr.clientWidth / 2 + 92);
+}, 100);
+
 const lenis = new Lenis({smooth:true, lerp:0.08, direction:'vertical', gestureDirection:'vertical', smoothTouch:true});
 lenis.on('scroll', ({scroll, velocity}) => {state.scroll = scroll; state.targetSpeed = velocity});
 
@@ -320,16 +326,22 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// Replace inline onclick handlers with proper bidirectional ones
+// Arrow buttons with wrap-around
 document.getElementById('tarotPrev').onclick = function() {
   var tr = document.getElementById('tarotTrack');
-  tr.scrollLeft -= 184;
-  setTimeout(syncTarotToTunnelReal, 200);
+  var maxScroll = tr.scrollWidth - tr.clientWidth;
+  var newPos = tr.scrollLeft - 184;
+  if (newPos < 0) newPos = maxScroll; // wrap to end
+  tr.scrollTo({left: newPos, behavior: 'smooth'});
+  setTimeout(syncTarotToTunnelReal, 250);
 };
 document.getElementById('tarotNext').onclick = function() {
   var tr = document.getElementById('tarotTrack');
-  tr.scrollLeft += 184;
-  setTimeout(syncTarotToTunnelReal, 200);
+  var maxScroll = tr.scrollWidth - tr.clientWidth;
+  var newPos = tr.scrollLeft + 184;
+  if (newPos > maxScroll) newPos = 0; // wrap to start
+  tr.scrollTo({left: newPos, behavior: 'smooth'});
+  setTimeout(syncTarotToTunnelReal, 250);
 };
 function syncTarotToTunnelReal() {
   var tr = document.getElementById('tarotTrack');
