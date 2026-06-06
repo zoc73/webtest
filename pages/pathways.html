@@ -54,37 +54,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 .star{position:absolute;width:2px;height:2px;background:rgba(255,215,0,0.3);transform:translate(-50%,-50%)}
 .scroll-proxy{height:30000vh;position:absolute;width:100%;z-index:-1;pointer-events:none}
 
-/* ===== TAROT GALLERY (fixed at bottom) ===== */
-.tarot-section{position:fixed;bottom:0;left:0;right:0;z-index:51;padding:7rem 2rem 0.5rem;background:linear-gradient(0deg,#07070d 80%,rgba(7,7,13,0.7) 95%,transparent 100%);pointer-events:auto}
-.tarot-section .tarot-inner{max-width:1600px;margin:0 auto}
-.tarot-section .sl{font-family:'Noto Serif SC',serif;font-size:0.7rem;letter-spacing:0.2rem;margin-bottom:0.4rem;color:rgba(232,228,220,0.4)}
-.tarot-track{display:flex;gap:0.6rem;padding:0.15rem 2.5rem;overflow-x:auto;overflow-y:visible;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:0.3rem}
-.tarot-track::-webkit-scrollbar{height:2px}
-.tarot-track::-webkit-scrollbar-track{background:rgba(255,215,0,0.04)}
-.tarot-track::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.15);border-radius:2px}
-.tcard{flex:0 0 175px;scroll-snap-align:start;transition:all 0.4s;cursor:pointer;overflow:visible}
-.tcard:hover{transform:translateY(-6px)}
-.tcard.tactive{transform:translateY(-5px);z-index:5}
-.tcard.tactive .tci{border-color:#FFD700;box-shadow:0 0 35px rgba(255,215,0,0.25),0 -10px 30px rgba(255,215,0,0.08),inset 0 0 60px rgba(255,215,0,0.06)}
-.tcard.tactive .tns{color:#FFD700;text-shadow:0 0 25px rgba(255,215,0,0.4)}
-.tcard.tactive .tcn,.tcard.tactive .tpt{color:#FFD700;opacity:0.9}
-.tcard.tactive .tdv{background:linear-gradient(90deg,transparent,rgba(255,215,0,0.5),transparent)}
-.tci{width:175px;height:330px;background:linear-gradient(180deg,#0c0c18,#07070d);border:1px solid rgba(255,215,0,0.12);border-radius:6px;padding:0.5rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3),inset 0 0 40px rgba(255,215,0,0.02)}
-.tci::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:5px;border:1px solid rgba(255,215,0,0.06);pointer-events:none}
-.tci::after{content:'';position:absolute;top:6px;left:6px;right:6px;bottom:6px;border:1px solid rgba(255,215,0,0.04);border-radius:3px;pointer-events:none}
-.tci .tcn{font-family:JetBrains Mono,monospace;font-size:0.6rem;color:rgba(255,215,0,0.35);font-weight:300}
-.tci .tns{font-size:0.8rem;font-weight:700;letter-spacing:0.12em;mix-blend-mode:plus-lighter;text-align:center;z-index:1}
-.tci .tdv{width:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.12),transparent);z-index:1}
-.tci .tpt{font-family:JetBrains Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,215,0,0.35);z-index:1}
-.tci .tds{font-size:0.5rem;color:rgba(232,228,220,0.25);text-align:center;line-height:1.3;z-index:1;padding:0 0.3rem}
-.tnav{position:absolute;top:50%;transform:translateY(-50%);z-index:15;width:1.8rem;height:1.8rem;border-radius:50%;border:1px solid rgba(255,215,0,0.12);background:rgba(7,7,13,0.85);color:#FFD700;font-size:1.1rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center}
-.tnav:hover{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.25)}
-.tprev{left:0.2rem}.tnext{right:0.2rem}
-.tarot-wrapper{position:relative;padding:0.2rem 0}
-.tarot-footer{text-align:center;padding:2rem 0 0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:rgba(232,228,220,0.15);letter-spacing:0.15em}
-
 @media(max-width:768px){
-  .tarot-section{padding:2rem 1rem;margin-top:100vh}
   .tarot-track{padding:0.5rem 1.5rem}
   .tcard{flex:0 0 155px}
   .tci{width:155px;height:300px}
@@ -133,41 +103,6 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
   <div class="world" id="world"></div>
 </div>
 <div class="scroll-proxy"></div>
-
-<!-- ===== TAROT GALLERY (fixed at bottom) ===== -->
-<section class="tarot-section">
-  <div class="tarot-inner">
-    <div class="sl">▍22条非凡途径 · 塔罗牌画廊</div>
-    <div class="tarot-wrapper">
-      <div class="tarot-track" id="tarotTrack">
-      <div class="tcard"><div class="tci"><span class="tcn">0</span><span class="tns">愚者</span><div class="tdv"></div><span class="tpt">占卜家</span><span class="tds">克莱恩·莫雷蒂<br>秘偶·时之虫</span><span class="tcn">0</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">I</span><span class="tns">魔术师</span><div class="tdv"></div><span class="tpt">学徒</span><span class="tds">佛尔思·沃尔<br>传送·空间·门</span><span class="tcn">I</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">II</span><span class="tns">女祭司</span><div class="tdv"></div><span class="tpt">通识者</span><span class="tds">贝尔纳黛<br>知识·蒸汽</span><span class="tcn">II</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">III</span><span class="tns">女皇</span><div class="tdv"></div><span class="tpt">刺客</span><span class="tds">特莉丝<br>毒药·魅惑</span><span class="tcn">III</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">IV</span><span class="tns">皇帝</span><div class="tdv"></div><span class="tpt">律师</span><span class="tds">罗塞尔·古斯塔夫<br>规则·独裁</span><span class="tcn">IV</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">V</span><span class="tns">教皇</span><div class="tdv"></div><span class="tpt">水手</span><span class="tds">阿尔杰·威尔逊<br>风暴·雷霆</span><span class="tcn">V</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">VI</span><span class="tns">恋人</span><div class="tdv"></div><span class="tpt">偷盗者</span><span class="tds">阿蒙<br>窃取·寄生</span><span class="tcn">VI</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">VII</span><span class="tns">战车</span><div class="tdv"></div><span class="tpt">猎人</span><span class="tds">索伦/梅迪奇<br>火焰·战争</span><span class="tcn">VII</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">VIII</span><span class="tns">力量</span><div class="tdv"></div><span class="tpt">战士</span><span class="tds">科林·伊利亚特<br>战斗·守护</span><span class="tcn">VIII</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">IX</span><span class="tns">隐者</span><div class="tdv"></div><span class="tpt">窥秘人</span><span class="tds">嘉德丽雅<br>神秘·预言</span><span class="tcn">IX</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">X</span><span class="tns">命运之轮</span><div class="tdv"></div><span class="tpt">怪物</span><span class="tds">威尔·昂赛汀<br>幸运·概率</span><span class="tcn">X</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XI</span><span class="tns">正义</span><div class="tdv"></div><span class="tpt">观众</span><span class="tds">奥黛丽·霍尔<br>读心·梦境</span><span class="tcn">XI</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XII</span><span class="tns">倒吊人</span><div class="tdv"></div><span class="tpt">秘祈人</span><span class="tds">真实造物主<br>低语·隐秘</span><span class="tcn">XII</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XIII</span><span class="tns">死神</span><div class="tdv"></div><span class="tpt">收尸人</span><span class="tds">阿兹克·艾格斯<br>灵魂·冥界</span><span class="tcn">XIII</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XIV</span><span class="tns">节制</span><div class="tdv"></div><span class="tpt">囚犯</span><span class="tds">莎伦<br>疯狂·枷锁</span><span class="tcn">XIV</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XV</span><span class="tns">恶魔</span><div class="tdv"></div><span class="tpt">罪犯</span><span class="tds">欲望母树<br>暴力·深渊</span><span class="tcn">XV</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XVI</span><span class="tns">塔</span><div class="tdv"></div><span class="tpt">阅读者</span><span class="tds">艾德雯娜<br>知识·推理</span><span class="tcn">XVI</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XVII</span><span class="tns">星星</span><div class="tdv"></div><span class="tpt">不眠者</span><span class="tds">伦纳德·米切尔<br>黑夜·寂静</span><span class="tcn">XVII</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XVIII</span><span class="tns">月亮</span><div class="tdv"></div><span class="tpt">药师</span><span class="tds">埃姆林·怀特<br>吸血鬼·生命</span><span class="tcn">XVIII</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XIX</span><span class="tns">太阳</span><div class="tdv"></div><span class="tpt">歌颂者</span><span class="tds">戴里克·伯格<br>光明·净化</span><span class="tcn">XIX</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XX</span><span class="tns">审判</span><div class="tdv"></div><span class="tpt">仲裁人</span><span class="tds">休·迪尔查<br>律法·秩序</span><span class="tcn">XX</span></div></div>
-      <div class="tcard"><div class="tci"><span class="tcn">XXI</span><span class="tns">世界</span><div class="tdv"></div><span class="tpt">耕种者</span><span class="tds">弗兰克·李<br>自然·大地</span><span class="tcn">XXI</span></div></div>
-    </div>
-    <button class="tnav tprev" id="tarotPrev">‹</button>
-    <button class="tnav tnext" id="tarotNext">›</button>
-  </div>
-  </div>
-</section>
 
 <script>
 var D = [
@@ -243,12 +178,6 @@ function init() {
 }
 init();
 
-// Center 愚者 card on load
-setTimeout(function() {
-  var tr = document.getElementById('tarotTrack');
-  if (tr) tr.scrollLeft = Math.max(0, 0 * 184 - tr.clientWidth / 2 + 92);
-}, 100);
-
 const lenis = new Lenis({smooth:true, lerp:0.08, direction:'vertical', gestureDirection:'vertical', smoothTouch:true});
 lenis.on('scroll', ({scroll, velocity}) => {state.scroll = scroll; state.targetSpeed = velocity});
 
@@ -258,8 +187,6 @@ const coordEl = document.getElementById('coord');
 let lastTime = 0;
 
 window.addEventListener('mousemove', (e) => {state.mouseX = (e.clientX/innerWidth-0.5)*2; state.mouseY = (e.clientY/innerHeight-0.5)*2});
-
-let tunnelIdx = -1;
 
 function raf(time) {
   lenis.raf(time);
@@ -313,52 +240,11 @@ function raf(time) {
   const idx = Math.floor((state.scroll * CONFIG.camSpeed) / CONFIG.zGap) % D.length;
   coordEl.innerText = D[idx] ? D[idx].n + ' · ' + D[idx].c : '—';
   
-  // Sync tunnel → tarot: highlight & scroll matching card
-  if (idx !== tunnelIdx) {
-    tunnelIdx = idx;
-    var tr = document.getElementById('tarotTrack');
-    if (tr) {
-      var cs = tr.querySelectorAll('.tcard');
-      for (var i = 0; i < cs.length; i++) cs[i].classList.toggle('tactive', i === idx + 22); // middle set
-      tr.scrollLeft = 22 * 184 + idx * 184 - tr.clientWidth / 2 + 92;
-    }
-  }
   
   requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);
 
-// Arrow buttons - gallery only (no tunnel sync)
-document.getElementById('tarotPrev').onclick = function() {
-  var tr = document.getElementById('tarotTrack');
-  tr.scrollBy({left: -184, behavior: 'smooth'});
-};
-document.getElementById('tarotNext').onclick = function() {
-  var tr = document.getElementById('tarotTrack');
-  tr.scrollBy({left: 184, behavior: 'smooth'});
-};
-function syncTarotToTunnelReal() {
-  var tr = document.getElementById('tarotTrack');
-  var cx = tr.scrollLeft + tr.clientWidth / 2;
-  var ci = Math.round(cx / 184);
-  if (ci < 0) ci = 0;
-  if (ci >= D.length) ci = D.length - 1;
-  var ts = (ci * CONFIG.zGap) / CONFIG.camSpeed;
-  var loops = Math.round(state.scroll / (CONFIG.loopSize / CONFIG.camSpeed));
-  lenis.scrollTo(ts + loops * CONFIG.loopSize / CONFIG.camSpeed, {duration: 0.8});
-}
-// Click tarot card → center it + sync tunnel
-document.querySelectorAll('.tcard').forEach(function(card, i) {
-  card.addEventListener('click', function() {
-    // Scroll card to center of gallery
-    var tr = document.getElementById('tarotTrack');
-    tr.scrollTo({left: Math.max(0, i * 184 - tr.clientWidth / 2 + 87), behavior: 'smooth'});
-    // Sync tunnel
-    var ts = (i * CONFIG.zGap) / CONFIG.camSpeed;
-    var loops = Math.round(state.scroll / (CONFIG.loopSize / CONFIG.camSpeed));
-    lenis.scrollTo(ts + loops * CONFIG.loopSize / CONFIG.camSpeed, {duration: 0.8});
-  });
-});
 </script>
 </body>
 </html>
