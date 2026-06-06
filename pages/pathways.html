@@ -216,6 +216,8 @@ function init() {
       <div><h2>${d.n}</h2><div class="sub">${d.c}</div><div class="card-desc">${d.s}</div><div class="card-char">${d.a}</div></div>
       <div class="card-footer"><span>序列 9 → 0</span><span>LOTM</span></div>
       <div class="card-badge">${String(i+1).padStart(2,'0')}</div>`;
+    card.style.cursor = 'pointer';
+    card.onclick = function() { window.location.href = 'pathway.html?id=' + i; };
     el.appendChild(card);
     items.push({el, type:'card', x:(Math.random()-0.5)*250, y:(Math.random()-0.5)*150, rot:(Math.random()-0.5)*15, baseZ:-i * CONFIG.zGap});
     world.appendChild(el);
