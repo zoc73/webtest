@@ -153,6 +153,7 @@ var srcNames = {};
 SOURCES.forEach(function(s){ s.paths.forEach(function(pi){ srcNames[pi] = s.name; }); });
 
 function init(){
+  window._highlightCards = [];
   var bigIdx = 0;
   var prevSource = null;
   
@@ -183,6 +184,7 @@ function init(){
     card.className = 'card';
     card.setAttribute('data-pathway-id', pi);
     card.onclick = function(){ location.href = 'pathway.html?id=' + pi; };
+    window._highlightCards.push(card);
     
     var tags = d.s.split('·');
     var tagHtml = tags.map(function(t){ return '<span>' + t.trim() + '</span>'; }).join('');
@@ -265,9 +267,11 @@ function raf(time){
   feedbackSrc.innerText = srcNames[pi] || '—';
   
   // Highlight center card
-  document.querySelectorAll('.card').forEach(function(c){ c.classList.remove('highlight'); });
-  var centerEl = document.querySelector('.item:nth-child(' + (centerIdx + 1) + ') .card');
-  if (centerEl) centerEl.classList.add('highlight');
+  if (typeof window._highlightCards !== 'undefined') {
+    window._highlightCards.forEach(function(c){ if(c) c.classList.remove('highlight'); });
+    var hc = window._highlightCards[centerIdx];
+    if (hc) hc.classList.add('highlight');
+  }
   
   // Update card highlights - dim the non-center ones
   items.forEach(function(item){
