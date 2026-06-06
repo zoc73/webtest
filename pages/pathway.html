@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title id="pageTitle">途径详情 — 诡秘之主</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
+#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.065;z-index:101}
+#invert-layer{pointer-events:none;position:fixed;inset:0;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
+#glow{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
+#glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
+#vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
+#dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
+main{position:relative;z-index:2;max-width:1600px;margin:0 auto;padding:2rem}
+a{color:#e8e4dc;text-decoration:none}
+.logo-text{font-weight:900;font-size:2.625rem;line-height:1;letter-spacing:0.0525rem;mix-blend-mode:plus-lighter;display:block;transition:text-shadow 0.3s}
+.logo-text:hover{text-shadow:0 0 30px rgba(255,215,0,0.2)}
+.nav-link{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.2rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;position:relative;transition:all 0.3s;opacity:0.55}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:#FFD700;transition:all 0.3s}
+.nav-link:hover{opacity:1}
+.nav-link:hover::after{left:0;width:100%}
+
+/* Detail layout */
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-left:1px solid rgba(255,215,0,0.06);border-right:1px solid rgba(255,215,0,0.06)}
+.gc{border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);padding:1rem}
+.gc:last-child{border-right:none}
+@keyframes fsi{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 1rem 2.5rem;gap:1rem;position:relative}
+.hero::before{content:'';position:absolute;top:-20%;left:-10%;right:-10%;bottom:-20%;background:radial-gradient(ellipse at 50% 30%,rgba(255,215,0,0.03) 0%,transparent 60%);animation:hp 4s ease-in-out infinite;pointer-events:none;z-index:-1}
+@keyframes hp{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+.hero-sub{font-family:'Noto Serif SC',serif;font-size:0.75rem;letter-spacing:0.35rem;opacity:0.5;text-transform:uppercase;font-weight:300}
+.hero-title{font-weight:900;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.06;letter-spacing:0.04em;mix-blend-mode:plus-lighter}
+.hero-title .sub{display:block;margin-top:0.1em;font-size:0.5em;font-weight:300;opacity:0.2;letter-spacing:0.15em}
+
+/* Info grid */
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid rgba(255,215,0,0.06)}
+.info-item{padding:1rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06)}
+.info-item:nth-child(2n){border-right:none}
+.info-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(255,215,0,0.3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.3rem}
+.info-value{font-size:0.9rem;color:rgba(232,228,220,0.7);line-height:1.5}
+
+/* Seq path */
+.seq-path{display:flex;flex-wrap:wrap;gap:0.3rem;padding:1rem 0}
+.seq-item{padding:0.35rem 0.7rem;background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.06);font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(232,228,220,0.4);letter-spacing:0.05em;transition:all 0.3s}
+.seq-item:hover{color:#FFD700;border-color:rgba(255,215,0,0.2);background:rgba(255,215,0,0.04)}
+.seq-item.end{color:rgba(255,215,0,0.7);border-color:rgba(255,215,0,0.15)}
+
+/* Desc */
+.desc-box{padding:1.5rem;background:rgba(255,215,0,0.01);border-left:3px solid rgba(255,215,0,0.12);margin:1rem 0;font-size:0.85rem;line-height:2;color:rgba(232,228,220,0.5);text-transform:none}
+
+/* Section */
+.section-title{font-size:1.2rem;font-weight:700;mix-blend-mode:plus-lighter;margin-bottom:0.8rem;letter-spacing:0.05em}
+.ability-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid rgba(255,215,0,0.06)}
+.ability-item{padding:0.8rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06)}
+.ability-item:nth-child(2n){border-right:none}
+.ability-seq{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:#FFD700;letter-spacing:0.1em}
+.ability-name{font-size:0.8rem;font-weight:600;margin:0.15rem 0}
+.ability-desc{font-size:0.7rem;color:rgba(232,228,220,0.4);line-height:1.5;text-transform:none}
+
+/* Characters */
+.char-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(255,215,0,0.06)}
+.char-item{padding:1rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s}
+.char-item:nth-child(3n){border-right:none}
+.char-item:hover{background:rgba(255,215,0,0.01)}
+.char-name{font-size:0.85rem;font-weight:600;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.char-item:hover .char-name{color:#FFD700}
+.char-title{font-size:0.65rem;color:rgba(255,215,0,0.3);font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;margin-top:0.1rem}
+.char-bio{font-size:0.7rem;color:rgba(232,228,220,0.35);line-height:1.5;margin-top:0.3rem;text-transform:none}
+
+/* Nav */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 0 1rem;border-bottom:1px solid rgba(255,215,0,0.08);margin-bottom:1.5rem}
+
+@media(max-width:768px){
+  .info-grid,.ability-grid{grid-template-columns:1fr}
+  .info-item:nth-child(2n){border-right:1px solid rgba(255,215,0,0.06)}
+  .char-grid{grid-template-columns:1fr}
+  .char-item:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
+  main{padding:1rem}
+}
+</style>
+</head>
+<body>
+<div id="noise-layer"></div>
+<div id="invert-layer"></div>
+<div id="glow"></div>
+<div id="glow2"></div>
+<div id="vn"></div>
+<div id="dots"></div>
+
+<main>
+<nav>
+  <a href="../index.html" style="font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:#e8e4dc;text-decoration:none">诡秘之主</a>
+  <div style="display:flex;gap:1.5rem">
+    <a href="../index.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">首页</a>
+    <a href="characters.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">角色</a>
+    <a href="pathways.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">途径</a>
+    <a href="artifacts.html" style="font-family:JetBrains Mono,monospace;font-size:0.7rem;letter-spacing:0.12rem;color:rgba(232,228,220,0.4);text-decoration:none;text-transform:uppercase">封印物</a>
+  </div>
+</nav>
+
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none">
+    <div class="hero">
+      <div class="hero-sub" id="detailHeroSub">途径</div>
+      <h1 class="hero-title" id="detailTitle">—<span class="sub" id="detailSub"></span></h1>
+    </div>
+  </div>
+</div>
+
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;padding:0"><div class="info-grid" id="infoGrid"></div></div>
+</div>
+
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;padding:0">
+    <div style="padding:1rem">
+      <div class="section-title" style="mix-blend-mode:plus-lighter">▍序列晋升路径</div>
+      <div class="seq-path" id="seqPath"></div>
+    </div>
+  </div>
+</div>
+
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;padding:0">
+    <div class="desc-box" id="detailDesc"></div>
+  </div>
+</div>
+
+<div class="g">
+  <div class="gc" style="grid-column:1/-1">
+    <div class="section-title" style="mix-blend-mode:plus-lighter">▍代表人物</div>
+    <div class="char-grid" id="charGrid"></div>
+  </div>
+</div>
+
+<div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none;padding:1.5rem;text-align:center">
+    <a href="pathways.html" style="font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:rgba(232,228,220,0.3);letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s" onmouseover="this.style.color='#e8e4dc'" onmouseout="this.style.color='rgba(232,228,220,0.3)'">← 返回途径列表</a>
+  </div>
+</div>
+</main>
+
+<script>
+var D = [
+  {n:'愚者',c:'占卜家',h:'愚者',s:'占卜·秘偶·时之虫',a:'克莱恩·莫雷蒂',d:'占卜家途径，诡秘三途径之一。序列0「愚者」权柄为秘偶、时之虫、命运。克莱恩·莫雷蒂穿越后踏上此途，最终以永恒的沉睡成为诡秘之主。',q:'占卜家→小丑→魔术师→无面人→秘偶大师→诡法师→古代学者→奇迹师→诡秘侍者→愚者'},
+  {n:'魔术师',c:'学徒',h:'门',s:'传送·空间·门',a:'佛尔思·沃尔',d:'学徒途径，诡秘三途径之一。序列0「门」权柄为传送、空间、记录。代表人物佛尔思·沃尔，塔罗会「魔术师」成员。',q:'学徒→戏法大师→占星人→记录官→旅行家→秘法师→漫游者→旅法师→星之匙→门'},
+  {n:'女祭司',c:'通识者',h:'完美者',s:'知识·机械·蒸汽',a:'贝尔纳黛·古斯塔夫',d:'通识者途径。序列0「完美者」权柄为知识、机械、蒸汽与工业。贝尔纳黛·古斯塔夫为迷雾海最强大的冒险家之一。',q:'通识者→考古学家→鉴定师→机械专家→炼金术士→奥术学者→预言家→贤者→知识皇帝→完美者'},
+  {n:'女皇',c:'刺客',h:'魔女',s:'毒药·女巫·魅惑',a:'特莉丝',d:'刺客途径，序列0「魔女」。权柄为毒药、女巫、魅惑与厄运。特莉丝作为该途径的代表人物，经历了从序列7到序列4的晋升。',q:'刺客→教唆者→女巫→欢愉魔女→痛苦魔女→绝望魔女→不老魔女→末日魔女→灾难魔女→魔女'},
+  {n:'皇帝',c:'律师',h:'黑皇帝',s:'规则·阴谋·独裁',a:'罗塞尔·古斯塔夫',d:'律师途径。序列0「黑皇帝」权柄为规则、秩序、独裁。罗塞尔·古斯塔夫是穿越者前辈，曾建立日不落帝国，留下大量日记指引克莱恩。',q:'律师→野蛮人→贿赂者→腐化男爵→混乱导师→堕落伯爵→狂乱法师→天灾→弑光亲王→黑皇帝'},
+  {n:'教皇',c:'水手',h:'暴君',s:'风暴·海洋·雷霆',a:'阿尔杰·威尔逊',d:'水手途径。序列0「暴君」权柄为风暴、海洋、雷霆。阿尔杰·威尔逊为塔罗会「教皇」，从海上冒险家成长为半神。',q:'水手→航海家→风眷者→海洋歌者→灾难主祭→海王→天灾→天气术师→雷神→暴君'},
+  {n:'恋人',c:'偷盗者',h:'错误',s:'窃取·寄生·时之虫',a:'阿蒙',d:'偷盗者途径，诡秘三途径之一。序列0「错误」权柄为窃取、寄生、时之虫。阿蒙为远古太阳神之子，与克莱恩争夺源堡的宿敌。',q:'偷盗者→诈骗师→解密学者→寄生者→窃梦家→盗火者→时之虫→命运木马→错误道人→错误'},
+  {n:'战车',c:'猎人',h:'红祭司',s:'火焰·战争·征服',a:'索伦/梅迪奇',d:'猎人途径。序列0「红祭司」权柄为火焰、战争、征服。代表人物索伦·艾因霍恩·梅迪奇，是远古太阳神座下天使之王。',q:'猎人→挑衅者→收割者→阴谋家→灵魂收割者→战争主教→铁血骑士→征服者→陨落者→红祭司'},
+  {n:'力量',c:'战士',h:'黄昏巨人',s:'战斗·黎明·守护',a:'科林·伊利亚特',d:'战士途径。序列0「黄昏巨人」权柄为战斗、守护、力量。科林·伊利亚特为白银城首席，持「黄昏」之剑对抗黑暗。',q:'战士→格斗家→武器大师→黎明骑士→守护者→猎魔人→银骑士→荣耀者→神明之手→黄昏巨人'},
+  {n:'隐者',c:'窥秘人',h:'隐者',s:'神秘·召唤·预言',a:'嘉德丽雅',d:'窥秘人途径。序列0「隐者」权柄为神秘、召唤、预言。嘉德丽雅为塔罗会「隐者」，强大的预言家，拥有罗塞尔后裔的重要线索。',q:'窥秘人→巫师→卷轴教授→星象师→召唤大师→神秘学家→预言大师→贤者→知识导师→隐者'},
+  {n:'命运之轮',c:'怪物',h:'命运之轮',s:'幸运·概率·混乱',a:'威尔·昂赛汀',d:'怪物途径。序列0「命运之轮」权柄为幸运、概率、命运。威尔·昂赛汀为命运之蛇，掌控厄运与好运的平衡。',q:'怪物→折翼天使→幸运者→厄运法师→熵之法师→狂乱法师→命运先知→秩序阴影→天命→命运之轮'},
+  {n:'正义',c:'观众',h:'空想家',s:'读心·催眠·梦境',a:'奥黛丽·霍尔',d:'观众途径。序列0「空想家」权柄为读心、催眠、梦境。奥黛丽·霍尔为塔罗会「正义」，最年轻的半神之一。',q:'观众→读心者→心理医生→催眠师→梦境行者→秘法师→洞察者→操纵师→编织者→空想家'},
+  {n:'倒吊人',c:'秘祈人',h:'倒吊人',s:'低语·献祭·隐秘',a:'真实造物主',d:'秘祈人途径。序列0「倒吊人」权柄为低语、献祭、隐秘。真实造物主为隐秘存在，与亚当融合为远古太阳神。',q:'秘祈人→倾听者→隐修士→米粒拉之影→秘术导师→神秘学家→召唤大师→先知→圣母→倒吊人'},
+  {n:'死神',c:'收尸人',h:'死神',s:'灵魂·亡灵·冥界',a:'阿兹克·艾格斯',d:'收尸人途径。序列0「死神」权柄为灵魂、亡灵、冥界。阿兹克·艾格斯为死神途径高序列强者，克莱恩的历史老师与好友。',q:'收尸人→掘墓人→亡语者→看门人→收割者→不死者→摆渡人→死亡执政官→凋零君王→死神'},
+  {n:'节制',c:'囚犯',h:'被缚者',s:'疯狂·诅咒·枷锁',a:'莎伦',d:'囚犯途径。序列0「被缚者」权柄为疯狂、诅咒、封印。莎伦为节制派的代表人物，以极强的意志力对抗疯狂。',q:'囚犯→疯子→抑郁症患者→疯修士→沉默门徒→痛苦魔女→绝望魔女→矜持少女→破败之主→被缚者'},
+  {n:'恶魔',c:'罪犯',h:'深渊',s:'暴力·恶魔·深渊',a:'欲望母树',d:'罪犯途径。序列0「深渊」权柄为暴力、恶魔、毁灭。欲望母树外神的力量延伸至该途径，是最凶险的序列之一。',q:'罪犯→杀手→冷血者→连环杀手→恶魔→魔鬼→深渊恶魔→鲜血大公→污秽君王→深渊'},
+  {n:'塔',c:'阅读者',h:'白塔',s:'知识·发明·推理',a:'艾德雯娜·爱德华兹',d:'阅读者途径。序列0「白塔」权柄为知识、推理、预言。艾德雯娜·爱德华兹为「黄金梦想号」船长，知识与智慧之神的教会成员。',q:'阅读者→推理学员→守知者→博学者→秘术导师→预言家→贤者→全知之眼→天师→白塔'},
+  {n:'星星',c:'不眠者',h:'黑暗',s:'黑夜·梦境·寂静',a:'伦纳德·米切尔',d:'不眠者途径。序列0「黑暗」权柄为黑夜、梦境、隐秘。伦纳德·米切尔为塔罗会「星星」，值夜者红手套队长，体内寄宿古老者帕列斯。',q:'不眠者→午夜诗人→梦魇→守夜人→收割者→不死者→摆渡人→沉默术士→恐惧之主→黑暗'},
+  {n:'月亮',c:'药师',h:'月亮',s:'魔药·吸血鬼·生命',a:'埃姆林·怀特',d:'药师途径。序列0「月亮」权柄为魔药、吸血鬼、生命。埃姆林·怀特为塔罗会「月亮」，血族成员，性格傲娇但重情义。',q:'药师→驯兽师→吸血鬼→男爵→子爵→伯爵→侯爵→公爵→血族始祖→月亮'},
+  {n:'太阳',c:'歌颂者',h:'太阳',s:'光明·黎明·净化',a:'戴里克·伯格',d:'歌颂者途径。序列0「太阳」权柄为光明、黎明、净化。戴里克·伯格为塔罗会「太阳」，来自神弃之地白银城的虔诚少年。',q:'歌颂者→祈光人→光之祭司→太阳神官→无暗者→光之天使→逐光者→银骑士→神明之手→太阳'},
+  {n:'审判',c:'仲裁人',h:'审判者',s:'律法·秩序·裁决',a:'休·迪尔查',d:'仲裁人途径。序列0「审判者」权柄为律法、秩序、裁决。休·迪尔查为塔罗会「审判」，贝克兰德律法体系的守护者。',q:'仲裁人→调解人→治安官→法官→惩戒骑士→裁决者→律令法师→秩序之手→平衡者→审判者'},
+  {n:'世界',c:'耕种者',h:'母亲',s:'自然·丰收·大地',a:'弗兰克·李',d:'耕种者途径。序列0「母亲」权柄为自然、丰收、生命。弗兰克·李为塔罗会「世界」，其疯狂实验令大地母神都感震惊。',q:'耕种者→医师→丰收祭司→生物学家→德鲁伊→自然行者→荒芜主母→森之妖精→自然使者→母亲'}
+];
+var ROMAN = ['0','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI'];
+
+// Get pathway index from URL
+var id = parseInt(new URLSearchParams(window.location.search).get('id')) || 0;
+var d = D[id];
+
+// Page title
+document.title = d.n + ' — ' + d.c + '途径 · 诡秘之主';
+
+// Hero
+document.getElementById('detailHeroSub').textContent = '途径 ' + ROMAN[id] + ' · 塔罗牌「' + d.n + '」';
+document.getElementById('detailTitle').innerHTML = d.n + '<span class="sub">' + d.c + ' → ' + d.h + '</span>';
+document.getElementById('detailSub').textContent = '';
+
+// Info grid
+var infoData = [
+  ['序列9（低序列）', d.c],
+  ['序列0（高序列）', d.h],
+  ['代表人物', d.a],
+  ['塔罗牌号', ROMAN[id]]
+];
+var infoHtml = '';
+infoData.forEach(function(item) {
+  infoHtml += '<div class="info-item"><div class="info-label">' + item[0] + '</div><div class="info-value">' + item[1] + '</div></div>';
+});
+document.getElementById('infoGrid').innerHTML = infoHtml;
+
+// Description
+document.getElementById('detailDesc').textContent = d.d;
+
+// Sequence path
+var seqs = d.q.split('→');
+var seqHtml = '';
+seqs.forEach(function(s, i) {
+  var cls = (i === 0 || i === seqs.length - 1) ? 'seq-item end' : 'seq-item';
+  seqHtml += '<div class="' + cls + '">' + s.trim() + '</div>';
+});
+document.getElementById('seqPath').innerHTML = seqHtml;
+
+// Characters - expanded info
+var charData = {
+  0: [{name:'克莱恩·莫雷蒂',title:'「世界」· 愚者',bio:'本名周明瑞。穿越者，占卜家途径序列0「愚者」。以永恒的沉睡守护世界，拥有格尔曼·斯帕罗、夏洛克·莫里亚蒂、道恩·唐泰斯、梅林·赫尔墨斯等众多马甲。塔罗会创立者。'}],
+  1: [{name:'佛尔思·沃尔',title:'「魔术师」',bio:'学徒途径非凡者，塔罗会「魔术师」。身份为畅销小说作家，性格懒散但天赋极高。在克莱恩的指引下快速成长。'}],
+  2: [{name:'贝尔纳黛·古斯塔夫',title:'「谜题女士」',bio:'迷雾海最强大的冒险家之一。罗塞尔·古斯塔夫之女，拥有「神秘女王」称号。持有众多罗塞尔遗留的秘密。'}],
+  6: [{name:'阿蒙',title:'时之虫·错误',bio:'远古太阳神之子，错误途径天使之王。以窃取为乐，善于布局。与克莱恩争夺源堡的宿命对手，戴着标志性的尖顶软帽。'}],
+  11: [{name:'奥黛丽·霍尔',title:'「正义」',bio:'塔罗会第一位成员，霍尔伯爵千金。观众途径非凡者。善良勇敢、求知欲旺盛，最大的愿望是帮助他人。最年轻的半神之一。'}],
+  5: [{name:'阿尔杰·威尔逊',title:'「教皇」',bio:'海上冒险家，塔罗会「教皇」。暴君途径非凡者。游历七海见识广博，是塔罗会重要的情报来源。'}],
+  17: [{name:'伦纳德·米切尔',title:'「星星」',bio:'克莱恩在值夜者的好友。体内寄宿古老者帕列斯，不眠者途径非凡者，塔罗会「星星」。诗人气质，幽默风趣。后加入红手套成为队长。'}],
+  19: [{name:'戴里克·伯格',title:'「太阳」',bio:'来自神弃之地白银城的少年，塔罗会「太阳」。太阳途径非凡者。虔诚正直，是愚者最忠实的信徒之一。'}],
+  18: [{name:'埃姆林·怀特',title:'「月亮」',bio:'血族成员，塔罗会「月亮」。药师途径非凡者。性格自负中二但重情义，在塔罗会中逐步成长。'}],
+  4: [{name:'罗塞尔·古斯塔夫',title:'黑皇帝',bio:'穿越者前辈，曾建立横跨大陆的帝国。以汉字写日记留下关键线索。黑皇帝途径序列0，因非凡特性失控扭曲。'}],
+  3: [{name:'特莉丝',title:'女巫',bio:'魔女途径非凡者。经历了从序列7到序列4的晋升，在贝克兰德大雾霾事件中扮演重要角色。'}],
+  13: [{name:'阿兹克·艾格斯',title:'死神',bio:'死神途径高序列强者。克莱恩的历史老师与好友，多次在关键时刻帮助克莱恩。灵魂、亡灵与冥界的掌控者。'}]
+};
+
+var defChar = [{name:d.a,title:d.c + ' → ' + d.h,bio:d.d}];
+var chars = charData[id] || defChar;
+var charHtml = '';
+chars.forEach(function(ch) {
+  charHtml += '<div class="char-item"><div class="char-name">' + ch.name + '</div><div class="char-title">' + ch.title + '</div><div class="char-bio">' + ch.bio + '</div></div>';
+});
+document.getElementById('charGrid').innerHTML = charHtml;
+</script>
+</body>
+</html>
