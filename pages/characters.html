@@ -62,17 +62,21 @@ header .g{border-top:1px solid rgba(255,215,0,0.1)}
 .fl{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.12rem;mix-blend-mode:plus-lighter}
 .ft{font-size:0.95rem;line-height:1.7;opacity:0.5;font-weight:300}
 .sl{font-family:'Noto Serif SC',serif;font-size:0.875rem;letter-spacing:0.2rem}
-.cg{display:grid;grid-template-columns:repeat(4,1fr)}
-.cc{position:relative;padding:1.25rem 0.75rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);text-align:center;transition:all 0.3s;cursor:default}
-.cg>.cc:nth-child(4n){border-right:none}
-.cc:hover{background:rgba(255,215,0,0.015);transform:translateY(-2px)}
-.ci{font-size:1.4rem;margin-bottom:0.15rem;display:block;color:rgba(255,215,0,0.3);letter-spacing:0.1em;font-weight:100}
-.cc:hover .ci{color:rgba(255,215,0,0.6)}
-.cn{font-weight:700;font-size:0.95rem;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.cg{display:grid;grid-template-columns:repeat(3,1fr)}
+.cc{position:relative;padding:1.25rem 1rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);transition:all 0.3s;cursor:pointer}
+.cg>.cc:nth-child(3n){border-right:none}
+.cc:hover{background:rgba(255,215,0,0.02);transform:translateY(-3px);box-shadow:0 4px 30px rgba(255,215,0,0.04)}
+.cc::before,.cc::after{content:'';position:absolute;width:8px;height:8px;border:1px solid transparent;transition:all 0.4s;pointer-events:none}
+.cc::before{top:4px;left:4px;border-top-color:rgba(255,215,0,0.08);border-left-color:rgba(255,215,0,0.08)}
+.cc::after{bottom:4px;right:4px;border-bottom-color:rgba(255,215,0,0.08);border-right-color:rgba(255,215,0,0.08)}
+.cc:hover::before,.cc:hover::after{width:calc(100% - 8px);height:calc(100% - 8px);border-color:rgba(255,215,0,0.15)}
+.ci{display:inline-block;font-size:0.55rem;color:rgba(255,215,0,0.25);font-family:'JetBrains Mono',monospace;letter-spacing:0.12em;margin-bottom:0.15rem;font-weight:300}
+.cn{font-weight:700;font-size:1.05rem;mix-blend-mode:plus-lighter;transition:color 0.3s;margin-bottom:0.1rem}
 .cc:hover .cn{color:#FFD700}
-.ct{font-size:0.7rem;opacity:0.4;margin-top:0.1rem;font-family:'Noto Serif SC',serif;transition:opacity 0.3s}
-.cc:hover .ct{opacity:0.7}
-.cd{font-size:0.75rem;opacity:0.45;line-height:1.5;margin-top:0.35rem;font-weight:300}
+.ct{font-size:0.65rem;opacity:0.35;font-family:'JetBrains Mono',monospace;letter-spacing:0.06em;margin-bottom:0.4rem}
+.ct span{display:inline-block;background:rgba(255,215,0,0.04);padding:0.05rem 0.45rem;border:1px solid rgba(255,215,0,0.06);font-size:0.55rem;letter-spacing:0.08em;margin-left:0.4rem}
+.cd{font-size:0.78rem;opacity:0.45;line-height:1.65;font-weight:300;text-align:left}
+.cc:hover .cd{opacity:0.6}
 .tb{display:flex;gap:0;border-bottom:1px solid rgba(232,228,220,0.06);flex-wrap:wrap;overflow-x:auto}
 .tbn{position:relative;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:0.35rem 0.8rem;font-family:'Noto Serif SC',serif;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;color:rgba(232,228,220,0.35);cursor:pointer;transition:all 0.3s;flex-shrink:0}
 .tbn:hover{color:#e8e4dc;background:rgba(255,215,0,0.03)}
@@ -136,7 +140,7 @@ header .g{border-top:1px solid rgba(255,215,0,0.1)}
   .fg,.og{grid-template-columns:1fr}
   .fg>.fc:nth-child(3n),.og>.oc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
   .cg{grid-template-columns:repeat(2,1fr)}
-  .cg>.cc:nth-child(4n){border-right:1px solid rgba(255,215,0,0.06)}
+  .cg>.cc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
   .cg>.cc:nth-child(2n){border-right:none}
   .ig{grid-template-columns:1fr}
   .ig>.ic:nth-child(2n){border-right:1px solid rgba(255,215,0,0.06)}
@@ -150,9 +154,13 @@ header .g{border-top:1px solid rgba(255,215,0,0.1)}
   .fg,.og{grid-template-columns:repeat(2,1fr)}
   .fg>.fc:nth-child(3n),.og>.oc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
   .fg>.fc:nth-child(2n),.og>.oc:nth-child(2n){border-right:none}
-  .cg{grid-template-columns:repeat(3,1fr)}
-  .cg>.cc:nth-child(4n){border-right:1px solid rgba(255,215,0,0.06)}
-  .cg>.cc:nth-child(3n){border-right:none}
+  .cg{grid-template-columns:repeat(2,1fr)}
+  .cg>.cc:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
+  .cg>.cc:nth-child(2n){border-right:none}
+}
+@media(max-width:480px){
+  .cg{grid-template-columns:1fr}
+  .cg>.cc:nth-child(2n){border-right:1px solid rgba(255,215,0,0.06)}
 }
 </style></head><body>
 <body>
