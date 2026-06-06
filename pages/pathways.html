@@ -17,9 +17,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 #glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
 #vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
 #dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
-#grain-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:overlay;opacity:0.04;z-index:98}
-#tex-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:color-dodge;opacity:0.025;z-index:97}
-#pt-c{pointer-events:none;position:fixed;inset:0;z-index:95;opacity:0.45}
+#grain-c,#tex-c,#pt-c{display:none}
 .viewport{position:fixed;inset:0;perspective:1200px;overflow:hidden;z-index:1}
 .world{position:absolute;top:50%;left:50%;transform-style:preserve-3d;will-change:transform}
 .item{position:absolute;left:0;top:0;backface-visibility:hidden;transform-origin:center center;display:flex;align-items:center;justify-content:center;pointer-events:none}
@@ -62,13 +60,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:50;background:linear-gradient(18
 <body>
 <canvas id="noise-layer"></canvas>
 <div id="invert-layer"></div>
-<div id="glow"></div>
-<div id="glow2"></div>
-<div id="vn"></div>
-<div id="dots"></div>
-<canvas id="grain-c"></canvas>
-<canvas id="tex-c"></canvas>
-<canvas id="pt-c"></canvas>
 
 <nav>
   <div class="nav-inner">
@@ -92,7 +83,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:50;background:linear-gradient(18
 <div class="click-hint">✦ 点击查看详情 ✦</div>
 
 <script>
-// Canvas effects
+// Canvas effects - lightweight (only noise layer for snow effect)
 function initCanvas(id){
   const c=document.getElementById(id);
   if(!c)return;
@@ -102,36 +93,14 @@ function initCanvas(id){
   window.addEventListener('resize',r);
   return{c,ctx,r}
 }
-initCanvas('noise-layer');
-setInterval(()=>{
-  const c=document.getElementById('noise-layer');
-  if(!c)return;
-  const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;
-  for(let i=0;i<b.length;i+=4){const v=Math.random()*255;b[i]=v;b[i+1]=v;b[i+2]=v;b[i+3]=255}
-  c.getContext('2d').putImageData(id,0,0)
-},100);
-initCanvas('tex-c');
-(function(){
-  const c=document.getElementById('tex-c');
-  if(!c)return;
-  const ctx=c.getContext('2d'),w=c.width,h=c.height;
-  const id=ctx.createImageData(w,h),b=id.data;
-  for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4,p=(Math.sin(x*0.05)+Math.sin(y*0.05))*15+128,n=Math.random()*8-4;b[i]=p+n;b[i+1]=p*0.8+n;b[i+2]=p*0.5+n;b[i+3]=15}
-  ctx.putImageData(id,0,0)
-})();
-initCanvas('grain-c');
-setInterval(()=>{
-  const c=document.getElementById('grain-c');
-  if(!c)return;
-  const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;
-  for(let i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}
-  c.getContext('2d').putImageData(id,0,0)
-},200);
-const ptc=document.getElementById('pt-c'),ptctx=ptc.getContext('2d');
-let pw=0,ph=0,pts=[];
-function pr(){pw=ptc.width=window.innerWidth;ph=ptc.height=window.innerHeight;pts=[];for(let i=0;i<80;i++)pts.push({x:Math.random()*pw,y:Math.random()*ph,vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,s:Math.random()*1.8+0.3,a:Math.random()*0.35+0.08})}
-pr();window.addEventListener('resize',pr);
-(function dp(){ptctx.clearRect(0,0,pw,ph);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=pw;if(p.x>pw)p.x=0;if(p.y<0)p.y=ph;if(p.y>ph)p.y=0;ptctx.beginPath();ptctx.arc(p.x,p.y,p.s,0,Math.PI*2);ptctx.fillStyle=`rgba(255,215,0,${p.a})`;ptctx.fill()}requestAnimationFrame(dp)})();
+var nc = initCanvas('noise-layer');
+if(nc){
+  setInterval(()=>{
+    const w=nc.c.width, h=nc.c.height, id=nc.ctx.createImageData(w,h), b=id.data;
+    for(let i=0;i<b.length;i+=4){const v=Math.random()*255;b[i]=v;b[i+1]=v;b[i+2]=v;b[i+3]=255}
+    nc.ctx.putImageData(id,0,0)
+  },200);
+}
 
 // Data
 var SOURCES = [
