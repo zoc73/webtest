@@ -7,20 +7,20 @@
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Noto+Sans+SC:wght@300;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#030303;--card-bg:rgba(10,10,10,0.4);--text:#e0e0e0;--gold:#FFD700;--border:rgba(255,255,255,0.1);--font-display:'Noto Sans SC',sans-serif;--font-code:'JetBrains Mono',monospace}
+:root{--bg:#07070d;--card-bg:rgba(10,10,10,0.4);--text:#e8e4dc;--gold:#FFD700;--border:rgba(255,255,255,0.1);--font-display:'Noto Sans SC',sans-serif;--font-serif:'Noto Serif SC',serif;--font-code:'JetBrains Mono',monospace}
 *{margin:0;padding:0;box-sizing:border-box}
 body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font-display);overflow:hidden;width:100vw;height:100vh;cursor:crosshair}
-.scanlines{position:fixed;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0) 50%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.2));background-size:100% 4px;pointer-events:none;z-index:10}
-.vignette{position:fixed;inset:0;background:radial-gradient(circle,transparent 40%,#000 120%);z-index:11;pointer-events:none}
-.noise{position:fixed;inset:0;z-index:12;opacity:0.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")}
-.hud{position:fixed;inset:2rem;z-index:20;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--font-code);font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase}
+.scanlines{position:fixed;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0) 50%,rgba(0,0,0,0.15) 50%,rgba(0,0,0,0.15));background-size:100% 4px;pointer-events:none;z-index:10}
+.vignette{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(7,7,13,0.65) 100%);z-index:11;pointer-events:none}
+.noise{position:fixed;inset:0;z-index:12;opacity:0.04;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")}
+.hud{position:fixed;inset:2rem;z-index:20;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--font-code);font-size:9px;color:rgba(232,228,220,0.3);text-transform:uppercase;letter-spacing:0.08em}
 .hud-top,.hud-bottom{display:flex;justify-content:space-between;align-items:center}
 .hud strong{color:var(--gold)}
-.hud-line{flex:1;height:1px;background:rgba(255,255,255,0.2);margin:0 1rem;position:relative}
+.hud-line{flex:1;height:1px;background:rgba(255,215,0,0.1);margin:0 1rem;position:relative}
 .hud-line::after{content:'';position:absolute;right:0;top:-2px;width:5px;height:5px;background:var(--gold)}
-.center-nav{font-family:var(--font-code);font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.1em}
+.center-nav{font-family:var(--font-code);font-size:8px;color:rgba(255,215,0,0.15);letter-spacing:0.12em}
 .viewport{position:fixed;inset:0;perspective:1000px;overflow:hidden;z-index:1}
 .world{position:absolute;top:50%;left:50%;transform-style:preserve-3d;will-change:transform}
 .item{position:absolute;left:0;top:0;backface-visibility:hidden;transform-origin:center center;display:flex;align-items:center;justify-content:center}
@@ -40,13 +40,15 @@ body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(-
 .card-source{font-family:var(--font-code);font-size:0.55rem;color:rgba(255,215,0,0.15);letter-spacing:0.1em;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid rgba(255,215,0,0.05);display:flex;align-items:center;gap:0.4rem}
 .card-source .dot{width:5px;height:5px;border-radius:50%}
 .card-footer{margin-top:auto;padding-top:0.5rem;font-family:var(--font-code);font-size:0.55rem;color:rgba(255,255,255,0.2);display:flex;justify-content:space-between}
-.big-text{font-size:12vw;font-weight:900;color:transparent;-webkit-text-stroke:2px rgba(255,215,0,0.08);text-transform:uppercase;white-space:nowrap;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-0.3rem;mix-blend-mode:overlay;font-family:var(--font-display)}
-.star{position:absolute;width:2px;height:2px;background:rgba(255,215,0,0.4);transform:translate(-50%,-50%);border-radius:50%}
+.big-text{font-size:12vw;font-weight:900;color:transparent;-webkit-text-stroke:2px rgba(255,215,0,0.06);text-transform:uppercase;white-space:nowrap;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-0.3rem;mix-blend-mode:overlay;font-family:var(--font-display)}
+.star{position:absolute;width:2px;height:2px;background:rgba(255,215,0,0.3);transform:translate(-50%,-50%);border-radius:50%}
 .scroll-proxy{height:10000vh;position:absolute;width:100%;z-index:-1}
-nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0.8rem 2rem;background:linear-gradient(180deg,rgba(3,3,3,0.85),transparent)}
-nav a{font-family:var(--font-code);font-size:0.7rem;letter-spacing:0.12rem;color:rgba(255,255,255,0.4);text-decoration:none;text-transform:uppercase;transition:color 0.3s}
-nav a:hover{color:var(--gold)}
-.click-hint{position:fixed;bottom:3rem;left:50%;transform:translateX(-50%);z-index:20;font-family:var(--font-code);font-size:0.5rem;color:rgba(255,255,255,0.1);letter-spacing:0.15em;text-transform:uppercase;animation:blink 2s ease-in-out infinite;pointer-events:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0.8rem 2rem;background:linear-gradient(180deg,rgba(7,7,13,0.9),transparent)}
+nav a{font-family:var(--font-serif);font-size:0.8rem;letter-spacing:0.2rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;transition:all 0.3s;opacity:0.55;position:relative}
+nav a::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:var(--gold);transition:all 0.3s}
+nav a:hover{opacity:1}
+nav a:hover::after{left:0;width:100%}
+.click-hint{position:fixed;bottom:3rem;left:50%;transform:translateX(-50%);z-index:20;font-family:var(--font-code);font-size:0.5rem;color:rgba(232,228,220,0.08);letter-spacing:0.15em;text-transform:uppercase;animation:blink 3s ease-in-out infinite;pointer-events:none}
 @keyframes blink{0%,100%{opacity:0.1}50%{opacity:0.35}}
 </style>
 </head>
@@ -56,11 +58,11 @@ nav a:hover{color:var(--gold)}
 <div class="noise"></div>
 
 <nav>
-  <a href="../index.html" style="font-weight:900;font-size:1.2rem;letter-spacing:-0.02em">诡秘之主</a>
+  <a href="../index.html" style="font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;opacity:0.7;font-family:'Noto Sans SC',sans-serif">诡秘之主</a>
   <div style="display:flex;gap:1.5rem">
     <a href="../index.html">首页</a>
     <a href="characters.html">角色</a>
-    <a href="pathways.html" style="color:var(--gold)">途径</a>
+    <a href="pathways.html" style="opacity:1">途径</a>
     <a href="artifacts.html">封印物</a>
   </div>
 </nav>
@@ -284,7 +286,7 @@ function raf(time){
         trans += ' rotateZ(' + item.rot + 'deg)';
         if (Math.abs(state.velocity) > 1) {
           var off = state.velocity * 2;
-          item.el.style.textShadow = off + 'px 0 rgba(255,0,0,0.2), ' + (-off) + 'px 0 rgba(0,243,255,0.2)';
+          item.el.style.textShadow = off + 'px 0 rgba(255,215,0,0.15), ' + (-off) + 'px 0 rgba(232,228,220,0.1)';
         } else { item.el.style.textShadow = 'none'; }
       } else {
         var t = time * 0.001;
