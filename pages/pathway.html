@@ -29,12 +29,15 @@ a{color:#e8e4dc;text-decoration:none}
 .gc{border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);padding:1rem}
 .gc:last-child{border-right:none}
 @keyframes fsi{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 1rem 2.5rem;gap:1rem;position:relative}
-.hero::before{content:'';position:absolute;top:-20%;left:-10%;right:-10%;bottom:-20%;background:radial-gradient(ellipse at 50% 30%,rgba(255,215,0,0.03) 0%,transparent 60%);animation:hp 4s ease-in-out infinite;pointer-events:none;z-index:-1}
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 1rem 3rem;gap:1.25rem;position:relative;min-height:40vh}
+.hero::before{content:'';position:absolute;top:-30%;left:-15%;right:-15%;bottom:-30%;background:radial-gradient(ellipse at 50% 30%,rgba(255,215,0,0.04) 0%,rgba(255,215,0,0.01) 40%,transparent 65%);animation:hp 4s ease-in-out infinite;pointer-events:none;z-index:-1}
 @keyframes hp{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
 .hero-sub{font-family:'Noto Serif SC',serif;font-size:0.75rem;letter-spacing:0.35rem;opacity:0.5;text-transform:uppercase;font-weight:300}
 .hero-title{font-weight:900;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.06;letter-spacing:0.04em;mix-blend-mode:plus-lighter}
 .hero-title .sub{display:block;margin-top:0.1em;font-size:0.5em;font-weight:300;opacity:0.2;letter-spacing:0.15em}
+.hero-stats{display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin-top:0.75rem}
+.hero-stats .hs-item{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;padding:0.25rem 0.6rem;border:1px solid rgba(255,215,0,0.1);color:rgba(232,228,220,0.35);background:rgba(255,215,0,0.02);transition:all 0.3s}
+.hero-stats .hs-item:hover{color:rgba(255,215,0,0.6);border-color:rgba(255,215,0,0.2);background:rgba(255,215,0,0.04)}
 
 /* Info grid */
 .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(255,215,0,0.06)}
@@ -112,6 +115,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 0 1r
     <div class="hero">
       <div class="hero-sub" id="detailHeroSub">途径</div>
       <h1 class="hero-title" id="detailTitle">—<span class="sub" id="detailSub"></span></h1>
+      <div class="hero-stats" id="heroStats"></div>
     </div>
   </div>
 </div>
@@ -206,6 +210,13 @@ document.title = d.n + ' — ' + d.c + '途径 · 诡秘之主';
 // Hero
 document.getElementById('detailHeroSub').textContent = '途径 ' + ROMAN[id] + ' · 塔罗牌「' + d.n + '」';
 document.getElementById('detailTitle').innerHTML = d.n + '<span class="sub" id="detailSub">' + d.c + ' → ' + d.h + '</span>';
+var seqCount = d.q.split('→').length;
+var domainTags = d.s.split('·');
+var statsHtml = '<span class="hs-item">◈ ' + seqCount + ' 序列</span>';
+statsHtml += '<span class="hs-item">▸ ' + d.c + '</span>';
+statsHtml += '<span class="hs-item">▸ ' + d.h + '</span>';
+statsHtml += '<span class="hs-item">✦ ' + d.a + '</span>';
+document.getElementById('heroStats').innerHTML = statsHtml;
 
 // Info grid
 var infoData = [
@@ -287,6 +298,7 @@ heroTl.fromTo('#glow2', { opacity: 0 }, { opacity: 0.12, duration: 1.5 }, 0.3);
 heroTl.from('.hero-sub', { y: -30, duration: 0.9 }, 0.2);
 const titleEl = document.querySelector('.hero-title'); if (titleEl) { const mainText = titleEl.childNodes[0] ? (titleEl.childNodes[0].textContent || '').trim() : ''; const subHtml = titleEl.querySelector('.sub') ? titleEl.querySelector('.sub').outerHTML : ''; const mainChars = mainText.split('').map(c => c === ' ' ? ' ' : `<span class="gsap-char">${c}</span>`).join(''); titleEl.innerHTML = mainChars + subHtml; heroTl.from('.gsap-char', { scale: 1.6, rotationX: -90, duration: 0.6, stagger: 0.025, ease: 'back.out(1.4)' }, 0.6); }
 heroTl.from('.hero-title .sub', { y: 30, duration: 0.8 }, 1.8);
+heroTl.from('.hs-item', { y: 15, duration: 0.4, stagger: 0.08, ease: 'power2.out' }, 2.0);
 
 setTimeout(() => {
   gsap.utils.toArray('.section-title').forEach((el) => { ScrollTrigger.create({ trigger: el.closest('.g'), start: 'top 80%', onEnter: () => { gsap.fromTo(el, { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }); }, once: true }); });
