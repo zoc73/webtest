@@ -64,11 +64,11 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 .tarot-track::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.15);border-radius:2px}
 .tcard{flex:0 0 175px;scroll-snap-align:start;transition:all 0.4s;cursor:pointer;overflow:visible}
 .tcard:hover{transform:translateY(-6px)}
-.tcard.tactive{transform:translateY(-5px);z-index:5}
-.tcard.tactive .tci{border-color:#FFD700;box-shadow:0 0 35px rgba(255,215,0,0.25),0 -10px 30px rgba(255,215,0,0.08),inset 0 0 60px rgba(255,215,0,0.06)}
-.tcard.tactive .tns{color:#FFD700;text-shadow:0 0 25px rgba(255,215,0,0.4)}
-.tcard.tactive .tcn,.tcard.tactive .tpt{color:#FFD700;opacity:0.9}
-.tcard.tactive .tdv{background:linear-gradient(90deg,transparent,rgba(255,215,0,0.5),transparent)}
+.tcard.tactive{transform:scale(1.06);z-index:5}
+.tcard.tactive .tci{border-color:#FFD700;box-shadow:0 0 40px rgba(255,215,0,0.35),0 0 80px rgba(255,215,0,0.1),inset 0 0 60px rgba(255,215,0,0.06);border-width:1.5px}
+.tcard.tactive .tns{color:#FFD700;text-shadow:0 0 25px rgba(255,215,0,0.4),0 0 50px rgba(255,215,0,0.15)}
+.tcard.tactive .tcn,.tcard.tactive .tpt{color:#FFD700;opacity:1}
+.tcard.tactive .tdv{background:linear-gradient(90deg,transparent,rgba(255,215,0,0.6),transparent)}
 .tci{width:175px;height:330px;background:linear-gradient(180deg,#0c0c18,#07070d);border:1px solid rgba(255,215,0,0.12);border-radius:6px;padding:0.5rem;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3),inset 0 0 40px rgba(255,215,0,0.02)}
 .tci::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:5px;border:1px solid rgba(255,215,0,0.06);pointer-events:none}
 .tci::after{content:'';position:absolute;top:6px;left:6px;right:6px;bottom:6px;border:1px solid rgba(255,215,0,0.04);border-radius:3px;pointer-events:none}
@@ -82,6 +82,32 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
 .tprev{left:0.2rem}.tnext{right:0.2rem}
 .tarot-wrapper{position:relative;padding:0.2rem 0}
 .tarot-footer{text-align:center;padding:2rem 0 0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:rgba(232,228,220,0.15);letter-spacing:0.15em}
+
+/* ===== DETAIL MODAL ===== */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(7,7,13,0.92);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s;backdrop-filter:blur(10px)}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal-box{max-width:560px;width:90%;background:#0a0a14;border:1px solid rgba(255,215,0,0.12);padding:2.5rem;position:relative;transform:scale(0.9) translateY(20px);transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);max-height:85vh;overflow-y:auto}
+.modal-overlay.open .modal-box{transform:scale(1) translateY(0)}
+.modal-box::before,.modal-box::after{content:'';position:absolute;width:12px;height:12px;border:1px solid rgba(255,215,0,0.15);transition:0.3s}
+.modal-box::before{top:-1px;left:-1px;border-top-color:rgba(255,215,0,0.3);border-left-color:rgba(255,215,0,0.3)}
+.modal-box::after{bottom:-1px;right:-1px;border-bottom-color:rgba(255,215,0,0.3);border-right-color:rgba(255,215,0,0.3)}
+.modal-close{position:absolute;top:0.8rem;right:1rem;background:none;border:none;color:rgba(232,228,220,0.3);font-size:1.5rem;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:color 0.3s;z-index:5}
+.modal-close:hover{color:#FFD700}
+.modal-header{border-bottom:1px solid rgba(255,215,0,0.08);padding-bottom:1.2rem;margin-bottom:1.2rem}
+.modal-tarot{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(255,215,0,0.4);letter-spacing:0.15em}
+.modal-title{font-size:2rem;font-weight:900;mix-blend-mode:plus-lighter;line-height:1.1;margin-top:0.2rem}
+.modal-sub{font-size:1rem;color:rgba(255,215,0,0.4);font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;margin-top:0.3rem;text-transform:uppercase}
+.modal-section{margin-bottom:1rem}
+.modal-section label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(255,215,0,0.3);letter-spacing:0.15em;text-transform:uppercase;display:block;margin-bottom:0.3rem}
+.modal-section p{font-size:0.8rem;color:rgba(232,228,220,0.6);line-height:1.8;text-transform:none;letter-spacing:0.03em}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.modal-grid .mg{background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.04);padding:0.6rem 0.8rem}
+.modal-grid .mg label{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:rgba(255,215,0,0.25);letter-spacing:0.12em;text-transform:uppercase;display:block}
+.modal-grid .mg span{font-size:0.78rem;color:rgba(232,228,220,0.55);font-weight:300;display:block;margin-top:0.15rem}
+.modal-desc{font-size:0.78rem;color:rgba(232,228,220,0.45);line-height:1.8;text-transform:none;padding:0.8rem;background:rgba(255,215,0,0.015);border-left:2px solid rgba(255,215,0,0.1);margin-top:0.5rem}
+.modal-seq{display:flex;gap:0.2rem;flex-wrap:wrap;margin-top:0.3rem}
+.modal-seq span{padding:0.2rem 0.5rem;background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.06);font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(232,228,220,0.35);letter-spacing:0.05em}
+.modal-seq span.hl{color:rgba(255,215,0,0.7);border-color:rgba(255,215,0,0.12)}
 
 @media(max-width:768px){
   .tarot-section{padding:2rem 1rem;margin-top:100vh}
@@ -169,30 +195,53 @@ body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-
   </div>
 </section>
 
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-header">
+      <div class="modal-tarot" id="mTarot">—</div>
+      <div class="modal-title" id="mTitle">—</div>
+      <div class="modal-sub" id="mSub">—</div>
+    </div>
+    <div class="modal-grid">
+      <div class="mg"><label>序列9（低）</label><span id="mSeq9">—</span></div>
+      <div class="mg"><label>序列0（高）</label><span id="mSeq0">—</span></div>
+      <div class="mg"><label>代表人物</label><span id="mChar">—</span></div>
+      <div class="mg"><label>塔罗牌号</label><span id="mCardNo">—</span></div>
+    </div>
+    <div class="modal-desc" id="mDesc">—</div>
+    <div class="modal-section">
+      <label>序列晋升路径</label>
+      <div class="modal-seq" id="mSeqPath"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 var D = [
-  {n:'愚者',c:'占卜家',s:'占卜·秘偶·时之虫',a:'克莱恩·莫雷蒂'},
-  {n:'魔术师',c:'学徒',s:'传送·空间·门',a:'佛尔思·沃尔'},
-  {n:'女祭司',c:'通识者',s:'知识·机械·蒸汽',a:'贝尔纳黛·古斯塔夫'},
-  {n:'女皇',c:'刺客',s:'毒药·女巫·魅惑',a:'特莉丝'},
-  {n:'皇帝',c:'律师',s:'规则·阴谋·独裁',a:'罗塞尔·古斯塔夫'},
-  {n:'教皇',c:'水手',s:'风暴·海洋·雷霆',a:'阿尔杰·威尔逊'},
-  {n:'恋人',c:'偷盗者',s:'窃取·寄生·时之虫',a:'阿蒙'},
-  {n:'战车',c:'猎人',s:'火焰·战争·征服',a:'索伦/梅迪奇'},
-  {n:'力量',c:'战士',s:'战斗·黎明·守护',a:'科林·伊利亚特'},
-  {n:'隐者',c:'窥秘人',s:'神秘·召唤·预言',a:'嘉德丽雅'},
-  {n:'命运之轮',c:'怪物',s:'幸运·概率·混乱',a:'威尔·昂赛汀'},
-  {n:'正义',c:'观众',s:'读心·催眠·梦境',a:'奥黛丽·霍尔'},
-  {n:'倒吊人',c:'秘祈人',s:'低语·献祭·隐秘',a:'真实造物主'},
-  {n:'死神',c:'收尸人',s:'灵魂·亡灵·冥界',a:'阿兹克·艾格斯'},
-  {n:'节制',c:'囚犯',s:'疯狂·诅咒·枷锁',a:'莎伦'},
-  {n:'恶魔',c:'罪犯',s:'暴力·恶魔·深渊',a:'欲望母树'},
-  {n:'塔',c:'阅读者',s:'知识·发明·推理',a:'艾德雯娜·爱德华兹'},
-  {n:'星星',c:'不眠者',s:'黑夜·梦境·寂静',a:'伦纳德·米切尔'},
-  {n:'月亮',c:'药师',s:'魔药·吸血鬼·生命',a:'埃姆林·怀特'},
-  {n:'太阳',c:'歌颂者',s:'光明·黎明·净化',a:'戴里克·伯格'},
-  {n:'审判',c:'仲裁人',s:'律法·秩序·裁决',a:'休·迪尔查'},
-  {n:'世界',c:'耕种者',s:'自然·丰收·大地',a:'弗兰克·李'}
+  {n:'愚者',c:'占卜家',s:'占卜·秘偶·时之虫',a:'克莱恩·莫雷蒂',0n:'愚者',d:'占卜家途径，诡秘三途径之一。序列0「愚者」权柄为秘偶、时之虫、命运。克莱恩·莫雷蒂穿越后踏上此途，最终以永恒的沉睡成为诡秘之主。',q:'占卜家→小丑→魔术师→无面人→秘偶大师→诡法师→古代学者→奇迹师→诡秘侍者→愚者'},
+  {n:'魔术师',c:'学徒',s:'传送·空间·门',a:'佛尔思·沃尔',0n:'门',d:'学徒途径，诡秘三途径之一。序列0「门」权柄为传送、空间、记录。代表人物佛尔思·沃尔，塔罗会「魔术师」成员。',q:'学徒→戏法大师→占星人→记录官→旅行家→秘法师→漫游者→旅法师→星之匙→门'},
+  {n:'女祭司',c:'通识者',s:'知识·机械·蒸汽',a:'贝尔纳黛·古斯塔夫',0n:'完美者',d:'通识者途径。序列0「完美者」权柄为知识、机械、蒸汽与工业。贝尔纳黛·古斯塔夫为迷雾海最强大的冒险家之一。',q:'通识者→考古学家→鉴定师→机械专家→炼金术士→奥术学者→预言家→贤者→知识皇帝→完美者'},
+  {n:'女皇',c:'刺客',s:'毒药·女巫·魅惑',a:'特莉丝',0n:'魔女',d:'刺客途径，序列0「魔女」。权柄为毒药、女巫、魅惑与厄运。特莉丝作为该途径的代表人物，经历了从序列7到序列4的晋升。',q:'刺客→教唆者→女巫→欢愉魔女→痛苦魔女→绝望魔女→不老魔女→末日魔女→灾难魔女→魔女'},
+  {n:'皇帝',c:'律师',s:'规则·阴谋·独裁',a:'罗塞尔·古斯塔夫',0n:'黑皇帝',d:'律师途径。序列0「黑皇帝」权柄为规则、秩序、独裁。罗塞尔·古斯塔夫是穿越者前辈，曾建立日不落帝国，留下大量日记指引克莱恩。',q:'律师→野蛮人→贿赂者→腐化男爵→混乱导师→堕落伯爵→狂乱法师→天灾→弑光亲王→黑皇帝'},
+  {n:'教皇',c:'水手',s:'风暴·海洋·雷霆',a:'阿尔杰·威尔逊',0n:'暴君',d:'水手途径。序列0「暴君」权柄为风暴、海洋、雷霆。阿尔杰·威尔逊为塔罗会「教皇」，从海上冒险家成长为半神。',q:'水手→航海家→风眷者→海洋歌者→灾难主祭→海王→天灾→天气术师→雷神→暴君'},
+  {n:'恋人',c:'偷盗者',s:'窃取·寄生·时之虫',a:'阿蒙',0n:'错误',d:'偷盗者途径，诡秘三途径之一。序列0「错误」权柄为窃取、寄生、时之虫。阿蒙为远古太阳神之子，与克莱恩争夺源堡的宿敌。',q:'偷盗者→诈骗师→解密学者→寄生者→窃梦家→盗火者→时之虫→命运木马→错误道人→错误'},
+  {n:'战车',c:'猎人',s:'火焰·战争·征服',a:'索伦/梅迪奇',0n:'红祭司',d:'猎人途径。序列0「红祭司」权柄为火焰、战争、征服。代表人物索伦·艾因霍恩·梅迪奇，是远古太阳神座下天使之王。',q:'猎人→挑衅者→收割者→阴谋家→灵魂收割者→战争主教→铁血骑士→征服者→陨落者→红祭司'},
+  {n:'力量',c:'战士',s:'战斗·黎明·守护',a:'科林·伊利亚特',0n:'黄昏巨人',d:'战士途径。序列0「黄昏巨人」权柄为战斗、守护、力量。科林·伊利亚特为白银城首席，持「黄昏」之剑对抗黑暗。',q:'战士→格斗家→武器大师→黎明骑士→守护者→猎魔人→银骑士→荣耀者→神明之手→黄昏巨人'},
+  {n:'隐者',c:'窥秘人',s:'神秘·召唤·预言',a:'嘉德丽雅',0n:'隐者',d:'窥秘人途径。序列0「隐者」权柄为神秘、召唤、预言。嘉德丽雅为塔罗会「隐者」，强大的预言家，拥有罗塞尔后裔的重要线索。',q:'窥秘人→巫师→卷轴教授→星象师→召唤大师→神秘学家→预言大师→贤者→知识导师→隐者'},
+  {n:'命运之轮',c:'怪物',s:'幸运·概率·混乱',a:'威尔·昂赛汀',0n:'命运之轮',d:'怪物途径。序列0「命运之轮」权柄为幸运、概率、命运。威尔·昂赛汀为命运之蛇，掌控厄运与好运的平衡。',q:'怪物→折翼天使→幸运者→厄运法师→熵之法师→狂乱法师→命运先知→秩序阴影→天命→命运之轮'},
+  {n:'正义',c:'观众',s:'读心·催眠·梦境',a:'奥黛丽·霍尔',0n:'空想家',d:'观众途径。序列0「空想家」权柄为读心、催眠、梦境。奥黛丽·霍尔为塔罗会「正义」，最年轻的半神之一。',q:'观众→读心者→心理医生→催眠师→梦境行者→秘法师→洞察者→操纵师→编织者→空想家'},
+  {n:'倒吊人',c:'秘祈人',s:'低语·献祭·隐秘',a:'真实造物主',0n:'倒吊人',d:'秘祈人途径。序列0「倒吊人」权柄为低语、献祭、隐秘。真实造物主为隐秘存在，与亚当融合为远古太阳神。',q:'秘祈人→倾听者→隐修士→米粒拉之影→秘术导师→神秘学家→召唤大师→先知→圣母→倒吊人'},
+  {n:'死神',c:'收尸人',s:'灵魂·亡灵·冥界',a:'阿兹克·艾格斯',0n:'死神',d:'收尸人途径。序列0「死神」权柄为灵魂、亡灵、冥界。阿兹克·艾格斯为死神途径高序列强者，克莱恩的历史老师与好友。',q:'收尸人→掘墓人→亡语者→看门人→收割者→不死者→摆渡人→死亡执政官→凋零君王→死神'},
+  {n:'节制',c:'囚犯',s:'疯狂·诅咒·枷锁',a:'莎伦',0n:'被缚者',d:'囚犯途径。序列0「被缚者」权柄为疯狂、诅咒、封印。莎伦为节制派的代表人物，以极强的意志力对抗疯狂。',q:'囚犯→疯子→抑郁症患者→疯修士→沉默门徒→痛苦魔女→绝望魔女→矜持少女→破败之主→被缚者'},
+  {n:'恶魔',c:'罪犯',s:'暴力·恶魔·深渊',a:'欲望母树',0n:'深渊',d:'罪犯途径。序列0「深渊」权柄为暴力、恶魔、毁灭。欲望母树外神的力量延伸至该途径，是最凶险的序列之一。',q:'罪犯→杀手→冷血者→连环杀手→恶魔→魔鬼→深渊恶魔→鲜血大公→污秽君王→深渊'},
+  {n:'塔',c:'阅读者',s:'知识·发明·推理',a:'艾德雯娜·爱德华兹',0n:'白塔',d:'阅读者途径。序列0「白塔」权柄为知识、推理、预言。艾德雯娜·爱德华兹为「黄金梦想号」船长，知识与智慧之神的教会成员。',q:'阅读者→推理学员→守知者→博学者→秘术导师→预言家→贤者→全知之眼→天师→白塔'},
+  {n:'星星',c:'不眠者',s:'黑夜·梦境·寂静',a:'伦纳德·米切尔',0n:'黑暗',d:'不眠者途径。序列0「黑暗」权柄为黑夜、梦境、隐秘。伦纳德·米切尔为塔罗会「星星」，值夜者红手套队长，体内寄宿古老者帕列斯。',q:'不眠者→午夜诗人→梦魇→守夜人→收割者→不死者→摆渡人→沉默术士→恐惧之主→黑暗'},
+  {n:'月亮',c:'药师',s:'魔药·吸血鬼·生命',a:'埃姆林·怀特',0n:'月亮',d:'药师途径。序列0「月亮」权柄为魔药、吸血鬼、生命。埃姆林·怀特为塔罗会「月亮」，血族成员，性格傲娇但重情义。',q:'药师→驯兽师→吸血鬼→男爵→子爵→伯爵→侯爵→公爵→血族始祖→月亮'},
+  {n:'太阳',c:'歌颂者',s:'光明·黎明·净化',a:'戴里克·伯格',0n:'太阳',d:'歌颂者途径。序列0「太阳」权柄为光明、黎明、净化。戴里克·伯格为塔罗会「太阳」，来自神弃之地白银城的虔诚少年。',q:'歌颂者→祈光人→光之祭司→太阳神官→无暗者→光之天使→逐光者→银骑士→神明之手→太阳'},
+  {n:'审判',c:'仲裁人',s:'律法·秩序·裁决',a:'休·迪尔查',0n:'审判者',d:'仲裁人途径。序列0「审判者」权柄为律法、秩序、裁决。休·迪尔查为塔罗会「审判」，贝克兰德律法体系的守护者。',q:'仲裁人→调解人→治安官→法官→惩戒骑士→裁决者→律令法师→秩序之手→平衡者→审判者'},
+  {n:'世界',c:'耕种者',s:'自然·丰收·大地',a:'弗兰克·李',0n:'母亲',d:'耕种者途径。序列0「母亲」权柄为自然、丰收、生命。弗兰克·李为塔罗会「世界」，其疯狂实验令大地母神都感震惊。',q:'耕种者→医师→丰收祭司→生物学家→德鲁伊→自然行者→荒芜主母→森之妖精→自然使者→母亲'}
 ];
 
 const CONFIG = {itemCount: D.length, starCount: 80, zGap: 550, loopSize: 0, camSpeed: 2.5};
@@ -355,6 +404,53 @@ document.querySelectorAll('.tcard').forEach(function(card, i) {
     var ts = (i * CONFIG.zGap) / CONFIG.camSpeed;
     var loops = Math.round(state.scroll / (CONFIG.loopSize / CONFIG.camSpeed));
     lenis.scrollTo(ts + loops * CONFIG.loopSize / CONFIG.camSpeed, {duration: 0.8});
+  });
+});
+// Click tunnel card → open detail modal
+function openModal(i) {
+  var d = D[i];
+  document.getElementById('mTarot').textContent = '途径 ' + (i < 10 ? '0' : '') + i + ' · 塔罗牌「' + d.n + '」';
+  document.getElementById('mTitle').textContent = d.n;
+  document.getElementById('mSub').textContent = d.c + ' → ' + d.0n;
+  document.getElementById('mSeq9').textContent = d.c;
+  document.getElementById('mSeq0').textContent = d.0n;
+  document.getElementById('mChar').textContent = d.a;
+  document.getElementById('mCardNo').textContent = (i < 10 ? '0' : '') + i + ' / 21';
+  document.getElementById('mDesc').textContent = d.d;
+  var pathEl = document.getElementById('mSeqPath');
+  var seqs = d.q.split('→');
+  pathEl.innerHTML = seqs.map(function(s, j) {
+    return '<span' + (j === 0 || j === seqs.length-1 ? ' class="hl"' : '') + '>' + s.trim() + '</span>';
+  }).join('');
+  document.getElementById('modal').classList.add('open');
+}
+// Close modal
+document.getElementById('modalClose').onclick = function() {
+  document.getElementById('modal').classList.remove('open');
+};
+document.getElementById('modal').onclick = function(e) {
+  if (e.target === this) this.classList.remove('open');
+};
+// Make tunnel cards clickable
+document.querySelectorAll('.viewport .card').forEach(function(card) {
+  card.style.cursor = 'pointer';
+  card.onclick = function() {
+    // Find which index this card belongs to
+    var h2 = this.querySelector('h2');
+    if (!h2) return;
+    var name = h2.textContent.trim();
+    for (var i = 0; i < D.length; i++) {
+      if (D[i].n === name) { openModal(i); break; }
+    }
+  };
+});
+// Also make tarot cards open modal on double-click (single click already does tunnel sync)
+document.querySelectorAll('.tcard').forEach(function(card) {
+  card.addEventListener('dblclick', function() {
+    var name = this.querySelector('.tns').textContent.trim();
+    for (var i = 0; i < D.length; i++) {
+      if (D[i].n === name) { openModal(i); break; }
+    }
   });
 });
 </script>
