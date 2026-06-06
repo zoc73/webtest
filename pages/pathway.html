@@ -132,6 +132,15 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 0 1r
 </div>
 
 <div class="g">
+  <div class="gc" style="grid-column:1/-1;border-bottom:none">
+    <div style="padding:1rem 1rem 0">
+      <div class="section-title" style="mix-blend-mode:plus-lighter">▍序列能力详情</div>
+    </div>
+    <div class="ability-grid" id="abilityGrid"></div>
+  </div>
+</div>
+
+<div class="g">
   <div class="gc" style="grid-column:1/-1">
     <div class="section-title" style="mix-blend-mode:plus-lighter">▍代表人物</div>
     <div class="char-grid" id="charGrid"></div>
@@ -221,7 +230,7 @@ seqs.forEach(function(s, i) {
   var desc = ABILITIES[id] && ABILITIES[id][i] ? ABILITIES[id][i] : '';
   abilHtml += '<div class="ability-item"><div class="ability-seq">序列' + (9 - i) + '</div><div class="ability-name">' + s.trim() + '</div><div class="ability-desc">' + desc + '</div></div>';
 });
-if (document.querySelector('.ability-grid')) document.querySelector('.ability-grid').innerHTML = abilHtml;
+document.getElementById('abilityGrid').innerHTML = abilHtml;
 
 // Characters - expanded info
 var charData = {
