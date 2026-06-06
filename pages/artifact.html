@@ -184,9 +184,9 @@ gsap.registerPlugin(ScrollTrigger);
 const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 heroTl.fromTo('#glow', { opacity: 0 }, { opacity: 0.15, duration: 1.2 }, 0);
 heroTl.fromTo('#glow2', { opacity: 0 }, { opacity: 0.12, duration: 1.5 }, 0.3);
-heroTl.from('.hero-sub', { y: -30, opacity: 0, duration: 0.9 }, 0.2);
-const titleEl = document.querySelector('.hero-title'); if (titleEl) { const mainText = titleEl.childNodes[0] ? (titleEl.childNodes[0].textContent || '').trim() : ''; const subHtml = titleEl.querySelector('.sub') ? titleEl.querySelector('.sub').outerHTML : ''; const mainChars = mainText.split('').map(c => c === ' ' ? ' ' : `<span class="gsap-char">${c}</span>`).join(''); titleEl.innerHTML = mainChars + subHtml; heroTl.from('.gsap-char', { opacity: 0, scale: 1.6, rotationX: -90, duration: 0.6, stagger: 0.025, ease: 'back.out(1.4)' }, 0.6); }
-heroTl.from('.hero-title .sub', { y: 30, opacity: 0, duration: 0.8 }, 1.8);
+heroTl.from('.hero-sub', { y: -30, duration: 0.9 }, 0.2);
+const titleEl = document.querySelector('.hero-title'); if (titleEl) { const mainText = titleEl.childNodes[0] ? (titleEl.childNodes[0].textContent || '').trim() : ''; const subHtml = titleEl.querySelector('.sub') ? titleEl.querySelector('.sub').outerHTML : ''; const mainChars = mainText.split('').map(c => c === ' ' ? ' ' : `<span class="gsap-char">${c}</span>`).join(''); titleEl.innerHTML = mainChars + subHtml; heroTl.from('.gsap-char', { scale: 1.6, rotationX: -90, duration: 0.6, stagger: 0.025, ease: 'back.out(1.4)' }, 0.6); }
+heroTl.from('.hero-title .sub', { y: 30, duration: 0.8 }, 1.8);
 
 setTimeout(() => {
   gsap.utils.toArray('.section-title').forEach((el) => { ScrollTrigger.create({ trigger: el.closest('.g'), start: 'top 80%', onEnter: () => { gsap.fromTo(el, { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }); }, once: true }); });
