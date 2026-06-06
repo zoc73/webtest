@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title id="pageTitle">封印物详情 — 诡秘之主</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:'Noto Sans SC',sans-serif;background:#07070d;color:#e8e4dc;min-height:100vh;overflow-x:hidden}
+#noise-layer{pointer-events:none;position:fixed;inset:0;mix-blend-mode:difference;opacity:0.065;z-index:101}
+#invert-layer{pointer-events:none;position:fixed;inset:0;background:color-mix(in srgb,#fff 100%,transparent);mix-blend-mode:difference;z-index:100}
+#glow{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(255,189,56,0) 40%,rgba(255,189,56,0.40) 100%);mix-blend-mode:screen;opacity:0.15;z-index:99}
+#glow2{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 100% 100%,rgba(180,120,50,0) 30%,rgba(180,120,50,0.35) 100%);mix-blend-mode:screen;opacity:0.12;z-index:98}
+#vn{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.65) 100%);z-index:96}
+#dots{pointer-events:none;position:fixed;inset:0;background-image:radial-gradient(rgba(255,215,0,0.025) 1px,transparent 1px);background-size:28px 28px;z-index:0}
+#grain-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:overlay;opacity:0.04;z-index:98}
+#tex-c{pointer-events:none;position:fixed;inset:0;mix-blend-mode:color-dodge;opacity:0.025;z-index:97}
+#pt-c{pointer-events:none;position:fixed;inset:0;z-index:95;opacity:0.45}
+main{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:2rem}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 0 1rem;border-bottom:1px solid rgba(255,215,0,0.08);margin-bottom:1.5rem}
+.nav-link{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.2rem;color:#e8e4dc;text-decoration:none;text-transform:uppercase;position:relative;transition:all 0.3s;opacity:0.55;display:inline-block}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:#FFD700;transition:all 0.3s}
+.nav-link:hover{opacity:1}
+.nav-link:hover::after{left:0;width:100%}
+@keyframes fsi{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:0;border-left:1px solid rgba(255,215,0,0.06);border-right:1px solid rgba(255,215,0,0.06)}
+.gc{border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);padding:1rem;transition:border-color 0.3s}
+.gc:last-child{border-right:none}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:5rem 1rem 4rem;gap:1.2rem;position:relative}
+.hero::before{content:'';position:absolute;top:-20%;left:-10%;right:-10%;bottom:-20%;background:radial-gradient(ellipse at 50% 30%,rgba(255,215,0,0.03) 0%,transparent 60%);animation:hp 4s ease-in-out infinite;pointer-events:none;z-index:-1}
+@keyframes hp{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+.hero-sub{font-family:'Noto Serif SC',serif;font-size:0.85rem;letter-spacing:0.35rem;opacity:0.5;text-transform:uppercase;font-weight:300;animation:fsi 1s ease-out}
+.hero-title{font-weight:900;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.06;letter-spacing:0.04em;mix-blend-mode:plus-lighter;animation:fsi 1s ease-out 0.2s both}
+.hero-title .sub{display:block;margin-top:0.1em;font-size:0.45em;font-weight:300;opacity:0.2;letter-spacing:0.15em}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(255,215,0,0.06)}
+.info-item{padding:0.85rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06)}
+.info-item:nth-child(3n){border-right:none}
+.info-item:hover{background:rgba(255,215,0,0.015)}
+.info-label{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:rgba(255,215,0,0.3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.25rem}
+.info-value{font-size:0.85rem;color:rgba(232,228,220,0.7);line-height:1.5}
+.desc-box{padding:1.5rem;background:rgba(255,215,0,0.01);border-left:3px solid rgba(255,215,0,0.12);margin:0;font-size:0.9rem;line-height:2;color:rgba(232,228,220,0.5)}
+.fade{opacity:0;transform:translateY(14px);animation:fu 0.7s ease-out forwards}
+.fd1{animation-delay:0.15s}.fd2{animation-delay:0.3s}.fd3{animation-delay:0.45s}
+.section-title{font-size:1rem;font-weight:700;mix-blend-mode:plus-lighter;margin-bottom:0.6rem;letter-spacing:0.05em;font-family:'Noto Serif SC',serif}
+.tag{display:inline-block;background:rgba(255,215,0,0.04);padding:0.15rem 0.6rem;font-size:0.6rem;letter-spacing:0.08em;border:1px solid rgba(255,215,0,0.08);margin:0.15rem;border-radius:2px;color:rgba(232,228,220,0.5);transition:all 0.3s}
+.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid rgba(255,215,0,0.06)}
+.rel-item{position:relative;padding:1rem;border-right:1px solid rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.06);cursor:pointer;transition:all 0.3s}
+.rel-item:nth-child(4n){border-right:none}
+.rel-item:hover{background:rgba(255,215,0,0.015);transform:translateY(-2px)}
+.rel-item:hover .rel-name{color:#FFD700}
+.rel-name{font-size:0.85rem;font-weight:600;mix-blend-mode:plus-lighter;transition:color 0.3s}
+.rel-title{font-size:0.6rem;color:rgba(255,215,0,0.3);font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;margin-top:0.05rem}
+@media(max-width:768px){
+  main{padding:1rem}
+  .info-grid{grid-template-columns:repeat(2,1fr)}
+  .info-item:nth-child(3n){border-right:1px solid rgba(255,215,0,0.06)}
+  .info-item:nth-child(2n){border-right:none}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+  .rel-item:nth-child(4n){border-right:1px solid rgba(255,215,0,0.06)}
+  .rel-item:nth-child(2n){border-right:none}
+  .hero{padding:3rem 0.5rem 2rem}
+  .hero-title{font-size:clamp(2rem,8vw,3rem)}
+}
+</style>
+</head>
+<body>
+<div id="noise-layer"></div>
+<div id="invert-layer"></div>
+<div id="glow"></div>
+<div id="glow2"></div>
+<div id="vn"></div>
+<div id="dots"></div>
+<canvas id="grain-c"></canvas>
+<canvas id="tex-c"></canvas>
+<canvas id="pt-c"></canvas>
+<main>
+<nav>
+  <a href="../index.html" style="font-weight:900;font-size:1.4rem;line-height:1.1;letter-spacing:-0.02em;mix-blend-mode:plus-lighter;color:rgba(232,228,220,0.4);text-decoration:none">诡秘之主</a>
+  <div style="display:flex;gap:1.5rem">
+    <a href="../index.html" class="nav-link">首页</a>
+    <a href="characters.html" class="nav-link">角色</a>
+    <a href="pathways.html" class="nav-link">途径</a>
+    <a href="artifacts.html" class="nav-link" style="opacity:1">封印物</a>
+  </div>
+</nav>
+<div class="g"><div class="gc" style="grid-column:1/-1;border-bottom:none">
+  <div class="hero">
+    <div class="hero-sub" id="artHeroSub">封印物档案</div>
+    <h1 class="hero-title" id="artTitle">—<span class="sub" id="artSub"></span></h1>
+  </div>
+</div></div>
+<div class="g"><div class="gc" style="grid-column:1/-1;padding:0"><div class="info-grid" id="infoGrid"></div></div></div>
+<div class="g"><div class="gc" style="grid-column:1/-1;padding:0"><div class="desc-box" id="artDesc"></div></div></div>
+<div class="g"><div class="gc" style="grid-column:1/-1"><div class="section-title" style="mix-blend-mode:plus-lighter">▍相关人物</div><div class="related-grid" id="relatedGrid"></div></div></div>
+<div class="g"><div class="gc" style="grid-column:1/-1;border-bottom:none;padding:1.5rem;text-align:center;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap">
+  <a href="#" onclick="history.back();return false" style="font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:rgba(232,228,220,0.3);letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s">← 返回上一页</a>
+  <a href="artifacts.html" style="font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:rgba(232,228,220,0.3);letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s">全部封印物</a>
+  <a href="pathways.html" style="font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:rgba(232,228,220,0.3);letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s">全部途径</a>
+</div></div>
+</main>
+<script>
+// Canvas noise/grain/particles
+function initCanvas(id){const c=document.getElementById(id);if(!c)return;const ctx=c.getContext('2d');function r(){c.width=window.innerWidth;c.height=window.innerHeight}r();window.addEventListener('resize',r);return{c,ctx,r}}
+initCanvas('grain-c');setInterval(()=>{const c=document.getElementById('grain-c');if(!c)return;const w=c.width,h=c.height,id=c.getContext('2d').createImageData(w,h),b=id.data;for(let i=0;i<b.length;i+=4){b[i]=Math.random()*40+10;b[i+1]=b[i]*0.9;b[i+2]=b[i]*0.7;b[i+3]=25}c.getContext('2d').putImageData(id,0,0)},200);
+initCanvas('tex-c');(function(){const c=document.getElementById('tex-c');if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;const id=ctx.createImageData(w,h),b=id.data;for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4,p=(Math.sin(x*0.05)+Math.sin(y*0.05))*15+128,n=Math.random()*8-4;b[i]=p+n;b[i+1]=p*0.8+n;b[i+2]=p*0.5+n;b[i+3]=15}ctx.putImageData(id,0,0)})();
+const ptc=document.getElementById('pt-c'),ptctx=ptc.getContext('2d');let pw=0,ph=0,pts=[];function pr(){pw=ptc.width=window.innerWidth;ph=ptc.height=window.innerHeight;pts=[];for(let i=0;i<80;i++)pts.push({x:Math.random()*pw,y:Math.random()*ph,vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,s:Math.random()*1.8+0.3,a:Math.random()*0.35+0.08})}
+pr();window.addEventListener('resize',pr);(function dp(){ptctx.clearRect(0,0,pw,ph);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=pw;if(p.x>pw)p.x=0;if(p.y<0)p.y=ph;if(p.y>ph)p.y=0;ptctx.beginPath();ptctx.arc(p.x,p.y,p.s,0,Math.PI*2);ptctx.fillStyle=`rgba(255,215,0,${p.a})`;ptctx.fill()}requestAnimationFrame(dp)})();
+
+// Artifact database
+var ARTS = {
+  '0-08': {n:'0-08',t:'羽毛笔',g:'0级封印物',c:'未知途径',p:'值夜者教会',d:'一支被诅咒的古老羽毛笔。持有者必须持续用它在纸上写作，否则会遭遇不幸。羽毛笔写下的事件会成为现实——这既是诅咒也是能力。曾由值夜者老尼尔持有，尼尔死后辗转至克莱恩手中。克莱恩多次利用0-08的特性布局，让写下的"预言"应验击败强敌。极具危险性，但也被称为最实用的战略级封印物之一。',r:['克莱恩·莫雷蒂']},
+  '阿罗德斯之镜': {n:'阿罗德斯之镜',t:'魔镜',g:'0级封印物',c:'白塔途径（全知之眼）',p:'原为远古太阳神麾下',d:'封印了白塔途径序列1「全知之眼」阿罗德斯灵魂的古老魔镜。能以隐喻方式回答几乎所有问题，但每次提问都需支付代价（如血液、记忆、寿命等）。阿罗德斯性格非常狗腿谄媚，对克莱恩极度恭敬，自称"您忠实的镜子上级"，但对其他人则傲慢苛刻。是克莱恩最重要的情报来源之一。',r:['克莱恩·莫雷蒂']},
+  '许愿神灯': {n:'许愿神灯',t:'青铜神灯',g:'0级封印物',c:'命运之轮途径',p:'古代遗迹',d:'一盏古老的青铜油灯，灯口封印着一位远古存在。共可许三次愿望，任何愿望都可实现，但每个愿望都伴随着可怕的代价和副作用。灯中之灵渴望被释放，为此会扭曲愿望的本质。克莱恩曾借助神灯对抗邪神子嗣，但也因此欠下了巨大的因果。是全书最危险的封印物之一。',r:['克莱恩·莫雷蒂']},
+  '怪盗手套': {n:'怪盗手套',t:'窃盗手套',g:'0级封印物',c:'错误途径',p:'神秘组织',d:'一双能够窃取物品甚至抽象概念的神奇手套。拥有微弱的自我意识，佩戴者必须以大量非凡特性定期"喂养"它，否则会反噬主人。可以窃取对方的武器、能力甚至记忆，是错误途径的顶级封印物。极其危险但功能强大。',r:['阿蒙']},
+  '0-01': {n:'0-01',t:'被缚典籍',g:'0级封印物',c:'未知',p:'值夜者教会',d:'一本被层层封印的厚重典籍，内部封印着一位古代存在。会与现实环境发生交互，影响周围人的精神状态。拥有极高的神秘学价值，是值夜者教会最危险的封印物之一。长期被严密看管在廷根市值夜者教堂的地下室内。克莱恩在廷根任职时曾近距离接触过。',r:[]},
+  '0-02': {n:'0-02',t:'命运之盒',g:'0级封印物',c:'命运之轮途径',p:'值夜者教会',d:'蕴含强大命运之力的古老封印物。能够影响持有者的运程，让好运或厄运降临。但每次使用都会积累诅咒，最终导致灾难性的后果。是教会最难以控制的封印物之一，因其能力涉及命运领域。',r:[]},
+  '0-03': {n:'0-03',t:'创世碎片',g:'0级封印物',c:'未知',p:'风暴教会',d:'与某条途径唯一性相关的顶级封印物。蕴含着改变现实的力量，被严格保管在风暴教会深处。传闻是远古神战留下的碎片。其具体能力和外观被各大教会高度保密，极少有人见过真容。',r:[]},
+  '0-04': {n:'0-04',t:'亡灵之书',g:'0级封印物',c:'死神途径',p:'值夜者教会',d:'蕴含死神途径伟力的远古遗物。持有者可掌控亡灵、呼唤死者、操控冥界之门。但使用时会不断被死气侵蚀，逐渐丧失活人的情感与体温。长期持有者会变得如同活尸。',r:['阿兹克·艾格斯']},
+  '全自动许愿机': {n:'全自动许愿机',t:'许愿机器',g:'1级封印物',c:'命运之轮途径',p:'某遗迹发现',d:'一台锈迹斑斑的古老投币机器，投入硬币后可以许愿。愿望会以某种方式实现，但许愿越多，许愿者的运气就越差——出门被鸟粪砸中、走路摔跤等"小厄运"会不断累积。克莱恩利用这台机器进行情报收集和资源转换，是性价比极高的神奇物品。',r:['克莱恩·莫雷蒂']},
+  '无源之门': {n:'无源之门',t:'任意门',g:'1级封印物',c:'门途径',p:'亚伯拉罕家族',d:'一扇雕刻着奇异符文的华丽门框。使用者可以通过灵性判定连接到任何想去的地方，打开门即可一步跨越千里。是旅行者（门）途径的著名封印物。亚伯拉罕家族的传承之物。使用不当可能连接到危险的未知空间。',r:['佛尔思·沃尔']},
+  '1-42': {n:'1-42',t:'录音水晶',g:'1级封印物',c:'阅读者途径',p:'值夜者教会',d:'一块能够记录和回放非凡事件声音的奇异水晶。常用于值夜者的调查取证工作。可以在案发现场捕捉残留的灵性声音，帮助还原事件经过。使用时会消耗灵性。',r:[]},
+  '1-025': {n:'1-025',t:'精神之冠',g:'1级封印物',c:'观众途径',p:'值夜者教会',d:'来源于观众途径的封印物，形似一顶半透明的冠冕。能够大幅放大佩戴者的精神感知能力，洞悉他人的思维和情绪。但持续使用会导致精神负担过重，出现幻听和妄想症状。',r:[]},
+  '安提哥努斯家族笔记': {n:'安提哥努斯家族笔记',t:'神秘笔记',g:'封印物 · 典籍',c:'占卜家途径',p:'安提哥努斯家族',d:'一本记载着占卜家途径高阶秘密的古老笔记。内藏序列1「诡秘侍者」的完整非凡特性，是克莱恩穿越后最早也是最重要的收获。笔记中残留着安提哥努斯家族的诅咒与封印，普通人翻阅会发疯。克莱恩凭借这本笔记一路晋升，最终成为愚者。',r:['克莱恩·莫雷蒂','阿蒙']},
+  '海神权杖': {n:'海神权杖',t:'风暴权杖',g:'封印物 · 权杖',c:'暴君途径',p:'海上古遗迹',d:'暴君途径的神奇物品，形似缠绕着海藻的青铜权杖。持有者可以操控天气、召唤雷霆、掀起巨浪，是海上冒险家梦寐以求的至宝。克莱恩曾以格尔曼·斯帕罗身份短暂持有并使用其力量在海上狩猎海盗。',r:['克莱恩·莫雷蒂']},
+  '黄昏巨剑': {n:'黄昏巨剑',t:'黄昏之剑',g:'封印物 · 武器',c:'黄昏巨人途径',p:'白银城',d:'战士途径的传说级封印物。剑身宽阔厚重，散发着橘红色的温暖光芒，蕴含着「黄昏」的力量。白银城首席科林·伊利亚特的佩剑，在神弃之地对抗黑暗数十年。是守护白银城民众的象征，也是对抗黑暗的关键武器。',r:['科林·伊利亚特','戴里克·伯格']},
+  '星之杖': {n:'星之杖',t:'星辰手杖',g:'封印物 · 手杖',c:'观众/命运途径',p:'艾辛格·斯坦',d:'与星辰和命运之力密切相关的神秘手杖。可以大幅增幅持有者的预言和占卜能力，引导使用者找到想要的东西。贝克兰德著名侦探艾辛格·斯坦的成名物品，帮助他破获了无数神秘案件。',r:['艾辛格·斯坦','克莱恩·莫雷蒂']},
+  '丧钟': {n:'丧钟',t:'丧钟符咒',g:'封印物 · 符咒',c:'愚者途径',p:'克莱恩·莫雷蒂制作',d:'克莱恩制作的顶级符咒之一。敲响丧钟时，会有无形的钟声穿透灵魂，对目标造成巨大伤害甚至直接致死。是克莱恩标志性的战斗手段之一，配合纸人替身和秘偶操控形成独特的战斗风格。"丧钟"之名令人闻风丧胆。',r:['克莱恩·莫雷蒂']},
+  '愚弄符咒': {n:'愚弄符咒',t:'愚者之咒',g:'封印物 · 符咒',c:'愚者途径',p:'克莱恩·莫雷蒂制作',d:'克莱恩利用愚者权柄制作的神秘符咒。可以"愚弄"现实世界的规则，让不可能变为可能——比如让子弹拐弯、让火焰在水中燃烧。使用后往往产生出乎意料的效果，是克莱恩越级挑战强敌的杀手锏。',r:['克莱恩·莫雷蒂']},
+  '克劳利的手杖': {n:'克劳利的手杖',t:'说服者',g:'封印物 · 手杖',c:'观众途径',p:'古代强者遗物',d:'古代观众途径强者克劳利留下的遗物。可以放大持有者的气场和语言感染力，让周围人更容易相信持有者的话语。表面是普通黑色手杖，实则蕴含催眠与暗示的力量。',r:[]},
+  '创生者手杖': {n:'创生者手杖',t:'造物手杖',g:'封印物 · 手杖',c:'完美者途径',p:'罗塞尔时代遗物',d:'完美者途径的杰作，罗塞尔年代流传下来的神奇物品。拥有创造和修复万物的能力，可以理解机械结构、自动修复损坏物品。体现蒸汽与机械之神的伟力。',r:['罗塞尔·古斯塔夫','贝尔纳黛·古斯塔夫']},
+  '黎明之剑': {n:'黎明之剑',t:'破晓之剑',g:'封印物 · 武器',c:'太阳途径',p:'永恒烈阳教会',d:'太阳途径的神圣之剑，剑身如凝聚的晨曦。蕴含着黎明与净化的伟力，对亡灵、黑暗生物和恶魔有极大的克制效果。剑光所至，黑暗退散。是永恒烈阳教会的圣物之一。',r:[]},
+  '无暗者之灯': {n:'无暗者之灯',t:'永恒明灯',g:'封印物 · 灯具',c:'太阳途径',p:'白银城',d:'太阳途径的神奇物品，外形为古朴的铜灯。点燃后会散发出炽白光芒，可以驱散一切黑暗和隐秘，让藏匿者无所遁形。是探索神弃之地等永恒黑暗地区的必需装备。白银城曾用其对抗黑暗中的怪物。',r:['戴里克·伯格']},
+  '命运之蛇的祝福': {n:'命运之蛇的祝福',t:'好运护符',g:'封印物 · 护符',c:'命运之轮途径',p:'威尔·昂赛汀',d:'威尔·昂赛汀（命运之蛇/水银之蛇）赠予的祝福物品。佩戴者会在关键时刻获得"巧合"的眷顾——比如敌人的子弹恰好卡壳、脚下的地板恰好塌陷等。克莱恩多次依靠这个护符在绝境中化险为夷。',r:['威尔·昂赛汀','克莱恩·莫雷蒂']},
+  '狼之徽章': {n:'狼之徽章',t:'战争徽记',g:'封印物 · 徽章',c:'红祭司途径',p:'索伦家族',d:'红祭司途径的战争封印物，形如咆哮的狼头。佩戴时会大幅增强佩戴者的战斗意志、力量和速度。但也会引发嗜血的冲动，让人在战斗中失去理智。索伦家族的传承物品。',r:['梅迪奇']},
+  '血之上校勋章': {n:'血之上校勋章',t:'血之勋章',g:'封印物 · 勋章',c:'母亲途径（变异）',p:'玫瑰学派',d:'玫瑰学派血之上校的象征物，蕴含着扭曲的生命炼金术奥秘。可以改造生命形态、融合不同物种的血肉。弗兰克·李曾持有此物，用其进行了一系列疯狂的生物实验。',r:['弗兰克·李']},
+  '时之虫封印盒': {n:'时之虫封印盒',t:'时间之匣',g:'封印物 · 容器',c:'错误途径',p:'索罗亚斯德家族',d:'用于存放时之虫特性和封印物的特殊容器。盒内的时间流速比外界慢得多，可用于长时间保存容易腐败的非凡物品。索罗亚斯德家族的传承之物。帕列斯曾使用它保存自己的特性。',r:['帕列斯·索罗亚斯德','伦纳德·米切尔']},
+  '源堡召唤之书': {n:'源堡召唤之书',t:'灰雾之书',g:'封印物 · 典籍',c:'愚者途径',p:'克莱恩·莫雷蒂',d:'与源堡建立联系的仪式书籍。可以通过特定的召唤仪式将目标拉入灰雾之上——塔罗会的聚会正是基于此。克莱恩借此建立了塔罗会的召唤体系，让成员在灰雾之上安全交流。',r:['克莱恩·莫雷蒂','奥黛丽·霍尔','阿尔杰·威尔逊']},
+  '莫里亚蒂的怀表': {n:'莫里亚蒂的怀表',t:'灵感怀表',g:'封印物 · 计时器',c:'占卜家途径',p:'克莱恩制作',d:'克莱恩以夏洛克·莫里亚蒂侦探身份活动时制造的神奇怀表。可以测量周围的灵性强度、感知超凡者的存在。是侦探调查案件的得力工具。表盖内侧刻有"夏洛克·莫里亚蒂"字样。',r:['克莱恩·莫雷蒂']},
+  '死神信封印章': {n:'死神信封印章',t:'火焰信封',g:'封印物 · 印章',c:'死神途径',p:'阿兹克·艾格斯',d:'阿兹克·艾格斯持有的特殊印章。盖在信封上后，信封会自动燃起不灭的火焰，飞向指定的收信人。兼具追踪与传讯功能，无论收信人在何处都能送达。信封上的火焰是阿兹克的标志。',r:['阿兹克·艾格斯']},
+  '太阳圣杯': {n:'太阳圣杯',t:'净化之杯',g:'封印物 · 容器',c:'太阳途径',p:'永恒烈阳教会',d:'永恒烈阳教会的圣物，白银铸造的圣杯。注入清水后可以转化为具有强大净化效果的圣水，对亡灵、邪物和深渊生物有极强的杀伤力。教会在驱魔仪式中经常使用。',r:[]},
+  '诅咒之匣': {n:'诅咒之匣',t:'厄运之匣',g:'封印物 · 容器',c:'被缚者途径',p:'节制派/放纵派',d:'被缚者途径的封印物。打开匣子会释放出存储在内的厄运诅咒，对敌人造成巨大的伤害。但每次使用都会加深持有者身上的诅咒印记。节制派希望摧毁它，放纵派则想利用它的力量。',r:['莎伦','马里奇']},
+  '愚者面具': {n:'愚者面具',t:'愚者之面',g:'唯一性衍生',c:'愚者途径',p:'源堡',d:'愚者途径唯一性「源堡」衍生的半透明面具。佩戴后可获得部分愚者的权柄——操控秘偶、扭曲空间、愚弄命运。但也会面临被福生玄黄天尊残存意识侵蚀的风险。克莱恩最终将其改造为一件黑色双排扣风衣，作为愚者的象征。',r:['克莱恩·莫雷蒂']},
+  '错误单片眼镜': {n:'错误单片眼镜',t:'窃运之镜',g:'唯一性衍生',c:'错误途径',p:'源堡',d:'错误途径唯一性衍生的水晶单片眼镜。佩戴者可以窃取他人的能力、记忆甚至命运。阿蒙的标志性道具，戴上它意味着"阿蒙来了"。最终在与克莱恩的决战中被克莱恩夺走，改为一双漆黑的窃盗手套。',r:['阿蒙','克莱恩·莫雷蒂']},
+  '星屑手杖': {n:'星屑手杖',t:'万界之匙',g:'唯一性衍生',c:'门途径',p:'源堡',d:'门途径唯一性衍生的华丽手杖，镶嵌着点点星屑。持有者可以开启通往任何地方的门——无论是现实世界、灵界还是其他维度。蕴含空间权柄的顶级神器。',r:['克莱恩·莫雷蒂']},
+  '骨骸之书': {n:'骨骸之书',t:'亡者圣典',g:'唯一性衍生',c:'死神途径',p:'冥界',d:'死神途径唯一性衍生的书册，由羽蛇蜿蜒盘旋而成。翻开书页可以召唤亡灵军团、打开冥界之门、掌控死亡权柄。是死神途径的最高成就之一。',r:['阿兹克·艾格斯']}
+};
+
+var name = new URLSearchParams(window.location.search).get('name');
+if (!name || !ARTS[name]) name = '0-08';
+var a = ARTS[name];
+document.title = a.n + ' · 封印物 · 诡秘之主';
+document.getElementById('artHeroSub').textContent = '封印物 · ' + a.g;
+document.getElementById('artTitle').innerHTML = a.n + '<span class="sub" id="artSub">' + a.t + '</span>';
+document.getElementById('artSub').textContent = '';
+var infoHtml = '';
+[
+  ['等级', a.g],
+  ['关联途径', a.c],
+  ['来源/保管者', a.p]
+].forEach(function(item) {
+  infoHtml += '<div class="info-item"><div class="info-label">' + item[0] + '</div><div class="info-value">' + item[1] + '</div></div>';
+});
+document.getElementById('infoGrid').innerHTML = infoHtml;
+document.getElementById('artDesc').textContent = a.d;
+
+var rels = a.r || [];
+var relHtml = '';
+if (rels.length > 0) {
+  rels.forEach(function(rn, i) {
+    relHtml += '<div class="rel-item fade fd' + ((i%3)+1) + '" onclick="window.open(\'character.html?name=' + encodeURIComponent(rn) + '\',\'_self\')"><div class="rel-name">' + rn + '</div><div class="rel-title">相关人物</div></div>';
+  });
+} else {
+  relHtml += '<div class="rel-item" style="grid-column:1/-1;text-align:center;opacity:0.3">暂无关联人物数据</div>';
+}
+document.getElementById('relatedGrid').innerHTML = relHtml;
+setTimeout(function(){var ob=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting&&e.target.style.animationPlayState!=='running')e.target.style.animationPlayState='running'})},{threshold:0.08});document.querySelectorAll('#relatedGrid .fade').forEach(function(e){e.style.animationPlayState='paused';ob.observe(e)})},100);
+</script>
+</body>
+</html>
